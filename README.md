@@ -6,6 +6,8 @@ Hier werden folgende Dinge gezeigt:
   - plugin: apps/lowcode/src/lib/aplugin/*
   - plugin: apps/lowcode/src/lib/sample_node
 
+![Hello Node](./.assets/hello_node.png)
+
 Im ersten Schritt stellen wir diese Beispiel für die Entwicklung von Custom-Plugins und -Node
 mittels JavaScript vor. Diese können dann in Lowcode Apps verwendet werden.
 
