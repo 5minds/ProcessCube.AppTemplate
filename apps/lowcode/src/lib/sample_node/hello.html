@@ -39,3 +39,45 @@
     <input type="text" id="node-input-greeting" />
   </div>
 </script>
+
+<script type="text/html" data-help-name="hello">
+  <p>Ein einfacher Begrüßungsnode für ProcessCube, der eine konfigurierbare Begrüßung zur Nachricht hinzufügt.</p>
+  
+  <h3>Eingabe</h3>
+  <dl class="message-properties">
+    <dt>payload <span class="property-type">any</span></dt>
+    <dd>Die ursprüngliche Nachricht, die verarbeitet werden soll.</dd>
+  </dl>
+  
+  <h3>Ausgabe</h3>
+  <dl class="message-properties">
+    <dt>payload <span class="property-type">any</span></dt>
+    <dd>Die ursprüngliche Nachricht bleibt unverändert.</dd>
+    <dt>greeting <span class="property-type">string</span></dt>
+    <dd>Die konfigurierte Begrüßung wird als neue Eigenschaft hinzugefügt.</dd>
+  </dl>
+  
+  <h3>Konfiguration</h3>
+  <dl class="message-properties">
+    <dt>Name <span class="property-type">string</span></dt>
+    <dd>Optionaler Name für den Node zur besseren Identifikation im Flow.</dd>
+    <dt>Greeting <span class="property-type">string | msg property</span></dt>
+    <dd>Die Begrüßung, die zur Nachricht hinzugefügt werden soll. Kann als fester String oder als Eigenschaft aus der eingehenden Nachricht definiert werden.</dd>
+  </dl>
+  
+  <h3>Details</h3>
+  <p>Dieser Node ist Teil der ProcessCube Samples und zeigt, wie custom Nodes entwickelt werden können. 
+  Er fügt eine konfigurierbare Begrüßung zur eingehenden Nachricht hinzu, ohne die ursprüngliche Payload zu verändern.</p>
+  
+  <p>Die Begrüßung kann entweder als statischer Text oder als Referenz auf eine Eigenschaft der eingehenden Nachricht konfiguriert werden.</p>
+  
+  <h3>Beispiel</h3>
+  <p>Eingehende Nachricht:</p>
+  <pre>{ "payload": "World" }</pre>
+  <p>Mit Greeting: "Hello"</p>
+  <p>Ausgehende Nachricht:</p>
+  <pre>{ "payload": "World", "greeting": "Hello" }</pre>
+  
+  <h3>Weitere Informationen</h3>
+  <p>Weitere Beispiele und Dokumentation finden Sie im <a href="https://github.com/5minds/ProcessCube.AppTemplate" target="_blank">ProcessCube.AppTemplate Repository</a>.</p>
+</script>
