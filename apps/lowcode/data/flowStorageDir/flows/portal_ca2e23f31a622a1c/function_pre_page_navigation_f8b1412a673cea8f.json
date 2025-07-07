@@ -1,0 +1,19 @@
+{
+  "id": "f8b1412a673cea8f",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "pre page navigation",
+  "func": "msg.payload = {\n    page: msg.payload.query.nextPage,\n    query: {\n        'flowNodeInstanceId': msg.payload.query.flowNodeInstanceId\n    }\n};\n\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "9f57cdc8d68bc088",
+  "wires": [
+    [
+      "6e4c3573c780651c"
+    ]
+  ]
+}

@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Rechnungserstellung_optimiert_Definition" targetNamespace="http://bpmn.io/schema/bpmn" exporter="5Minds Studio" exporterVersion="1">
+  <bpmn:collaboration id="Collaboration_0d84o0x">
+    <bpmn:participant id="Participant_0px403d" name="Rechnungserstellung (optimiert)" processRef="Rechnungserstellung_optimiert">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="model_category" value="Buchhaltung" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:participant>
+  </bpmn:collaboration>
+  <bpmn:process id="Rechnungserstellung_optimiert" name="Rechnungserstellung (optimiert)" isExecutable="true">
+    <bpmn:laneSet id="LaneSet_1pe1qhr">
+      <bpmn:lane id="Lane_1hc548z" name="Geschäftsführung">
+        <bpmn:flowNodeRef>rechnung_freigeben</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_01w8n4w</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1xzf0d3" name="Controlling">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>rechnung_erfassen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1q5rlr7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1ma93lo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0ucrljd</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0rw0q7w</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_060ukmb</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0p7w1ty</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_1t4bvp2</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1t4bvp2" sourceRef="StartEvent_1" targetRef="Gateway_0p7w1ty" />
+    <bpmn:sequenceFlow id="Flow_1p90r9m" sourceRef="rechnung_erfassen" targetRef="Activity_1q5rlr7" />
+    <bpmn:sequenceFlow id="Flow_14cxxr8" sourceRef="Activity_1q5rlr7" targetRef="Gateway_0rw0q7w" />
+    <bpmn:sequenceFlow id="Flow_0fxcwc9" sourceRef="rechnung_freigeben" targetRef="Gateway_01w8n4w" />
+    <bpmn:sequenceFlow id="Flow_02i3eit" sourceRef="Activity_1ma93lo" targetRef="Event_0ucrljd" />
+    <bpmn:sequenceFlow id="Flow_0eka0ns" name="Ja&#10;(&#62;= 1000 €)" sourceRef="Gateway_0rw0q7w" targetRef="rechnung_freigeben">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">dataObjects.rechnungsdaten.betrag &gt;= 1000</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1i2zcuz" sourceRef="Gateway_060ukmb" targetRef="Activity_1ma93lo" />
+    <bpmn:sequenceFlow id="Flow_12gi18o" name="Nein" sourceRef="Gateway_0rw0q7w" targetRef="Gateway_060ukmb" />
+    <bpmn:sequenceFlow id="Flow_1evxtcz" sourceRef="Gateway_0p7w1ty" targetRef="rechnung_erfassen" />
+    <bpmn:sequenceFlow id="Flow_0ukjaiv" name="Ja" sourceRef="Gateway_01w8n4w" targetRef="Gateway_060ukmb">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.confirmed === "true"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_04gck3j" name="Nein" sourceRef="Gateway_01w8n4w" targetRef="Gateway_0p7w1ty">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.confirmed === "false"</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="rechnung_erfassen" name="Rechnung erfassen">
+      <bpmn:documentation>### Aufgabe: Rechnung erfassen
+
+In diesem Schritt muss der Controller die erforderlichen Informationen für die Rechnungserstellung eingeben. Dazu gehören:
+
+* **Empfänger**: Der Name und die Adresse des Empfängers müssen angegeben werden.
+* **Produkt**: Das Produkt oder die Dienstleistung, die abgerechnet wird, sollte präzise beschrieben werden.
+* **Betrag**: Der zu zahlende Betrag muss korrekt eingegeben werden, um die Rechnung ordnungsgemäß zu erstellen.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="empfaenger" label="Empfänger" type="textarea" />
+          <camunda:formField id="produkt" label="Produkt" type="string" />
+          <camunda:formField id="betrag" label="Betrag" type="number" />
+          <camunda:formField id="index" type="hidden" defaultValue="${token.current.index}" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1evxtcz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1p90r9m</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0ac8rkr">
+        <bpmn:targetRef>rechnungsdaten</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_1q5rlr7" name="Rechnung erstellen" camunda:type="external" camunda:topic="Rechnung erstellen">
+      <bpmn:documentation>### Aufgabe: Rechnung erstellen
+
+In dieser Aufgabe wird die Rechnung aus einer Wordvorlage erstellt und als PDF exportiert. Der Ablauf umfasst folgende Schritte:
+
+1. **Wordvorlage füllen**: Die Wordvorlage für die Rechnung wird mit den relevanten Rechnungsinformationen (Empfänger, Produkt, Betrag) ausgefüllt.
+2. **PDF generieren**: Nachdem die Vorlage mit den Informationen gefüllt wurde, wird das Dokument in ein PDF umgewandelt.
+</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="payload" value="dataObjects.rechnungsdaten" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1p90r9m</bpmn:incoming>
+      <bpmn:outgoing>Flow_14cxxr8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="rechnung_freigeben" name="Rechnung freigeben">
+      <bpmn:documentation>### Aufgabe: Rechnung freigeben
+
+Die Geschäftsführung ist für die abschließende Überprüfung und Freigabe der Rechnung zuständig. Der Ablauf erfolgt wie folgt:
+
+1. **Rechnung prüfen**: Die Geschäftsführung sieht sich die Rechnung an, um sicherzustellen, dass alle Angaben korrekt sind.
+2. **Freigabe**: Wenn die Rechnung korrekt ist, wird sie freigegeben.
+3. **Korrektur anfordern**: Falls Unstimmigkeiten oder Fehler festgestellt werden, wird eine Korrektur der Rechnung angefordert.
+</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="confirmed" label="Freigeben?" type="select" customForm="{&#34;confirmButtonText&#34;:&#34;Ja&#34;,&#34;declineButtonText&#34;:&#34;Nein&#34;,&#34;entries&#34;:[{&#34;key&#34;:&#34;${false}&#34;,&#34;value&#34;:&#34;Nein&#34;},{&#34;key&#34;:&#34;${true}&#34;,&#34;value&#34;:&#34;Ja&#34;}]}" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0eka0ns</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fxcwc9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_1ma93lo" name="Rechnung verschicken" camunda:type="external" camunda:topic="Rechnung verschicken">
+      <bpmn:documentation>### Aufgabe: Rechnung verschicken
+
+In dieser Aufgabe wird das erstellte PDF automatisch an den Rechnungsempfänger gesendet. Der Ablauf umfasst:
+
+1. **PDF anhängen**: Das zuvor erstellte PDF-Dokument wird automatisch als Anhang in die E-Mail eingefügt.
+2. **E-Mail versenden**: Die E-Mail mit der Rechnung als Anhang wird automatisch an den Rechnungsempfänger versendet.
+</bpmn:documentation>
+      <bpmn:incoming>Flow_1i2zcuz</bpmn:incoming>
+      <bpmn:outgoing>Flow_02i3eit</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:endEvent id="Event_0ucrljd" name="Rechnung erstellt">
+      <bpmn:incoming>Flow_02i3eit</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_0rw0q7w" name="Freigabe erforderlich?" default="Flow_12gi18o">
+      <bpmn:documentation>### Entscheidung: Freigabe erforderlich?
+
+In dieser Entscheidung wird geprüft, ob die Rechnung der Geschäftsführung zur Freigabe vorgelegt werden muss:
+
+- **Betrag höher als 1000 €**: Wenn der Betrag der Rechnung mehr als 1000 € beträgt, muss die Geschäftsführung die Rechnung freigeben.
+- **Betrag weniger als 1000 €**: In diesem Fall ist keine Freigabe durch die Geschäftsführung erforderlich, und die Rechnung kann direkt weiterverarbeitet werden.
+</bpmn:documentation>
+      <bpmn:incoming>Flow_14cxxr8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eka0ns</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12gi18o</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_060ukmb">
+      <bpmn:incoming>Flow_12gi18o</bpmn:incoming>
+      <bpmn:incoming>Flow_0ukjaiv</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i2zcuz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:dataObjectReference id="rechnungsdaten" name="Rechnungsdaten" dataObjectRef="DataObject_15ux9o6" />
+    <bpmn:dataObject id="DataObject_15ux9o6" />
+    <bpmn:exclusiveGateway id="Gateway_0p7w1ty">
+      <bpmn:incoming>Flow_1t4bvp2</bpmn:incoming>
+      <bpmn:incoming>Flow_04gck3j</bpmn:incoming>
+      <bpmn:outgoing>Flow_1evxtcz</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_01w8n4w" name="Freigegeben?">
+      <bpmn:incoming>Flow_0fxcwc9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ukjaiv</bpmn:outgoing>
+      <bpmn:outgoing>Flow_04gck3j</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0d84o0x">
+      <bpmndi:BPMNShape id="BPMNShape_1ey5pq6" bpmnElement="Participant_0px403d" isHorizontal="true">
+        <dc:Bounds x="-70" y="-170" width="1115" height="566" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0s1yu6m" bpmnElement="Lane_1xzf0d3" isHorizontal="true">
+        <dc:Bounds x="-40" y="-170" width="1085" height="366" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1hc548z_di" bpmnElement="Lane_1hc548z" isHorizontal="true">
+        <dc:Bounds x="-40" y="196" width="1085" height="200" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1acdbg7" bpmnElement="StartEvent_1">
+        <dc:Bounds x="17" y="-2" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="23" y="41" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1paxvd5_di" bpmnElement="rechnung_erfassen">
+        <dc:Bounds x="185" y="-24" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_06pswbl" bpmnElement="Activity_1q5rlr7">
+        <dc:Bounds x="325" y="-24" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1kljzwh_di" bpmnElement="rechnung_freigeben">
+        <dc:Bounds x="545" y="256" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19q0gpq_di" bpmnElement="Activity_1ma93lo">
+        <dc:Bounds x="775" y="-24" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ucrljd_di" bpmnElement="Event_0ucrljd">
+        <dc:Bounds x="937" y="-2" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="912" y="41" width="86" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0rw0q7w_di" bpmnElement="Gateway_0rw0q7w" isMarkerVisible="true">
+        <dc:Bounds x="480" y="-9" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="475" y="-60" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_060ukmb_di" bpmnElement="Gateway_060ukmb" isMarkerVisible="true">
+        <dc:Bounds x="680" y="-9" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_1950a9s_di" bpmnElement="rechnungsdaten">
+        <dc:Bounds x="272" y="-125" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="248" y="-147" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0p7w1ty_di" bpmnElement="Gateway_0p7w1ty" isMarkerVisible="true">
+        <dc:Bounds x="95" y="-9" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_01w8n4w_di" bpmnElement="Gateway_01w8n4w" isMarkerVisible="true">
+        <dc:Bounds x="680" y="271" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="751" y="286" width="68" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1t4bvp2_di" bpmnElement="Flow_1t4bvp2">
+        <di:waypoint x="53" y="16" />
+        <di:waypoint x="95" y="16" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1p90r9m_di" bpmnElement="Flow_1p90r9m">
+        <di:waypoint x="285" y="16" />
+        <di:waypoint x="325" y="16" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14cxxr8_di" bpmnElement="Flow_14cxxr8">
+        <di:waypoint x="425" y="16" />
+        <di:waypoint x="480" y="16" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fxcwc9_di" bpmnElement="Flow_0fxcwc9">
+        <di:waypoint x="645" y="296" />
+        <di:waypoint x="680" y="296" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02i3eit_di" bpmnElement="Flow_02i3eit">
+        <di:waypoint x="875" y="16" />
+        <di:waypoint x="937" y="16" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0eka0ns_di" bpmnElement="Flow_0eka0ns">
+        <di:waypoint x="505" y="41" />
+        <di:waypoint x="505" y="296" />
+        <di:waypoint x="545" y="296" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="511" y="66" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i2zcuz_di" bpmnElement="Flow_1i2zcuz">
+        <di:waypoint x="730" y="16" />
+        <di:waypoint x="775" y="16" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12gi18o_di" bpmnElement="Flow_12gi18o">
+        <di:waypoint x="530" y="16" />
+        <di:waypoint x="680" y="16" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="594" y="-2" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1evxtcz_di" bpmnElement="Flow_1evxtcz">
+        <di:waypoint x="145" y="16" />
+        <di:waypoint x="185" y="16" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ukjaiv_di" bpmnElement="Flow_0ukjaiv">
+        <di:waypoint x="705" y="271" />
+        <di:waypoint x="705" y="41" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="714" y="253" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04gck3j_di" bpmnElement="Flow_04gck3j">
+        <di:waypoint x="705" y="321" />
+        <di:waypoint x="705" y="370" />
+        <di:waypoint x="120" y="370" />
+        <di:waypoint x="120" y="41" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="708" y="343" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0ac8rkr_di" bpmnElement="DataOutputAssociation_0ac8rkr">
+        <di:waypoint x="254" y="-24" />
+        <di:waypoint x="278" y="-75" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

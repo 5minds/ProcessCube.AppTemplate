@@ -1,0 +1,19 @@
+{
+  "id": "9cd89d0e978b45b4",
+  "type": "function",
+  "z": "53cd34b2ef882137",
+  "name": "Authorized Response",
+  "func": "msg.payload = {\n    authorized: true\n}\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "18ac65131cf455aa",
+  "wires": [
+    [
+      "928cc68ed19c7d06"
+    ]
+  ]
+}

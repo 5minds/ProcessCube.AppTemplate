@@ -1,0 +1,14 @@
+{
+  "id": "4da82a72541868eb",
+  "type": "hello",
+  "z": "a85e87983529d6b3",
+  "name": "",
+  "greeting": "topic",
+  "greeting_type": "msg",
+  "g": "93c4c6793a67f021",
+  "wires": [
+    [
+      "ff582616f298a3e1"
+    ]
+  ]
+}

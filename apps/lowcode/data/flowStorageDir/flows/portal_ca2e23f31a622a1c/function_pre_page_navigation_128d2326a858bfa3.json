@@ -1,0 +1,19 @@
+{
+  "id": "128d2326a858bfa3",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "pre page navigation",
+  "func": "msg.payload = {\n    page: 'UserTask',\n    query: {\n        flowNodeInstanceId: msg.payload.flowNodeInstanceId\n    }\n};\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "967d7bb42c23c704",
+  "wires": [
+    [
+      "df5d241902cae7a4"
+    ]
+  ]
+}

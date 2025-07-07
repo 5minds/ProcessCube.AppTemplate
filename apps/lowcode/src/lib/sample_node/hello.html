@@ -1,0 +1,41 @@
+<script type="text/javascript">
+  RED.nodes.registerType("hello", {
+    category: "ProcessCube Samples",
+    color: "#02AFD6",
+    defaults: {
+      name: { value: "" },
+      greeting: { value: "" },
+      greeting_type: { value: "" },
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "font-awesome/fa-smile-o",
+    label: function () {
+      return this.name || "hello ProcessCube";
+    },
+    oneditprepare: function () {
+      $("#node-input-greeting").typedInput({
+        default: "str",
+        types: ["str", "msg"],
+      });
+
+      $("#node-input-greeting").typedInput("value", this.greeting);
+      $("#node-input-greeting").typedInput("type", this.greeting_type);
+    },
+    oneditsave: function () {
+      this.greeting = $("#node-input-greeting").typedInput("value");
+      this.greeting_type = $("#node-input-greeting").typedInput("type");
+    },
+  });
+</script>
+
+<script type="text/html" data-template-name="hello">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-greeting"><i class="fa fa-tag"></i> Greeting</label>
+    <input type="text" id="node-input-greeting" />
+  </div>
+</script>

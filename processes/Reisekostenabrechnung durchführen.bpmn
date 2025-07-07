@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Reisekostenabrechnung_durchf_hren_Definition" targetNamespace="http://bpmn.io/schema/bpmn" exporter="5Minds Studio" exporterVersion="1">
+  <bpmn:collaboration id="Collaboration_1cidyxu" name="">
+    <bpmn:participant id="Participant_0px403d" name="Reisekostenabrechnung durchführen" processRef="Reisekostenabrechnung_durchf_hren_Process">
+      <bpmn:documentation>Mit diesem Prozess können Mitarbeiter ihre Reisekosten abrechnen.</bpmn:documentation>
+    </bpmn:participant>
+  </bpmn:collaboration>
+  <bpmn:process id="Reisekostenabrechnung_durchf_hren_Process" name="Reisekostenabrechnung durchführen" isExecutable="true">
+    <bpmn:laneSet>
+      <bpmn:lane id="Lane_1xzf0d3" name="Mitarbeiter">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_048qpvv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1yj3si1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0jtraae</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_0c80vtv</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0nmvfur</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0saqsbs</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0yj9wfi</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1cis7r6" name="Vorgesetzter">
+        <bpmn:flowNodeRef>Activity_0bepntb</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_1ab84vo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_0bm4woq</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_1" name="Reisekosten abrechnen">
+      <bpmn:outgoing>Flow_0nsv7y6</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0nsv7y6" sourceRef="StartEvent_1" targetRef="Activity_048qpvv" />
+    <bpmn:userTask id="Activity_048qpvv" name="Reise-informationen eintragen">
+      <bpmn:documentation>Die Daten müssen in der Vergangenheit liegen. Ziel soll eine Stadt sein.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="grund" label="Grund der Reise" type="string" />
+          <camunda:formField id="von" label="Von" type="date" />
+          <camunda:formField id="bis" label="Bis" type="string" />
+          <camunda:formField id="ziel" label="Ziel" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0nsv7y6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0jbciz3</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1hrhhbx">
+        <bpmn:targetRef>reiseinformationen</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0jbciz3" sourceRef="Activity_048qpvv" targetRef="Gateway_0jtraae" />
+    <bpmn:sequenceFlow id="Flow_0h58pw3" sourceRef="Activity_1yj3si1" targetRef="Activity_0yj9wfi" />
+    <bpmn:userTask id="Activity_1yj3si1" name="Belegdaten eintragen">
+      <bpmn:documentation>Der Benutzer lädt die Belege hoch und du sollst die benötigten Daten extrahieren und die Aufgabe abschließen.
+Falls er mehr als eine Datei hochlädt, setze weitereBelege auf true, sonst auf false.</bpmn:documentation>
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="art" label="Art" type="string" />
+          <camunda:formField id="gesamtbetrag" type="number" />
+          <camunda:formField id="steuernProzentsatz" label="Steuern in Prozent" type="number" />
+          <camunda:formField id="nettobetrag" label="Nettobetrag" type="string" />
+          <camunda:formField id="steuernbetrag" label="Betrag der Steuern" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0hl7ut7</bpmn:incoming>
+      <bpmn:outgoing>Flow_0h58pw3</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1ib7s5q">
+        <bpmn:extensionElements>
+          <camunda:properties>
+            <camunda:property name="dataSource" value="const belege = dataObjects.belege ?? [];&#10;&#10;belege.push(token.current);&#10;&#10;return belege;" />
+          </camunda:properties>
+        </bpmn:extensionElements>
+        <bpmn:targetRef>belege</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0jtraae">
+      <bpmn:incoming>Flow_0jbciz3</bpmn:incoming>
+      <bpmn:incoming>Flow_1uqxovb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hl7ut7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0hl7ut7" sourceRef="Gateway_0jtraae" targetRef="Activity_1yj3si1" />
+    <bpmn:sequenceFlow id="Flow_1uqxovb" name="Ja" sourceRef="Gateway_0c80vtv" targetRef="Gateway_0jtraae">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.weitereBelege == true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1jcof8b" name="Nein" sourceRef="Gateway_0c80vtv" targetRef="Activity_0bepntb">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.weitereBelege == false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0v9keii" name="nein" sourceRef="Gateway_1ab84vo" targetRef="Activity_0nmvfur">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.genehmigt == false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1yeytot" sourceRef="Activity_0nmvfur" targetRef="Event_0saqsbs" />
+    <bpmn:exclusiveGateway id="Gateway_0c80vtv" name="Weitere Belege?">
+      <bpmn:incoming>Flow_1d9xssz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1uqxovb</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1jcof8b</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="Activity_0nmvfur" name="Reisekosten-abrechnung abgelehnt">
+      <bpmn:incoming>Flow_0v9keii</bpmn:incoming>
+      <bpmn:outgoing>Flow_1yeytot</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0saqsbs" name="Reisekosten abgelehnt">
+      <bpmn:incoming>Flow_1yeytot</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1d9xssz" sourceRef="Activity_0yj9wfi" targetRef="Gateway_0c80vtv" />
+    <bpmn:userTask id="Activity_0yj9wfi" name="Weitere Belege?">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="weitereBelege" label="Weitere Belege?" type="confirm" customForm="{&#34;confirmButtonText&#34;:&#34;Ja&#34;,&#34;declineButtonText&#34;:&#34;Nein&#34;}" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0h58pw3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1d9xssz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:dataObjectReference id="reiseinformationen" name="Reise-informationen" dataObjectRef="DataObject_0s2hvnd" />
+    <bpmn:dataObject id="DataObject_0s2hvnd" />
+    <bpmn:dataObjectReference id="belege" name="Belege" dataObjectRef="DataObject_008ej04" />
+    <bpmn:dataObject id="DataObject_008ej04" />
+    <bpmn:userTask id="Activity_0bepntb" name="Reisenkosten-abrechnung&#10;prüfen">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="genehmigt" label="Genehmigen?" type="confirm" customForm="{&#34;confirmButtonText&#34;:&#34;Ja&#34;,&#34;declineButtonText&#34;:&#34;Nein&#34;}" />
+        </camunda:formData>
+        <camunda:properties>
+          <camunda:property name="engine.runPreScript" value="{&#10;   reiseinformationen: dataObjects.reiseinformationen,&#10;   belege: dataObjects.belege &#10;}" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1jcof8b</bpmn:incoming>
+      <bpmn:outgoing>Flow_0ho7rb0</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_1ab84vo" name="Genehmigt?">
+      <bpmn:incoming>Flow_0ho7rb0</bpmn:incoming>
+      <bpmn:outgoing>Flow_14izce2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0v9keii</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="Event_0bm4woq" name="Reisekosten abgerechnet">
+      <bpmn:incoming>Flow_14izce2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0ho7rb0" sourceRef="Activity_0bepntb" targetRef="Gateway_1ab84vo" />
+    <bpmn:sequenceFlow id="Flow_14izce2" name="Ja" sourceRef="Gateway_1ab84vo" targetRef="Event_0bm4woq">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">token.current.genehmigt == true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1cidyxu">
+      <bpmndi:BPMNShape id="Participant_0px403d_di" bpmnElement="Participant_0px403d" isHorizontal="true">
+        <dc:Bounds x="5" y="4" width="1253" height="616" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1cis7r6_di" bpmnElement="Lane_1cis7r6" isHorizontal="true">
+        <dc:Bounds x="35" y="350" width="1223" height="270" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1xzf0d3_di" bpmnElement="Lane_1xzf0d3" isHorizontal="true">
+        <dc:Bounds x="35" y="4" width="1223" height="346" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="92" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="80" y="195" width="61" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_05dz2fr_di" bpmnElement="Activity_048qpvv">
+        <dc:Bounds x="180" y="130" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ui4vve_di" bpmnElement="Activity_1yj3si1">
+        <dc:Bounds x="430" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0jtraae_di" bpmnElement="Gateway_0jtraae" isMarkerVisible="true">
+        <dc:Bounds x="325" y="145" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0c80vtv_di" bpmnElement="Gateway_0c80vtv" isMarkerVisible="true">
+        <dc:Bounds x="725" y="145" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="709" y="121" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0xt8kys_di" bpmnElement="Activity_0nmvfur">
+        <dc:Bounds x="980" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0saqsbs_di" bpmnElement="Event_0saqsbs">
+        <dc:Bounds x="1152" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1140" y="195" width="61" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1s2s7zs_di" bpmnElement="Activity_0yj9wfi">
+        <dc:Bounds x="580" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_0b0de3z_di" bpmnElement="reiseinformationen">
+        <dc:Bounds x="262" y="35" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="266" y="92" width="67" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_19zkx6c_di" bpmnElement="belege">
+        <dc:Bounds x="492" y="25" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="493" y="82" width="35" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16fz8zv_di" bpmnElement="Activity_0bepntb">
+        <dc:Bounds x="840" y="420" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1ab84vo_di" bpmnElement="Gateway_1ab84vo" isMarkerVisible="true">
+        <dc:Bounds x="1005" y="435" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1000" y="495" width="60" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0bm4woq_di" bpmnElement="Event_0bm4woq">
+        <dc:Bounds x="1152" y="442" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1139" y="485" width="62" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0nsv7y6_di" bpmnElement="Flow_0nsv7y6">
+        <di:waypoint x="128" y="170" />
+        <di:waypoint x="180" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jbciz3_di" bpmnElement="Flow_0jbciz3">
+        <di:waypoint x="280" y="170" />
+        <di:waypoint x="325" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0h58pw3_di" bpmnElement="Flow_0h58pw3">
+        <di:waypoint x="530" y="170" />
+        <di:waypoint x="580" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hl7ut7_di" bpmnElement="Flow_0hl7ut7">
+        <di:waypoint x="375" y="170" />
+        <di:waypoint x="430" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1uqxovb_di" bpmnElement="Flow_1uqxovb">
+        <di:waypoint x="750" y="195" />
+        <di:waypoint x="750" y="270" />
+        <di:waypoint x="350" y="270" />
+        <di:waypoint x="350" y="195" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="724" y="223" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jcof8b_di" bpmnElement="Flow_1jcof8b">
+        <di:waypoint x="775" y="170" />
+        <di:waypoint x="800" y="170" />
+        <di:waypoint x="800" y="460" />
+        <di:waypoint x="840" y="460" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="804" y="223" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0v9keii_di" bpmnElement="Flow_0v9keii">
+        <di:waypoint x="1030" y="435" />
+        <di:waypoint x="1030" y="210" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1035" y="321" width="21" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1yeytot_di" bpmnElement="Flow_1yeytot">
+        <di:waypoint x="1080" y="170" />
+        <di:waypoint x="1152" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1d9xssz_di" bpmnElement="Flow_1d9xssz">
+        <di:waypoint x="680" y="170" />
+        <di:waypoint x="725" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ho7rb0_di" bpmnElement="Flow_0ho7rb0">
+        <di:waypoint x="940" y="460" />
+        <di:waypoint x="1005" y="460" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14izce2_di" bpmnElement="Flow_14izce2">
+        <di:waypoint x="1055" y="460" />
+        <di:waypoint x="1152" y="460" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1098" y="442" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1hrhhbx_di" bpmnElement="DataOutputAssociation_1hrhhbx">
+        <di:waypoint x="250" y="130" />
+        <di:waypoint x="272" y="85" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1ib7s5q_di" bpmnElement="DataOutputAssociation_1ib7s5q">
+        <di:waypoint x="491" y="130" />
+        <di:waypoint x="506" y="75" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

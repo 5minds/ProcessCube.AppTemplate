@@ -1,0 +1,14 @@
+{
+  "id": "8fb02bbf0a73a7f5",
+  "type": "ui-page-navigation",
+  "z": "ca2e23f31a622a1c",
+  "page": "8ec9ac9d035ff412",
+  "name": "visit /processes",
+  "event": "$pageview",
+  "g": "9d369434a5d404a0",
+  "wires": [
+    [
+      "d58c04623307647d"
+    ]
+  ]
+}

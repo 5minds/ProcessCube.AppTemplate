@@ -1,0 +1,14 @@
+{
+  "id": "02d2cfd2e56e99c3",
+  "type": "ui-group",
+  "name": "Aufgabe bearbeiten",
+  "page": "55f64b58023912fe",
+  "width": "12",
+  "height": "1",
+  "order": 1,
+  "showTitle": false,
+  "className": "",
+  "visible": "true",
+  "disabled": "false",
+  "groupType": "default"
+}

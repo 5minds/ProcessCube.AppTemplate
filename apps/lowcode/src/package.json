@@ -1,0 +1,41 @@
+{
+  "name": "@5minds/app_template_packages",
+  "version": "0.0.1",
+  "description": "A project spezfic node for node-red",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/5minds/ProcessCube.AppTemplate"
+  },
+  "keywords": [
+    "node-red",
+    "processcube",
+    "k8s",
+    "kubernetes",
+    "contextstore",
+    "runtime",
+    "lowcode"
+  ],
+  "authors": [
+    {
+      "name": "Martin Möllenbeck",
+      "email": "Martin.Moellenbeck@5Minds.de"
+    }
+  ],
+  "license": "MIT",
+  "node-red": {
+    "nodes": {
+      "sample_plugin": "lib/aplugin/sample_plugin.js",
+      "hello": "lib/sample_node/hello.js"
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/5minds/ProcesssCube.AppTemplate/issues",
+    "email": "processcube@5minds.de"
+  },
+  "homepage": "https://processcube.io/docs/node-red/processcube-app-template/",
+  "dependencies": {
+  }
+}

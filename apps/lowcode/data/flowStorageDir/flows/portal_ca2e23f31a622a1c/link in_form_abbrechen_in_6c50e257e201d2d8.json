@@ -1,0 +1,16 @@
+{
+  "id": "6c50e257e201d2d8",
+  "type": "link in",
+  "z": "ca2e23f31a622a1c",
+  "name": "Form abbrechen (in)",
+  "links": [
+    "c3063da116fa8926",
+    "f5436cc2d297736e"
+  ],
+  "g": "1d9402592caecfc1",
+  "wires": [
+    [
+      "7c81ccac71e3b27d"
+    ]
+  ]
+}

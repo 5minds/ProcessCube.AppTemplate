@@ -1,0 +1,26 @@
+{
+  "id": "1db32274fac6b69d",
+  "type": "change",
+  "z": "ca2e23f31a622a1c",
+  "name": "",
+  "rules": [
+    {
+      "t": "set",
+      "p": "flowNodeInstanceId",
+      "pt": "msg",
+      "to": "flowNodeInstanceId",
+      "tot": "flow"
+    }
+  ],
+  "action": "",
+  "property": "",
+  "from": "",
+  "to": "",
+  "reg": false,
+  "g": "45d4cb29ec64d4c4",
+  "wires": [
+    [
+      "5d76b1aaec1a76c7"
+    ]
+  ]
+}

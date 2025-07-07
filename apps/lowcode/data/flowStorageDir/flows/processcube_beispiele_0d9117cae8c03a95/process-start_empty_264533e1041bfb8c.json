@@ -1,0 +1,16 @@
+{
+  "id": "264533e1041bfb8c",
+  "type": "process-start",
+  "z": "0d9117cae8c03a95",
+  "name": "",
+  "engine": "ba20533f27a1b167",
+  "processmodel": "Sample_01_Process",
+  "startevent": "StartEvent_1",
+  "correlationId": "",
+  "g": "516e2793fc71a239",
+  "wires": [
+    [
+      "44353773efaa8bba"
+    ]
+  ]
+}

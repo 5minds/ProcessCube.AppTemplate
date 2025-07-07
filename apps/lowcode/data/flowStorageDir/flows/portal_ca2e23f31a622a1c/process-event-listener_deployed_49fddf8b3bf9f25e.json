@@ -1,0 +1,17 @@
+{
+  "id": "49fddf8b3bf9f25e",
+  "type": "process-event-listener",
+  "z": "ca2e23f31a622a1c",
+  "name": "deployed",
+  "engine": "ba20533f27a1b167",
+  "processmodel": "",
+  "eventtype": "deployed",
+  "query": "{}",
+  "query_type": "json",
+  "g": "9d369434a5d404a0",
+  "wires": [
+    [
+      "d58c04623307647d"
+    ]
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "1c8abf4ac4719b44",
+  "type": "function",
+  "z": "53cd34b2ef882137",
+  "name": "Create oAuth Request",
+  "func": "msg.oauth2Request = {\n   access_token_url: env.get('NODERED_AUTHORITY_URL') + '/token',\n   credentials: {\n      grant_type: 'client_credentials',\n      client_id: msg.payload.client_id,\n      client_secret: msg.payload.client_secret,\n      scope: msg.payload.scope,\n      resource: env.get('NODERED_BASE_URL')\n   }\n};\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "e6127068065a0d59",
+  "wires": [
+    [
+      "b476afa973c02a02",
+      "f899ceaa68e683a6"
+    ]
+  ]
+}

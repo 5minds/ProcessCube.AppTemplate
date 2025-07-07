@@ -1,0 +1,16 @@
+{
+  "id": "4f16f0ec6315a21d",
+  "type": "processdefinition-query",
+  "z": "25da589dc1e669d4",
+  "name": "load Processes",
+  "engine": "ba20533f27a1b167",
+  "query": "payload",
+  "query_type": "msg",
+  "models_only": true,
+  "g": "2ee555d9b68ca141",
+  "wires": [
+    [
+      "13acdc63f7b1b786"
+    ]
+  ]
+}

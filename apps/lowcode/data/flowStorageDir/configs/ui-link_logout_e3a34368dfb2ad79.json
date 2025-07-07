@@ -1,0 +1,11 @@
+{
+  "id": "e3a34368dfb2ad79",
+  "type": "ui-link",
+  "name": "logout",
+  "ui": "9f39f3effcdcb077",
+  "path": "/auth/dashboard/logout",
+  "icon": "logout",
+  "order": 5,
+  "visible": true,
+  "disabled": "false"
+}

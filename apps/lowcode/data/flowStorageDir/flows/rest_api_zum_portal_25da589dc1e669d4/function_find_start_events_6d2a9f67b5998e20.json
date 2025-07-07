@@ -1,0 +1,19 @@
+{
+  "id": "6d2a9f67b5998e20",
+  "type": "function",
+  "z": "25da589dc1e669d4",
+  "name": "find start events",
+  "func": "const result = [];\n\nmsg.payload.forEach(function(model) {\n\n    if (model && model.isExecutable) {\n\n        let model_category = \"-\";\n\n        if (model.customProperties['model_category']) {\n            model_category = model.customProperties['model_category'];\n        };\n\n        model.startEvents.forEach(function(startEvent) {\n\n            const entry = {\n                \"modelCategory\": model_category,\n                \"processModelId\": model.processModelId,\n                \"processModelName\": model.processModelName,\n                \"startEventId\": startEvent.id,\n                \"startEventName\": startEvent.name\n            };\n\n            result.push(entry);\n\n        });\n    }\n});\n\nmsg.payload = result;\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "2ee555d9b68ca141",
+  "wires": [
+    [
+      "27314c6391a6e6de"
+    ]
+  ]
+}

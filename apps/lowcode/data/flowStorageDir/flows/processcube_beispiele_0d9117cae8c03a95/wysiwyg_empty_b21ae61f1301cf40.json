@@ -1,0 +1,15 @@
+{
+  "id": "b21ae61f1301cf40",
+  "type": "wysiwyg",
+  "z": "0d9117cae8c03a95",
+  "name": "",
+  "text": "<p>Hello {{name}},</p><p>Bitte besuche uns auf dem <a href=\"https://processcube.io\" target=\"_blank\">ProcessCube Developer Network</a>.</p><p>Viele Grüße</p><p>Dein 5Minds-Team</p>",
+  "field": "payload",
+  "fieldType": "msg",
+  "g": "9e68b9e45460ad22",
+  "wires": [
+    [
+      "b35b33330bce28b3"
+    ]
+  ]
+}

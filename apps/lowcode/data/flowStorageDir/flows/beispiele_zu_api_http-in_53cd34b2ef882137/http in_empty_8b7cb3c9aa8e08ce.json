@@ -1,0 +1,16 @@
+{
+  "id": "8b7cb3c9aa8e08ce",
+  "type": "http in",
+  "z": "53cd34b2ef882137",
+  "name": "",
+  "url": "/test_with_claim_check",
+  "method": "get",
+  "upload": false,
+  "swaggerDoc": "",
+  "g": "18ac65131cf455aa",
+  "wires": [
+    [
+      "995449f7a21653f3"
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "f9e8aedb5f977c7b",
+  "type": "template",
+  "z": "ca2e23f31a622a1c",
+  "name": "",
+  "field": "payload",
+  "fieldType": "msg",
+  "format": "handlebars",
+  "syntax": "mustache",
+  "template": "<h3>Neue Aufgabe</h3>\n\n<p>\n    Es gibt eine neue Aufgabe '{{payload.userTask.flowNodeName}}'.\n</p>",
+  "output": "str",
+  "g": "45d4cb29ec64d4c4",
+  "wires": [
+    [
+      "e7759b57c860ece4"
+    ]
+  ]
+}

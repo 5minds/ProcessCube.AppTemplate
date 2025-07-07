@@ -1,0 +1,16 @@
+{
+  "id": "08adbf23861d8c42",
+  "type": "http in",
+  "z": "53cd34b2ef882137",
+  "name": "",
+  "url": "/token",
+  "method": "post",
+  "upload": false,
+  "swaggerDoc": "",
+  "g": "e6127068065a0d59",
+  "wires": [
+    [
+      "1c8abf4ac4719b44"
+    ]
+  ]
+}

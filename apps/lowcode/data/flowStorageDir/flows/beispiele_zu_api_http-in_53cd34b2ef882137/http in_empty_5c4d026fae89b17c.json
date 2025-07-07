@@ -1,0 +1,16 @@
+{
+  "id": "5c4d026fae89b17c",
+  "type": "http in",
+  "z": "53cd34b2ef882137",
+  "name": "",
+  "url": "/public_api/test",
+  "method": "get",
+  "upload": false,
+  "swaggerDoc": "",
+  "g": "0562257a3ecccf1f",
+  "wires": [
+    [
+      "f10d4650674a7e51"
+    ]
+  ]
+}

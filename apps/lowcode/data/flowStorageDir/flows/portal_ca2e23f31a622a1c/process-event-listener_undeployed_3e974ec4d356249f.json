@@ -1,0 +1,17 @@
+{
+  "id": "3e974ec4d356249f",
+  "type": "process-event-listener",
+  "z": "ca2e23f31a622a1c",
+  "name": "undeployed",
+  "engine": "ba20533f27a1b167",
+  "processmodel": "",
+  "eventtype": "undeployed",
+  "query": "{}",
+  "query_type": "json",
+  "g": "9d369434a5d404a0",
+  "wires": [
+    [
+      "d58c04623307647d"
+    ]
+  ]
+}

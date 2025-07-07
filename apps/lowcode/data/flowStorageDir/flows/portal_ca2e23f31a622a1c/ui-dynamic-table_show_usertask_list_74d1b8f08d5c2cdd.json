@@ -1,0 +1,52 @@
+{
+  "id": "74d1b8f08d5c2cdd",
+  "type": "ui-dynamic-table",
+  "z": "ca2e23f31a622a1c",
+  "name": "show UserTask List",
+  "tableName": "",
+  "group": "08a8626b8d3a8326",
+  "order": 1,
+  "data": "payload.userTasks",
+  "data_type": "msg",
+  "options": [
+    {
+      "label": "Bearbeiten",
+      "condition": ""
+    }
+  ],
+  "columns": [
+    {
+      "label": "Prozess",
+      "value": "processModelName",
+      "type": "str"
+    },
+    {
+      "label": "Aufgabe",
+      "value": "flowNodeName",
+      "type": "str"
+    },
+    {
+      "label": "Aktiv seit",
+      "value": "startedAtFormatted",
+      "type": "str"
+    },
+    {
+      "label": "Korrelation",
+      "value": "correlationId",
+      "type": "str"
+    }
+  ],
+  "width": "0",
+  "height": "0",
+  "outputs": 1,
+  "title_text": "Alle verfügbaren Aufgaben",
+  "title_style": "",
+  "title_custom_text_styling": "",
+  "title_icon": "",
+  "g": "967d7bb42c23c704",
+  "wires": [
+    [
+      "128d2326a858bfa3"
+    ]
+  ]
+}

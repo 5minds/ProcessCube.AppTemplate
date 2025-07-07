@@ -1,0 +1,25 @@
+{
+  "id": "45d4cb29ec64d4c4",
+  "type": "group",
+  "z": "ca2e23f31a622a1c",
+  "style": {
+    "stroke": "#5d5d5d",
+    "stroke-opacity": "1",
+    "fill": "#27272a",
+    "fill-opacity": "0.5",
+    "label": true,
+    "label-position": "nw",
+    "color": "#e2e8f0"
+  },
+  "nodes": [
+    "1db32274fac6b69d",
+    "2518798cb5f1cc83",
+    "8d8fe06d74b19adb",
+    "5d76b1aaec1a76c7",
+    "1a23f397adb971a8",
+    "f9e8aedb5f977c7b",
+    "ea571d69f4ec1c01",
+    "e7759b57c860ece4",
+    "b0866c84100b008c"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "1bcad188983ce141",
+  "type": "ui-dynamic-table",
+  "z": "ca2e23f31a622a1c",
+  "name": "show Processes",
+  "tableName": "",
+  "group": "40b8cfe0fe1486ed",
+  "order": 1,
+  "data": "payload",
+  "data_type": "msg",
+  "options": [
+    {
+      "label": "Starten",
+      "condition": ""
+    }
+  ],
+  "columns": [
+    {
+      "label": "Kategorie",
+      "value": "modelCategory",
+      "type": "str"
+    },
+    {
+      "label": "Prozess",
+      "value": "processModelName",
+      "type": "str"
+    },
+    {
+      "label": "Event",
+      "value": "startEventName",
+      "type": "str"
+    }
+  ],
+  "width": 0,
+  "height": 0,
+  "outputs": 1,
+  "title_text": "Alle startbaren Prozesse mit deren Start-Events",
+  "title_style": "",
+  "title_custom_text_styling": "",
+  "title_icon": "",
+  "g": "9d369434a5d404a0",
+  "wires": [
+    [
+      "440a1262579fdf0e"
+    ]
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "cc3d8437a24b741e",
+  "type": "debug",
+  "z": "53cd34b2ef882137",
+  "name": "HTTP Header",
+  "active": true,
+  "tosidebar": true,
+  "console": false,
+  "tostatus": false,
+  "complete": "true",
+  "targetType": "full",
+  "statusVal": "",
+  "statusType": "auto",
+  "g": "e6127068065a0d59",
+  "wires": []
+}

@@ -1,0 +1,17 @@
+{
+  "id": "a0940ba7c2d8c4ed",
+  "type": "process-event-listener",
+  "z": "ca2e23f31a622a1c",
+  "name": "is-exeutable-changed",
+  "engine": "ba20533f27a1b167",
+  "processmodel": "",
+  "eventtype": "is-executable-changed",
+  "query": "{}",
+  "query_type": "json",
+  "g": "9d369434a5d404a0",
+  "wires": [
+    [
+      "d58c04623307647d"
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "f5436cc2d297736e",
+  "type": "link out",
+  "z": "ca2e23f31a622a1c",
+  "name": "keine UserTasks vorhanden (out)",
+  "mode": "link",
+  "links": [
+    "6c50e257e201d2d8"
+  ],
+  "g": "1d9402592caecfc1",
+  "wires": []
+}

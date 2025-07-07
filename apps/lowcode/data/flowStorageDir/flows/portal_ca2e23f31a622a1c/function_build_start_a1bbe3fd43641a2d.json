@@ -1,0 +1,19 @@
+{
+  "id": "a1bbe3fd43641a2d",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "build start",
+  "func": "\nmsg.processModelId = msg.payload.processModelId;\nmsg.processModelName = msg.payload.processModelName;\n\nmsg.startEventId = msg.payload.startEventId;\nmsg.startEventName = msg.payload.startEventName;\n\n\nmsg.payload = {};\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "9d369434a5d404a0",
+  "wires": [
+    [
+      "c9689bf649835d86"
+    ]
+  ]
+}

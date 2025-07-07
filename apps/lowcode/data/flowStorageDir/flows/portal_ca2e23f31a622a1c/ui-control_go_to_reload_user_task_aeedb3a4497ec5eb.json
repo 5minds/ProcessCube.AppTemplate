@@ -1,0 +1,12 @@
+{
+  "id": "aeedb3a4497ec5eb",
+  "type": "ui-control",
+  "z": "ca2e23f31a622a1c",
+  "name": "go to /reload_user_task",
+  "ui": "9f39f3effcdcb077",
+  "events": "all",
+  "g": "1d9402592caecfc1",
+  "wires": [
+    []
+  ]
+}

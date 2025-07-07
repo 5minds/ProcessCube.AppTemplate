@@ -1,0 +1,20 @@
+{
+  "id": "c549a320522b414b",
+  "type": "function",
+  "z": "25da589dc1e669d4",
+  "name": "set process start parameters",
+  "func": "msg.processModelId = msg.req.query.processModelId;\nmsg.startEventId = msg.req.query.startEventId;\n\nmsg.payload = {};\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "ce13543f82bd42c4",
+  "wires": [
+    [
+      "61f3bebac5289ae4",
+      "bc2a85da7613c5d4"
+    ]
+  ]
+}

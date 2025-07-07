@@ -1,0 +1,12 @@
+{
+  "id": "ea571d69f4ec1c01",
+  "type": "ui-control",
+  "z": "ca2e23f31a622a1c",
+  "name": "go to /user_task",
+  "ui": "9f39f3effcdcb077",
+  "events": "all",
+  "g": "45d4cb29ec64d4c4",
+  "wires": [
+    []
+  ]
+}

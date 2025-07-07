@@ -1,0 +1,23 @@
+{
+  "id": "5a270b40ebc452d2",
+  "type": "http request",
+  "z": "53cd34b2ef882137",
+  "name": "/test",
+  "method": "GET",
+  "ret": "txt",
+  "paytoqs": "ignore",
+  "url": "",
+  "tls": "",
+  "persist": false,
+  "proxy": "",
+  "insecureHTTPParser": false,
+  "authType": "",
+  "senderr": false,
+  "headers": [],
+  "g": "18ac65131cf455aa",
+  "wires": [
+    [
+      "c597f31a70c8dd90"
+    ]
+  ]
+}

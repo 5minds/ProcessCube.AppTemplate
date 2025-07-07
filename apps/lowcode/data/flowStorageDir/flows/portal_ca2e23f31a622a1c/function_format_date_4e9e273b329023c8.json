@@ -1,0 +1,19 @@
+{
+  "id": "4e9e273b329023c8",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "format date",
+  "func": "debugger;\n\nfunction formatDate(date) {\n    // Holen der einzelnen Komponenten des Datums\n    let day = String(date.getDate()).padStart(2, '0');\n    let month = String(date.getMonth() + 1).padStart(2, '0');\n    let year = String(date.getFullYear()); // Nur die letzten zwei Stellen des Jahres\n    let hours = String(date.getHours()).padStart(2, '0');\n    let minutes = String(date.getMinutes()).padStart(2, '0');\n\n    // Formatieren in TT.MM.YY HH:MM\n    return `${day}.${month}.${year} ${hours}:${minutes}`;\n}\n\nmsg.payload.userTasks = msg.payload.userTasks.map(userTask => {\n    const startedAt = new Date(userTask.startedAt);\n    userTask.startedAtFormatted = formatDate(startedAt);\n\n    return userTask;\n});\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "967d7bb42c23c704",
+  "wires": [
+    [
+      "74d1b8f08d5c2cdd"
+    ]
+  ]
+}

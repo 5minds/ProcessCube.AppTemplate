@@ -1,0 +1,9 @@
+.DS_Store
+
+**/engine/db
+postgres/apptemplate_db.instance/**/*
+
+apps/lowcode/data/node_modules
+apps/lowcode/data/.*
+apps/lowcode/data/flows.json
+apps/lowcode/data/flows_cred.json

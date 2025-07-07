@@ -1,0 +1,19 @@
+{
+  "id": "cb3d30a67b84cfe5",
+  "type": "function",
+  "z": "0d9117cae8c03a95",
+  "name": "dynamic errorCode",
+  "func": "msg.errorCode = \"code_4711\";\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "5d2f55d01cc0bf4d",
+  "wires": [
+    [
+      "6fdc68a644040391"
+    ]
+  ]
+}

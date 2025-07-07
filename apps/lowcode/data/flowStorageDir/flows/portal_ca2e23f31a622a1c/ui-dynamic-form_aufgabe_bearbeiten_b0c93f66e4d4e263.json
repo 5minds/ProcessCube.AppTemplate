@@ -1,0 +1,62 @@
+{
+  "id": "b0c93f66e4d4e263",
+  "type": "ui-dynamic-form",
+  "z": "ca2e23f31a622a1c",
+  "name": "Aufgabe bearbeiten",
+  "group": "02d2cfd2e56e99c3",
+  "order": 1,
+  "options": [
+    {
+      "label": "Abbrechen",
+      "condition": "",
+      "errorMessage": "",
+      "alignment": "left",
+      "primary": "false"
+    },
+    {
+      "label": "Speichern",
+      "condition": "",
+      "errorMessage": "",
+      "alignment": "right",
+      "primary": "true"
+    },
+    {
+      "label": "Speichern und nächster",
+      "condition": "",
+      "errorMessage": "",
+      "alignment": "right",
+      "primary": "true"
+    }
+  ],
+  "waiting_title": "Warten auf den Usertask...",
+  "waiting_info": "Der Usertask wird automatisch angezeigt, wenn ein entsprechender Task vorhanden ist.",
+  "form_columns": "1",
+  "readonly": false,
+  "collapsible": false,
+  "collapse_when_finished": false,
+  "actions_inside_card": true,
+  "card_size_styling": "",
+  "inner_card_styling": "_max-height: 100%",
+  "title_text": "Aufgabe bearbeiten",
+  "title_text_type": "str",
+  "title_style": "default",
+  "title_custom_text_styling": "",
+  "title_icon": "",
+  "trigger_on_change": false,
+  "handle_confirmation_dialogs": false,
+  "width": "12",
+  "height": "1",
+  "outputs": 3,
+  "g": "1d9402592caecfc1",
+  "wires": [
+    [
+      "c3063da116fa8926"
+    ],
+    [
+      "66c6e05b534b1f8a"
+    ],
+    [
+      "483c820136abf8a4"
+    ]
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "bbd28b1994539308",
+  "type": "inject",
+  "z": "0d9117cae8c03a95",
+  "name": "run (limit+offset)",
+  "props": [
+    {
+      "p": "limit",
+      "v": "10",
+      "vt": "str"
+    },
+    {
+      "p": "offset",
+      "v": "5",
+      "vt": "str"
+    }
+  ],
+  "repeat": "",
+  "crontab": "",
+  "once": false,
+  "onceDelay": 0.1,
+  "topic": "",
+  "g": "b2243b23e837f82f",
+  "wires": [
+    [
+      "e7de68a4a59b2ecb"
+    ]
+  ]
+}

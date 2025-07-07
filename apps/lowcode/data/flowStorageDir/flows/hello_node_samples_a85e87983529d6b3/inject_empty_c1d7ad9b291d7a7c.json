@@ -1,0 +1,23 @@
+{
+  "id": "c1d7ad9b291d7a7c",
+  "type": "inject",
+  "z": "a85e87983529d6b3",
+  "name": "",
+  "props": [
+    {
+      "p": "topic",
+      "vt": "str"
+    }
+  ],
+  "repeat": "",
+  "crontab": "",
+  "once": false,
+  "onceDelay": 0.1,
+  "topic": "from Message",
+  "g": "93c4c6793a67f021",
+  "wires": [
+    [
+      "4da82a72541868eb"
+    ]
+  ]
+}

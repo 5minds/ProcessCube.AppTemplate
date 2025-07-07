@@ -1,0 +1,17 @@
+{
+  "id": "6ca6e77640970d8a",
+  "type": "usertask-event-listener",
+  "z": "ca2e23f31a622a1c",
+  "name": "finish UserTask",
+  "engine": "ba20533f27a1b167",
+  "usertask": "",
+  "eventtype": "finished",
+  "query": "{}",
+  "query_type": "json",
+  "g": "967d7bb42c23c704",
+  "wires": [
+    [
+      "ad2aafd3042794ad"
+    ]
+  ]
+}

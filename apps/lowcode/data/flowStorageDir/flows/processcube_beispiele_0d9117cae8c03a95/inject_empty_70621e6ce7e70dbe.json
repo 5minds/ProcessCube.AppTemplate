@@ -1,0 +1,29 @@
+{
+  "id": "70621e6ce7e70dbe",
+  "type": "inject",
+  "z": "0d9117cae8c03a95",
+  "name": "",
+  "props": [
+    {
+      "p": "name",
+      "v": "ProcessCube Member",
+      "vt": "str"
+    },
+    {
+      "p": "url",
+      "v": "http://5minds.de",
+      "vt": "str"
+    }
+  ],
+  "repeat": "",
+  "crontab": "",
+  "once": false,
+  "onceDelay": 0.1,
+  "topic": "",
+  "g": "9e68b9e45460ad22",
+  "wires": [
+    [
+      "b21ae61f1301cf40"
+    ]
+  ]
+}

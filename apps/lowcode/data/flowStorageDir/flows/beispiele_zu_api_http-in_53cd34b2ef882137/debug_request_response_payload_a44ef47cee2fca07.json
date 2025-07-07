@@ -1,0 +1,16 @@
+{
+  "id": "a44ef47cee2fca07",
+  "type": "debug",
+  "z": "53cd34b2ef882137",
+  "name": "Request, Response, Payload",
+  "active": true,
+  "tosidebar": true,
+  "console": false,
+  "tostatus": false,
+  "complete": "true",
+  "targetType": "full",
+  "statusVal": "",
+  "statusType": "auto",
+  "g": "18ac65131cf455aa",
+  "wires": []
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ec16974744d9dad7",
+  "type": "function",
+  "z": "53cd34b2ef882137",
+  "name": "Set URL",
+  "func": "msg.oauth2Request = {\n   access_token_url: env.get('NODERED_AUTHORITY_URL') + '/token',\n};\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "e6127068065a0d59",
+  "wires": [
+    [
+      "35aa9acceaa4758e"
+    ]
+  ]
+}

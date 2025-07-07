@@ -1,0 +1,22 @@
+{
+  "id": "efc3b160edcb6d2a",
+  "type": "externaltask-input",
+  "z": "0d9117cae8c03a95",
+  "name": "",
+  "workername": "",
+  "engine": "ba20533f27a1b167",
+  "topic": "handleError",
+  "topicType": "str",
+  "workerConfig": "{}",
+  "workerConfigType": "json",
+  "traces": [
+    "start",
+    "finish"
+  ],
+  "g": "5d2f55d01cc0bf4d",
+  "wires": [
+    [
+      "cb3d30a67b84cfe5"
+    ]
+  ]
+}

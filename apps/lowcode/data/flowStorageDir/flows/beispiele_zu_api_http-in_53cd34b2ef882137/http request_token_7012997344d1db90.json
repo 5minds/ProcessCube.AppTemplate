@@ -1,0 +1,24 @@
+{
+  "id": "7012997344d1db90",
+  "type": "http request",
+  "z": "53cd34b2ef882137",
+  "name": "/token",
+  "method": "POST",
+  "ret": "obj",
+  "paytoqs": "ignore",
+  "url": "",
+  "tls": "",
+  "persist": false,
+  "proxy": "",
+  "insecureHTTPParser": false,
+  "authType": "",
+  "senderr": false,
+  "headers": [],
+  "g": "e6127068065a0d59",
+  "wires": [
+    [
+      "ea60b1d2137e12e1",
+      "ac0e0c19396492aa"
+    ]
+  ]
+}

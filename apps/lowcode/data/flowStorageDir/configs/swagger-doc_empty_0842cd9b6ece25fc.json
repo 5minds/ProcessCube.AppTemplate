@@ -1,0 +1,33 @@
+{
+  "id": "0842cd9b6ece25fc",
+  "type": "swagger-doc",
+  "summary": "Listet die startbaren Prozesse und ihre Start-Events auf",
+  "description": "",
+  "tags": "processes",
+  "parameters": [],
+  "responses": {
+    "200": {
+      "description": "Alle startbaren Prozesse und deren Startevents",
+      "schema": {
+        "properties": {
+          "modelCategory": {
+            "type": "string"
+          },
+          "processModelId": {
+            "type": "string"
+          },
+          "processModelName": {
+            "type": "string"
+          },
+          "startEventId": {
+            "type": "string"
+          },
+          "startEventName": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "deprecated": false
+}

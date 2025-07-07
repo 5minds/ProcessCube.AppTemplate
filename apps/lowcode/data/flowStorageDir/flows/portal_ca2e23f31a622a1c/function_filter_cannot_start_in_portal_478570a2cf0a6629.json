@@ -1,0 +1,19 @@
+{
+  "id": "478570a2cf0a6629",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "filter 'cannot_start_in_portal'",
+  "func": "const result = [];\n\nmsg.payload.models.forEach(function(model) {\n\n    if (model.customProperties['cannot_start_in_portal'] === undefined) {\n        result.push(model);\n    }\n});\n\n\nmsg.payload = result;\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "9d369434a5d404a0",
+  "wires": [
+    [
+      "5c2bfbb66d2c29f0"
+    ]
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "id": "09d3ee2b34501eed",
+  "type": "function",
+  "z": "53cd34b2ef882137",
+  "name": "Set URL",
+  "func": "msg.url = env.get('NODERED_BASE_URL') + '/public_api/test'\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "0562257a3ecccf1f",
+  "wires": [
+    [
+      "b8a86ddaee0dd241"
+    ]
+  ]
+}

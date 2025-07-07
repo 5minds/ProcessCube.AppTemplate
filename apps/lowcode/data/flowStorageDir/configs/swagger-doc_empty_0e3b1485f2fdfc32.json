@@ -1,0 +1,43 @@
+{
+  "id": "0e3b1485f2fdfc32",
+  "type": "swagger-doc",
+  "summary": "Startet den Prozesse mit dem Startevent",
+  "description": "",
+  "tags": "processes",
+  "parameters": [
+    {
+      "name": "processModelId",
+      "in": "query",
+      "description": "Die ID des Prozessmodels",
+      "required": false,
+      "type": "string"
+    },
+    {
+      "name": "startEventId",
+      "in": "query",
+      "description": "Die ID des Startevents",
+      "required": false,
+      "type": "string"
+    }
+  ],
+  "responses": {
+    "200": {
+      "description": "Liefert die gestartet ID der Processinstance und deren Correlation-ID",
+      "schema": {
+        "properties": {
+          "processInstanceId": {
+            "type": "string",
+            "name": "processInstanceId",
+            "propertyRow": true
+          },
+          "correlationId": {
+            "name": "correlationId",
+            "propertyRow": true
+          }
+        }
+      },
+      "code": "200"
+    }
+  },
+  "deprecated": false
+}

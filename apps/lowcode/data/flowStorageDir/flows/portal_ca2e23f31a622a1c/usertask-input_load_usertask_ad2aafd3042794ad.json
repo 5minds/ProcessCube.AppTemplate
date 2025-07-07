@@ -1,0 +1,16 @@
+{
+  "id": "ad2aafd3042794ad",
+  "type": "usertask-input",
+  "z": "ca2e23f31a622a1c",
+  "name": "load UserTask",
+  "engine": "ba20533f27a1b167",
+  "query": "{\"state\":\"suspended\"}",
+  "query_type": "json",
+  "sendtype": "array",
+  "g": "967d7bb42c23c704",
+  "wires": [
+    [
+      "4e9e273b329023c8"
+    ]
+  ]
+}

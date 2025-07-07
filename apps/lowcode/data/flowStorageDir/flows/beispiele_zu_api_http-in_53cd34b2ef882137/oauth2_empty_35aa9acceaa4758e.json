@@ -1,0 +1,37 @@
+{
+  "id": "35aa9acceaa4758e",
+  "type": "oauth2",
+  "z": "53cd34b2ef882137",
+  "name": "",
+  "container": "oauth2Response",
+  "grant_type": "client_credentials",
+  "access_token_url": "",
+  "authorization_endpoint": "",
+  "redirect_uri": "http://localhost:1880/oauth2/redirect",
+  "open_authentication": "",
+  "username": "",
+  "password": "",
+  "client_id": "nodered_app_deployment",
+  "client_secret": "nodered_app_secret_deployment",
+  "response_type": "",
+  "access_type": "",
+  "refresh_token": "",
+  "prompt": "",
+  "scope": "engine_read engine_write",
+  "resource": "",
+  "state": "",
+  "proxy": "",
+  "debug": false,
+  "force": false,
+  "senderr": false,
+  "client_credentials_in_body": true,
+  "rejectUnauthorized": true,
+  "headers": {},
+  "g": "e6127068065a0d59",
+  "wires": [
+    [
+      "b97e0f68948787dd",
+      "1e64c950be84f25b"
+    ]
+  ]
+}
