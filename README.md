@@ -23,3 +23,8 @@ Was ist noch enthalten:
 - Engine mit Anbindung an Postgres
 - Authority
 - Postgres mit Init-Script
+
+
+TODOs:
+- [ ] TypeScript Version
+- [ ] Workflow für GitHub Actions und Docker-Image
