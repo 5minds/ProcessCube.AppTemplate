@@ -1,42 +1,55 @@
 # ProcessCube.AppTemplate
 
-Hier werden folgende Dinge gezeigt:
+Dieses Template demonstriert die Entwicklung und das Debugging von Custom-Komponenten für ProcessCube LowCode Apps.
 
-- Debugging von Lowcode Apps mit
-  - plugin: apps/lowcode/src/lib/aplugin/*
-  - custom-node: apps/lowcode/src/lib/sample_node
+## Übersicht
 
-Im ersten Schritt stellen wir diese Beispiel für die Entwicklung von Custom-Plugins und -Node
-mittels JavaScript vor. Diese können dann in Lowcode Apps verwendet werden.
+Das Template zeigt folgende Konzepte:
 
-Um das Einbinden von Custom-Plugins und -Nodes in Lowcode Apps zu zeigen, haben wir ein
-Beispiel-Node erstellt, welches durch External-Task in Node-RED mit der Engine verwendet wird 
-verwendet werden kann.
+- **Custom-Plugin**: `apps/lowcode/src/lib/aplugin/*`
+- **Custom-Node-RED-Node**: `apps/lowcode/src/lib/sample_node`
 
-Das Beispiel-Node ist ein einfacher Node, der einen Text ausgibt. Dieser kann in Node-RED:
-![Flow mit External Task in LowCode](./assets/hello_node.png)
+## Custom-Nodes und External Tasks
 
-Dies ist der Prozess mit dem External Task in der Engine:
-![Process mit External Task in der Engine](./assets/Sample_With_Custome_Node.png)
+Diese Beispiele zeigen die Entwicklung von Custom-Plugins und -Nodes mittels JavaScript, die in LowCode Apps verwendet werden können.
 
+Um das Einbinden von Custom-Komponenten zu demonstrieren, haben wir einen Beispiel-Node erstellt, der über External Tasks in Node-RED mit der ProcessCube Engine integriert wird.
 
-Optionen für das Debugging:
-- Attach to Node-RED: https://github.com/5minds/ProcessCube.AppTemplate/blob/main/docker-compose.yml#L72
-- Breakpoint direkt beim Start, Node-RED bleibt stehen bis der Debugger verbunden ist: https://github.com/5minds/ProcessCube.AppTemplate/blob/main/docker-compose.yml#L75
+### Beispiel-Node
 
-Danach einfach per VSCode --> Debugging --> Attach to Node-RED
+Der Beispiel-Node ist ein einfacher Node, der eine konfigurierbare Begrüßung ausgibt und in Node-RED wie folgt verwendet wird:
 
-Was ist noch enthalten:
-- Engine mit Anbindung an Postgres
-- Authority
-- Postgres mit Init-Script
+![Flow mit External Task in LowCode](./.assets/hello_node.png)
 
+Der zugehörige Prozess mit External Task in der Engine:
 
-TODOs:
+![Process mit External Task in der Engine](./.assets/Sample_With_Custome_Node.png)
+
+## Debugging
+
+### Optionen für das Debugging:
+
+- **Attach to Node-RED**: [Docker-Compose Konfiguration](https://github.com/5minds/ProcessCube.AppTemplate/blob/main/docker-compose.yml#L72)
+- **Breakpoint beim Start**: Node-RED pausiert beim Start bis der Debugger verbunden ist ([Konfiguration](https://github.com/5minds/ProcessCube.AppTemplate/blob/main/docker-compose.yml#L75))
+
+### Debugging-Schritte:
+
+1. Container starten
+2. In VSCode: **Run and Debug** → **Attach to Node-RED**
+3. Breakpoints setzen und debuggen
+
+## Enthaltene Komponenten
+
+- **ProcessCube Engine** mit PostgreSQL-Anbindung
+- **ProcessCube Authority**
+- **PostgreSQL** mit Initialisierungsskript
+
+## Roadmap
+
 - [x] JavaScript Version
-- [x] Install npm-Packages ins Image
+- [x] npm-Packages im Docker-Image installieren
 - [x] Plugin für Node-RED
 - [x] Beispiel-Node für Node-RED
 - [x] Debugging mit VSCode
-- [ ] Workflow für GitHub Actions und Docker-Image
+- [ ] GitHub Actions Workflow und Docker-Image
 - [ ] TypeScript Version
