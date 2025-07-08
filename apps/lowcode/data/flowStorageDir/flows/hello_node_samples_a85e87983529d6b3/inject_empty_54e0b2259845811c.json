@@ -3,22 +3,12 @@
   "type": "inject",
   "z": "a85e87983529d6b3",
   "name": "",
-  "props": [
-    {
-      "p": "payload"
-    },
-    {
-      "p": "topic",
-      "vt": "str"
-    }
-  ],
+  "props": [],
   "repeat": "",
   "crontab": "",
   "once": false,
   "onceDelay": 0.1,
   "topic": "",
-  "payload": "",
-  "payloadType": "date",
   "g": "93c4c6793a67f021",
   "wires": [
     [

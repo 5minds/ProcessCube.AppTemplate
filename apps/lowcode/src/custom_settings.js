@@ -6,7 +6,7 @@ const config = {
         },
         palette: {
             categories: [
-                "ProcessCube Samples",
+                "MyProject",
             ]
         },
         other: {

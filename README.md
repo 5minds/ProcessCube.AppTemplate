@@ -4,7 +4,7 @@ Hier werden folgende Dinge gezeigt:
 
 - Debugging von Lowcode Apps mit
   - plugin: apps/lowcode/src/lib/aplugin/*
-  - plugin: apps/lowcode/src/lib/sample_node
+  - custom-node: apps/lowcode/src/lib/sample_node
 
 ![Hello Node](./.assets/hello_node.png)
 
