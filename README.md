@@ -17,8 +17,6 @@ Optionen für das Debugging:
 
 Danach einfach per VSCode --> Debugging --> Attach to Node-RED
 
-TBD: TypeScript Version
-
 Was ist noch enthalten:
 - Engine mit Anbindung an Postgres
 - Authority
