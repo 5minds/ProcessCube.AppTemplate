@@ -19,11 +19,11 @@ Um das Einbinden von Custom-Komponenten zu demonstrieren, haben wir einen Beispi
 
 Der Beispiel-Node ist ein einfacher Node, der eine konfigurierbare Begrüßung ausgibt und in Node-RED wie folgt verwendet wird:
 
-![Flow mit External Task in LowCode](./.assets/hello_node.png)
+![Flow mit External Task in LowCode](./assets/hello_node.png)
 
 Der zugehörige Prozess mit External Task in der Engine:
 
-![Process mit External Task in der Engine](./.assets/Sample_With_Custome_Node.png)
+![Process mit External Task in der Engine](./assets/Sample_With_Custome_Node.png)
 
 ## Debugging
 
