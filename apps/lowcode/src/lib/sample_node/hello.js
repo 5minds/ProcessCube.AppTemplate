@@ -7,7 +7,9 @@ module.exports = function (RED) {
 
             const greeting = RED.util.evaluateNodeProperty(config.greeting, config.greeting_type, node, msg);
 
-            msg.payload = `Hello ${greeting || 'World'}!`;
+            msg.payload = {
+                "greeting_back": `Hello ${greeting || 'World'}!`
+            }
 
             node.send(msg);
         });

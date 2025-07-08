@@ -19,6 +19,7 @@ services:
       - database__username=postgres
       - database__password=postgres
       - database__database=eginedb
+      - application__name=Engine (ProcessCube.AppTemplate)
     command: --seed-dir=/processes
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"]

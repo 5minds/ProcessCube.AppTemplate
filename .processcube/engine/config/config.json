@@ -19,9 +19,6 @@
     "resetPasswordRequestTimeToLive": 12,
     "logging": false
   },
-  "application": {
-    "name": "Engine (ProcessCube.Showcase)"
-  },
   "iam": {
     "baseUrl": "http://authority:11560/",
     "claimUrl": "http://authority:11560/claims/ensure",
