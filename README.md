@@ -26,5 +26,10 @@ Was ist noch enthalten:
 
 
 TODOs:
-- [ ] TypeScript Version
+- [x] JavaScript Version
+- [x] Install npm-Packages ins Image
+- [x] Plugin für Node-RED
+- [x] Beispiel-Node für Node-RED
+- [x] Debugging mit VSCode
 - [ ] Workflow für GitHub Actions und Docker-Image
+- [ ] TypeScript Version
