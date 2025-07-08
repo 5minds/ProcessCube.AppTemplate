@@ -26,7 +26,7 @@ services:
       timeout: 10s
 
   authority:
-    image: 5minds/processcube_authority:3.2.0-beta.4
+    image: ghcr.io/5minds/processcube_authority:3.2.0
     ports:
       - 11560:11560
     volumes:
@@ -88,7 +88,7 @@ services:
       - NODERED_HTTP_STATIC=/data/static/
       - NODERED_CUSTOM_SETTINGS=/lowcode/src/custom_settings.js
       - NODERED_NAME=LowCode Docker
-      - NODERED_THEME=
+      #- NODERED_THEME=
       - NODERED_PORT=1880
       - ENGINE_URL=http://engine:8000
       - NODE_RED_ETW_HEARTBEAT_LOGGING=true 
