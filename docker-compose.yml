@@ -1,15 +1,13 @@
 services:
   engine:
-    image: ghcr.io/5minds/processcube_engine:19.0.0-beta.11-extensions-2.3.0-beta.8
+    image: ghcr.io/5minds/processcube_engine:19.2.1-extensions-2.3.0
     depends_on:
       postgres:
         condition: service_healthy
     ports:
       - 8000:8000
-      - 8001:8001
     volumes:
       - ./.processcube/engine/config:/etc/engine/config:ro
-      - ./.processcube/engine/db:/database
       - ./processes:/processes:ro
     environment:
       - CONFIG_PATH=/etc/engine/config/config.json
@@ -18,7 +16,7 @@ services:
       - database__port=5432
       - database__username=postgres
       - database__password=postgres
-      - database__database=eginedb
+      - database__database=engine
       - application__name=Engine (ProcessCube.AppTemplate)
     command: --seed-dir=/processes
     healthcheck:
@@ -34,16 +32,19 @@ services:
     volumes:
       - ./.processcube/authority/config:/etc/authority/config:ro
     environment:
-      UPE_SEED_PATH: /etc/authority/config/upeSeedingData.json
+      - UPE_SEED_PATH=/etc/authority/config/upeSeedingData.json
+      - database__dialect=postgres
+      - database__host=postgres
+      - database__port=5432
+      - database__username=postgres
+      - database__password=postgres
+      - database__database=authority
 
   postgres:
-    image: 5minds/apptemplate_db
-    build:
-      context: postgres
+    image: postgres:17
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_DB: eginedb
       PGDATA: /data/postgres/db
     volumes:
       - ./postgres/apptemplate_db.instance:/data/postgres
