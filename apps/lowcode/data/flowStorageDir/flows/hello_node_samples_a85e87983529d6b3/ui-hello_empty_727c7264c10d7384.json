@@ -1,0 +1,18 @@
+{
+  "id": "727c7264c10d7384",
+  "type": "ui-hello",
+  "z": "a85e87983529d6b3",
+  "name": "",
+  "group": "fe5320985bb2a351",
+  "order": 1,
+  "width": 0,
+  "height": 0,
+  "topic": "hello/action",
+  "label": "World",
+  "g": "578b664c8ba7fc2e",
+  "wires": [
+    [
+      "fd2864eaf04c6fb0"
+    ]
+  ]
+}

@@ -2,21 +2,20 @@
   "id": "1513043d9addb14f",
   "type": "group",
   "z": "a85e87983529d6b3",
+  "name": "Beispiel ETW mit hello",
   "style": {
     "stroke": "#999999",
-    "stroke-opacity": "1",
     "fill": "none",
     "fill-opacity": "1",
     "label": true,
-    "label-position": "nw",
     "color": "#a4a4a4"
   },
   "nodes": [
-    "05d58f47c57deb53",
-    "f525f0f9700bffc0",
-    "f250bfa879c78e1e",
-    "586b370b2494b6ca",
     "f6bf6b4f8df1eb7b",
-    "609d6a5b15c3e93d"
+    "609d6a5b15c3e93d",
+    "586b370b2494b6ca",
+    "05d58f47c57deb53",
+    "f250bfa879c78e1e",
+    "f525f0f9700bffc0"
   ]
 }

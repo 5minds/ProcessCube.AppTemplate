@@ -1,0 +1,87 @@
+<script type="text/javascript">
+RED.nodes.registerType('ui-thermo',{
+  category: 'MyProject',
+  color: '#C0E8D5',
+  defaults: {
+    name:   { value:'' },
+    group:  { type: 'ui-group', required: true },
+    order:  { value:0 },
+    width:  {
+      value:0,
+      validate: function (v) {
+        const width = v || 0
+        const currentGroup = $('#node-input-group').val() || this.group
+        const groupNode = RED.nodes.node(currentGroup)
+        const valid = !groupNode || +width <= +groupNode.width
+        $('#node-input-size').toggleClass('input-error', !valid)
+        return valid
+      }
+    },
+    height: { value:0 },
+    topic:  { value:'thermo' },
+    start:  { value:20 },
+    min:    { value:-50 },
+    max:    { value:150 }
+  },
+  inputs:1,
+  outputs:1,
+  icon: 'font-awesome/fa-thermometer-half',
+  paletteLabel: 'ui-thermo',
+  label: function() {
+    return this.name || "ui-thermo";
+  },
+  oneditprepare: function () {
+    $('#node-input-size').elementSizer({
+      width: '#node-input-width',
+      height: '#node-input-height',
+      group: '#node-input-group'
+    });
+  }
+});
+</script>
+
+<script type="text/html" data-template-name="ui-thermo">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-group"><i class="fa fa-table"></i> Group</label>
+    <input type="text" id="node-input-group">
+  </div>
+
+  <div class="form-row">
+    <label><i class="fa fa-object-group"></i> Größe</label>
+    <input type="hidden" id="node-input-width">
+    <input type="hidden" id="node-input-height">
+    <button class="editor-button" id="node-input-size"></button>
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-topic"><i class="fa fa-tag"></i> Topic</label>
+    <input type="text" id="node-input-topic" placeholder="thermo">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-start"><i class="fa fa-play"></i> Startwert</label>
+    <input type="number" id="node-input-start" placeholder="20">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-min"><i class="fa fa-arrow-down"></i> Minimum</label>
+    <input type="number" id="node-input-min" placeholder="-50">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-max"><i class="fa fa-arrow-up"></i> Maximum</label>
+    <input type="number" id="node-input-max" placeholder="150">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="ui-thermo">
+  <p>Ein Thermometer-Widget für Dashboard 2.</p>
+  <p><b>Startwert</b>: Initiale Temperatur (°C).</p>
+  <p><b>Min/Max</b>: Grenzen des Wertebereichs.</p>
+  <p><b>Topic</b>: Standard-Topic für Nachrichten.</p>
+</script>

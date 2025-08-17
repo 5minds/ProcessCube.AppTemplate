@@ -1,9 +1,11 @@
 {
-  "name": "@5minds/app_template_packages",
+  "name": "@5minds/node-red-dashboard-2-myproject-package",
   "version": "0.0.1",
   "description": "A project spezfic node for node-red",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:hello": "cross-env WIDGET_NAME=ui-hello ENTRY=ui/exports/ui-hello.js vite build",
+    "build:thermo": "cross-env WIDGET_NAME=ui-thermo ENTRY=ui/exports/ui-thermo.js vite build",
+    "build": "npm run build:hello && npm run build:thermo"
   },
   "repository": {
     "type": "git",
@@ -27,8 +29,23 @@
   "license": "MIT",
   "node-red": {
     "nodes": {
-      "sample_plugin": "lib/aplugin/sample_plugin.js",
-      "hello": "lib/sample_node/hello.js"
+      "sample_plugin": "nodes/aplugin/sample_plugin.js",
+      "hello": "nodes/sample_node/hello.js",
+      "ui-hello": "nodes/ui-hello.js",
+      "ui-thermo": "nodes/ui-thermo.js"
+    }
+  },
+  "node-red-dashboard-2": {
+    "version": "1.0.0",
+    "widgets": {
+      "ui-hello": {
+        "output": "ui-hello.umd.js",
+        "component": "Hello"
+      },
+      "ui-thermo": {
+        "output": "ui-thermo.umd.js",
+        "component": "Thermo"
+      }
     }
   },
   "bugs": {
@@ -37,5 +54,14 @@
   },
   "homepage": "https://processcube.io/docs/node-red/processcube-app-template/",
   "dependencies": {
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.4.0",
+    "vite-plugin-css-injected-by-js": "^3.5.2",
+    "vite-plugin-static-copy": "^1.0.4",
+    "cross-env": "^7.0.3",
+    "vue": "^3.4.0",
+    "vuex": "^4.1.0"
   }
 }

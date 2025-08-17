@@ -1,0 +1,14 @@
+{
+  "id": "578b664c8ba7fc2e",
+  "type": "group",
+  "z": "a85e87983529d6b3",
+  "name": "Beispiel UI-Widgets",
+  "style": {
+    "label": true
+  },
+  "nodes": [
+    "727c7264c10d7384",
+    "fd2864eaf04c6fb0",
+    "d81e596cef1d84c7"
+  ]
+}

@@ -10,7 +10,7 @@
     "ui-notification"
   ],
   "showPathInSidebar": false,
-  "headerContent": "dashpage",
+  "headerContent": "none",
   "navigationStyle": "icon",
   "titleBarStyle": "hidden",
   "showReconnectNotification": false,

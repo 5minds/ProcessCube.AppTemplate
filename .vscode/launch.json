@@ -8,7 +8,17 @@
         "address": "localhost",
         "port": 9229,
         "localRoot": "${workspaceFolder}/apps/lowcode/src",
-        "remoteRoot": "/package_src/"
+        "remoteRoot": "/package_src/",
+        "skipFiles": [
+          "<node_internals>/**"
+          // Wichtig: KEIN "**/node_modules/**" hier!
+        ],
+        "resolveSourceMapLocations": [
+          "**",
+          // Wenn du WIRKLICH in node_modules mappen willst:
+          "**/node_modules/**"
+        ],
+        "smartStep": true      
       }
     ]
   }

@@ -5,7 +5,7 @@
   "ui": "9f39f3effcdcb077",
   "path": "/auth/dashboard/logout",
   "icon": "logout",
-  "order": 5,
+  "order": 6,
   "visible": true,
   "disabled": "false"
 }
