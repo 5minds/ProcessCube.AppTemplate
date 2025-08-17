@@ -71,10 +71,11 @@ services:
       - 9229:9229
     environment:
       - TZ=Europe/Berlin
+      - NODE_ENV=development
       # start node-red with debugger port open
-      #- NODE_OPTIONS=--inspect=0.0.0.0:9229 --enable-source-maps
+      - NODE_OPTIONS=--inspect=0.0.0.0:9229 --enable-source-maps
       # start node-red with debugger port open and allow all hosts
-      - NODE_OPTIONS=--inspect-brk=0.0.0.0:9229 --enable-source-maps
+      #- NODE_OPTIONS=--inspect-brk=0.0.0.0:9229 --enable-source-maps
       - _NODERED_AUTH_DISABLED=true
       - NODERED_AUTH_SKIP_URLS=/swagger-ui,/token,/sample_plugin
       - NODERED_AUTHORITY_URL=http://authority:11560
