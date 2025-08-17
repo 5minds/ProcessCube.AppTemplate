@@ -18,6 +18,8 @@ und die Vue.js-Dateien für die UI-Komponenten:
 
 WICHITG: Das Paket für die UI-Widgets muss mit dem Package-Name `node-red-dashboard-2-` beginnen und im nodesDir der Node-RED-Installation (`RED.settings...userDir`) liegen, damit es korrekt geladen wird.
 
+Siehe dazu auch die [Dashboard-2-Dokumentation](https://dashboard.flowfuse.com/contributing/widgets/third-party#naming-your-widget).
+
 ## Custom-Nodes und External Tasks
 
 Diese Beispiele zeigen die Entwicklung von Custom-Plugins und -Nodes mittels JavaScript, die in LowCode Apps verwendet werden können.
