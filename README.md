@@ -9,12 +9,12 @@ Das Template zeigt folgende Konzepte:
 - **Custom-Plugin**: `apps/lowcode/src/nodes/aplugin/*`
 - **Custom-Node-RED-Node**: `apps/lowcode/src/nodes/sample_node/*`
 - **UI-Node für das Dashboard-2**:
-   - `apps/lowcode/src/nodes/ui-hello.js` / `apps/lowcode/src/nodes/ui-hello.html`
-   - `apps/lowcode/src/nodes/ui-termo.js` / `apps/lowcode/src/nodes/ui-termo.html`
+   - `/apps/lowcode/src/nodes/ui-hello.js` / `/apps/lowcode/src/nodes/ui-hello.html`
+   - `/apps/lowcode/src/nodes/ui-termo.js` / `/apps/lowcode/src/nodes/ui-termo.html`
 
 und die Vue.js-Dateien für die UI-Komponenten:
-- `apps/lowcode/src/ui/componentes/ui-hello.vue`
-- `apps/lowcode/src/ui/componentes/ui-termo.vue`
+- `/apps/lowcode/src/ui/componentes/ui-hello.vue`
+- `/apps/lowcode/src/ui/componentes/ui-termo.vue`
 
 WICHITG: Das Paket für die UI-Widgets muss mit dem Package-Name `node-red-dashboard-2-` beginnen und im nodesDir der Node-RED-Installation (`RED.settings...userDir`) liegen, damit es korrekt geladen wird.
 
@@ -53,7 +53,7 @@ Der zugehörige Prozess mit External Task in der Engine:
 
 - **ProcessCube Engine** mit PostgreSQL-Anbindung
 - **ProcessCube Authority**
-- **PostgreSQL** mit Initialisierungsskript
+- **PostgreSQL** mit Initialisierungsskript und dynamischem externen Port-Mapping
 
 ## Roadmap
 

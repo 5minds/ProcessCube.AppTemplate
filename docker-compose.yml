@@ -49,7 +49,7 @@ services:
     volumes:
       - ./postgres/apptemplate_db.instance:/data/postgres
     ports:
-      - 5432:5432
+      - 5432 # Dynamic external port mapping
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
       interval: 5s
