@@ -1,0 +1,23 @@
+{
+  "name": "processcube.apptemplate",
+  "version": "0.9.0",
+  "description": "A AppTemplate for a App build with and for the ProcessCube Plattform",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/5minds/ProcessCube.AppTemplate.git"
+  },
+  "keywords": [
+    "ProcessCube",
+    "AppTemplate",
+    "App",
+    "LowCode",
+    "Workflow",
+    "BPMN"
+  ],
+  "author": "Martin Möllenbeck <martin.moellenbeck@5minds.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/5minds/ProcessCube.AppTemplate/issues"
+  },
+  "homepage": "https://github.com/5minds/ProcessCube.AppTemplate#readme"
+}
