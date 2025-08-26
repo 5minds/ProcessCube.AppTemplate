@@ -62,5 +62,5 @@ Der zugehörige Prozess mit External Task in der Engine:
 - [x] Plugin für Node-RED
 - [x] Beispiel-Node für Node-RED
 - [x] Debugging mit VSCode
-- [ ] GitHub Actions Workflow und Docker-Image
+- [x] GitHub Actions Workflow und Docker-Image
 - [ ] TypeScript Version
