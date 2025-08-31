@@ -1,4 +1,4 @@
-FROM ghcr.io/5minds/processcube_lowcode:7.5.0-alpha.7
+FROM ghcr.io/5minds/processcube_lowcode:7.5.0-alpha.9
 
 # Root Benutzer für die Installation von Systempaketen
 USER root
