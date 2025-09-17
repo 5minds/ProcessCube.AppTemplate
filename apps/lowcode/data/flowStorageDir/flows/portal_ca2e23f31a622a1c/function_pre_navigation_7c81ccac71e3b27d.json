@@ -3,7 +3,7 @@
   "type": "function",
   "z": "ca2e23f31a622a1c",
   "name": "pre navigation",
-  "func": "msg.payload = {\n    page: 'UserTasks'\n};\n\nreturn msg;",
+  "func": "const backtoProcesses = global.get(`backtoProcesses_${msg._client?.socketId}`);\n\nlet thePage = 'Aufgaben';\n\nif (backtoProcesses) {\n    thePage = 'Prozesse';\n}\n\nmsg.payload = {\n    page: thePage\n};\n\nreturn msg;",
   "outputs": 1,
   "timeout": 0,
   "noerr": 0,

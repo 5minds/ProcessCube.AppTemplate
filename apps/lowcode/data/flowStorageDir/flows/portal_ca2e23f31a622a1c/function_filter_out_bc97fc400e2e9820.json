@@ -1,0 +1,19 @@
+{
+  "id": "bc97fc400e2e9820",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "filter out",
+  "func": "if (msg.target && !msg._linkSource) {\n    delete msg.target;\n}\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "6f350abd5e1475cc",
+  "wires": [
+    [
+      "97d1fee9db4aece4"
+    ]
+  ]
+}

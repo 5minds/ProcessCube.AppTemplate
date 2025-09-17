@@ -1,0 +1,15 @@
+{
+  "id": "47b34bca1c595d45",
+  "type": "link in",
+  "z": "f8d71f5c48fa5998",
+  "name": "link in 1",
+  "links": [
+    "721f1ee7835a517e"
+  ],
+  "g": "096175e7e868d9e0",
+  "wires": [
+    [
+      "ad79b56b02b3697f"
+    ]
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "aba4c39c263e91a3",
+  "type": "debug",
+  "z": "ca2e23f31a622a1c",
+  "name": "visit /user_tasks",
+  "active": false,
+  "tosidebar": true,
+  "console": false,
+  "tostatus": false,
+  "complete": "true",
+  "targetType": "full",
+  "statusVal": "",
+  "statusType": "auto",
+  "g": "967d7bb42c23c704",
+  "wires": []
+}

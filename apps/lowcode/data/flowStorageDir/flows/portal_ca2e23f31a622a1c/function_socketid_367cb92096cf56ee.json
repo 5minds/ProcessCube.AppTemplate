@@ -1,0 +1,19 @@
+{
+  "id": "367cb92096cf56ee",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "SocketId",
+  "func": "msg.payload = msg._client?.socketId;\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "6f350abd5e1475cc",
+  "wires": [
+    [
+      "54e6021a3f502ae3"
+    ]
+  ]
+}

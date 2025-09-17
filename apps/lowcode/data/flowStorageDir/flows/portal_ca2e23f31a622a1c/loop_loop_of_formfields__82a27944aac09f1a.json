@@ -1,0 +1,27 @@
+{
+  "id": "82a27944aac09f1a",
+  "type": "loop",
+  "z": "ca2e23f31a622a1c",
+  "name": "loop of formFields ",
+  "kind": "enum",
+  "count": "10",
+  "initial": "1",
+  "step": "1",
+  "condition": "",
+  "conditionType": "js",
+  "when": "before",
+  "enumeration": "payload.userTask.userTaskConfig.formFields",
+  "enumerationType": "msg",
+  "limit": "",
+  "loopPayload": "loop-keep",
+  "finalPayload": "final-last",
+  "g": "aa34ab24636d3417",
+  "wires": [
+    [
+      "f8348e6267dc6be7"
+    ],
+    [
+      "c056bafbef4d2b33"
+    ]
+  ]
+}

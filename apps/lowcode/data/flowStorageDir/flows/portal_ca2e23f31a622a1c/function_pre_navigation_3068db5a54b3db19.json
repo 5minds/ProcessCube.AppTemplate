@@ -1,0 +1,19 @@
+{
+  "id": "3068db5a54b3db19",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "pre navigation",
+  "func": "msg.payload = {\n    page: 'Profile'\n};\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "6f350abd5e1475cc",
+  "wires": [
+    [
+      "0686f503ec26a345"
+    ]
+  ]
+}

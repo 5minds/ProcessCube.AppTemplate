@@ -1,0 +1,14 @@
+{
+  "id": "11a6beba6c89293b",
+  "type": "catch",
+  "z": "28bce906c0d46bbe",
+  "name": "",
+  "scope": "group",
+  "uncaught": false,
+  "g": "38e93d9360c8e017",
+  "wires": [
+    [
+      "716f76de7aa9d4b5"
+    ]
+  ]
+}

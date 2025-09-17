@@ -10,7 +10,8 @@
   "data_type": "msg",
   "options": [
     {
-      "label": "Bearbeiten",
+      "label": "flowNodeName",
+      "label_type": "row",
       "condition": ""
     }
   ],
@@ -21,32 +22,32 @@
       "type": "str"
     },
     {
-      "label": "Aufgabe",
-      "value": "flowNodeName",
-      "type": "str"
-    },
-    {
       "label": "Aktiv seit",
       "value": "startedAtFormatted",
       "type": "str"
     },
     {
-      "label": "Korrelation",
+      "label": "Correlation ID",
       "value": "correlationId",
+      "type": "str"
+    },
+    {
+      "label": "Beschreibung",
+      "value": "description",
       "type": "str"
     }
   ],
   "width": "0",
   "height": "0",
   "outputs": 1,
-  "title_text": "Alle verfügbaren Aufgaben",
+  "title_text": "Aufgaben",
   "title_style": "",
   "title_custom_text_styling": "",
   "title_icon": "",
   "g": "967d7bb42c23c704",
   "wires": [
     [
-      "128d2326a858bfa3"
+      "c2bd27904413e887"
     ]
   ]
 }

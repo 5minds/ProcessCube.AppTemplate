@@ -1,0 +1,19 @@
+{
+  "id": "c056bafbef4d2b33",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "lookup entries",
+  "func": "msg.formField = msg.payload.userTask.userTaskConfig.formFields[msg.loop.index];\n\nif (msg.formField.customForm !== undefined) {\n    msg.formField.customForm = JSON.parse(msg.formField.customForm);\n\n    const lookup = msg.formField.customForm?.customProperties?.find(entry => entry.name === \"lookup\")?.value;\n    \n    delete msg.target;\n\n    if (lookup != undefined) {\n        msg.target = lookup;\n\n        if (msg.formField.customForm == undefined) {\n            msg.formField.customForm = {};\n        }\n\n        if (msg.formField.customForm.entries == undefined) {\n            msg.formField.customForm.entries = {};\n        }\n\n        msg.entries = {};\n    }\n}\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "aa34ab24636d3417",
+  "wires": [
+    [
+      "7f0f3be1f0f4dcf6"
+    ]
+  ]
+}

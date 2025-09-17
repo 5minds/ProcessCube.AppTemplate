@@ -1,8 +1,0 @@
-{
-  "id": "e1d4285cac040a87",
-  "type": "comment",
-  "z": "53cd34b2ef882137",
-  "name": "AccessToken ausstellen für Dritt Software über Nodered",
-  "g": "e6127068065a0d59",
-  "wires": []
-}

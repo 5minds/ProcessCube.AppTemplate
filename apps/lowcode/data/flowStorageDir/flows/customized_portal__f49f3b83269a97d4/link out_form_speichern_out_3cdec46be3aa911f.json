@@ -1,0 +1,12 @@
+{
+  "id": "3cdec46be3aa911f",
+  "type": "link out",
+  "z": "f49f3b83269a97d4",
+  "name": "Form speichern (out)",
+  "mode": "link",
+  "links": [
+    "a9066d97b248a947"
+  ],
+  "g": "547fb7c154795b80",
+  "wires": []
+}

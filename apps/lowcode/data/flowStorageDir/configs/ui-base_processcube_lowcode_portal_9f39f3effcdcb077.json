@@ -1,0 +1,25 @@
+{
+  "id": "9f39f3effcdcb077",
+  "type": "ui-base",
+  "name": "ProcessCube® LowCode Portal",
+  "path": "/dashboard",
+  "appIcon": "http://localhost:1880/LowCode_Icon.ico",
+  "includeClientData": true,
+  "acceptsClientConfig": [
+    "ui-control",
+    "ui-notification",
+    "ui-template",
+    "ui-dynamic-form",
+    "ui-dynamic-table",
+    "ui-text",
+    "ui-table"
+  ],
+  "showPathInSidebar": false,
+  "headerContent": "dashboard",
+  "navigationStyle": "default",
+  "titleBarStyle": "default",
+  "showReconnectNotification": false,
+  "notificationDisplayTime": 5,
+  "showDisconnectNotification": false,
+  "allowInstall": true
+}

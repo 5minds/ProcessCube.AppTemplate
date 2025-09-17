@@ -1,0 +1,19 @@
+{
+  "id": "1c65c39b3255333e",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "Dialog direkt aufrufen?",
+  "func": "const showNotification = (String(env.get(\"NODERED_DASHBOARD_SHOW_NOTIFICATION\")).toLowerCase() === \"true\");\nconst directTaskEdit = (String(env.get(\"NODERED_DIRECT_TASK_EDIT\")).toLowerCase() === \"true\");\n\nif (directTaskEdit && msg._client?.socketId == msg.payload?.userTask?.correlationId) {\n    msg._openDialog = true;\n} else {\n    msg._openDialog = false;\n\n    if (showNotification) {\n        msg._showNotification = true;\n    }\n}\n\n\n\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "45d4cb29ec64d4c4",
+  "wires": [
+    [
+      "5d565efe4fec75eb"
+    ]
+  ]
+}

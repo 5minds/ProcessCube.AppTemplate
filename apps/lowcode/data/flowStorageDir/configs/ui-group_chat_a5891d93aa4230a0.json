@@ -1,0 +1,14 @@
+{
+  "id": "a5891d93aa4230a0",
+  "type": "ui-group",
+  "name": "Chat",
+  "page": "6a44ceec54bfad30",
+  "width": "12",
+  "height": 1,
+  "order": 1,
+  "showTitle": false,
+  "className": "",
+  "visible": "true",
+  "disabled": "false",
+  "groupType": "default"
+}

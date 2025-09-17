@@ -6,10 +6,11 @@
   "rules": [
     {
       "t": "set",
-      "p": "flowNodeInstanceId",
+      "p": "payload",
       "pt": "flow",
-      "to": "payload.flowNodeInstanceId",
-      "tot": "msg"
+      "to": "payload",
+      "tot": "msg",
+      "dc": true
     }
   ],
   "action": "",
@@ -20,7 +21,7 @@
   "g": "45d4cb29ec64d4c4",
   "wires": [
     [
-      "f9e8aedb5f977c7b"
+      "89b9f7e0267b4aae"
     ]
   ]
 }

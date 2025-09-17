@@ -1,0 +1,14 @@
+{
+  "id": "0356b56a3788b930",
+  "type": "mcp-tool-input",
+  "z": "28bce906c0d46bbe",
+  "name": "send-mail",
+  "description": "Diese Tool kann eine Mail verschicken.\nPflicht Argumente:\nempfaenger (email),\nbetreff (text)\ntext (text)",
+  "g": "38e93d9360c8e017",
+  "wires": [
+    [
+      "7a36229fa375cb73",
+      "7d9a25a76052081d"
+    ]
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "d25f72fd251fc872",
+  "type": "ui-page",
+  "name": "MyCustomForm",
+  "ui": "9f39f3effcdcb077",
+  "path": "/MyCustomForm",
+  "icon": "home",
+  "layout": "grid",
+  "theme": "ed7dad428f4a680e",
+  "breakpoints": [
+    {
+      "name": "Default",
+      "px": "0",
+      "cols": "3"
+    },
+    {
+      "name": "Tablet",
+      "px": "576",
+      "cols": "6"
+    },
+    {
+      "name": "Small Desktop",
+      "px": "768",
+      "cols": "9"
+    },
+    {
+      "name": "Desktop",
+      "px": "1024",
+      "cols": "12"
+    }
+  ],
+  "order": 5,
+  "className": "",
+  "visible": "false",
+  "disabled": "false"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "c56b1be5fabfea60",
+  "type": "ui-control",
+  "z": "f49f3b83269a97d4",
+  "name": "",
+  "ui": "9f39f3effcdcb077",
+  "events": "all",
+  "g": "547fb7c154795b80",
+  "wires": [
+    []
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "9e68b9e45460ad22",
+  "type": "group",
+  "z": "0d9117cae8c03a95",
+  "name": "Beispiel für Richtext",
+  "style": {
+    "label": true
+  },
+  "nodes": [
+    "b35b33330bce28b3",
+    "70621e6ce7e70dbe",
+    "b21ae61f1301cf40"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "a41de7c302f96c64",
+  "type": "link call",
+  "z": "ca2e23f31a622a1c",
+  "name": "get user call",
+  "links": [],
+  "linkType": "dynamic",
+  "timeout": "30",
+  "g": "9d369434a5d404a0",
+  "wires": [
+    [
+      "d58c04623307647d"
+    ]
+  ]
+}

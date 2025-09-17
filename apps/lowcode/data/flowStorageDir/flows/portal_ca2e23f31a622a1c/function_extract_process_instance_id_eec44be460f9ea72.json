@@ -1,0 +1,19 @@
+{
+  "id": "eec44be460f9ea72",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "extract process instance id",
+  "func": "msg.payload =  msg.payload.userTask.processInstanceId\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "1d9402592caecfc1",
+  "wires": [
+    [
+      "5306f6ecec9c999e"
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "id": "db0d1947aebf77ea",
+  "type": "ui-control",
+  "z": "ca2e23f31a622a1c",
+  "name": "go to taskform",
+  "ui": "9f39f3effcdcb077",
+  "events": "all",
+  "g": "45d4cb29ec64d4c4",
+  "wires": [
+    []
+  ]
+}

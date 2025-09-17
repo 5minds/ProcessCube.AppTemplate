@@ -3,7 +3,7 @@
   "type": "function",
   "z": "ca2e23f31a622a1c",
   "name": "pre page navigation",
-  "func": "msg.payload = {\n    page: 'UserTask',\n    query: {\n        flowNodeInstanceId: msg.payload.flowNodeInstanceId\n    }\n};\n\nreturn msg;",
+  "func": "global.set(`backtoProcesses_${msg._client?.socketId}`, false);\n\nlet pageName = 'UserTask';\n\nif (msg.payload.userTaskConfig?.customForm) {\n    pageName = msg.payload.userTaskConfig.customForm;\n}\n\nmsg.payload = {\n    page: pageName,\n    query: {\n        flowNodeInstanceId: msg.payload.flowNodeInstanceId\n    }\n};\n\nreturn msg;",
   "outputs": 1,
   "timeout": 0,
   "noerr": 0,

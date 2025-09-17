@@ -1,0 +1,17 @@
+{
+  "id": "2668138e476237c0",
+  "type": "function",
+  "z": "f8d71f5c48fa5998",
+  "name": "create cubi error message",
+  "func": "msg.payload = {\n    message: {\n        content: msg.error.message\n    }\n}\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "40924ad744fda798",
+  "wires": [
+    []
+  ]
+}

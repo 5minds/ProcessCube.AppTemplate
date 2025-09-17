@@ -7,6 +7,14 @@
       "claims": {
         "email": "admin@5minds.de"
       }
+    },
+    {
+      "username": "auser",
+      "password": "auser",
+      "scopes": ["openid", "profile", "email", "engine_read", "engine_write", "upe_admin", "nodered"],
+      "claims": {
+        "email": "auser@5minds.de"
+      }
     }
   ]
 }

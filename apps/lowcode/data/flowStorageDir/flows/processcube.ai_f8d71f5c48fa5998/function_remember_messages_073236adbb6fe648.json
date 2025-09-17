@@ -1,0 +1,19 @@
+{
+  "id": "073236adbb6fe648",
+  "type": "function",
+  "z": "f8d71f5c48fa5998",
+  "name": "remember messages",
+  "func": "msg.userId = msg._client.user.id;\nconst key = `messages-${msg.userId}`;\nconst messages = global.get(key) ?? [];\nmessages.push(msg.payload.messages[msg.payload.messages.length -1]);\n\nglobal.set(key, messages);\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "40924ad744fda798",
+  "wires": [
+    [
+      "c599400031bd9a72"
+    ]
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "68adf94a9e283c20",
+  "type": "usertask-output",
+  "z": "f8d71f5c48fa5998",
+  "name": "",
+  "engine": "e021764f5dd07272",
+  "result": "result",
+  "result_type": "msg",
+  "g": "14f12cff6783b85b",
+  "wires": [
+    [
+      "31b5de32794cf4de"
+    ]
+  ]
+}

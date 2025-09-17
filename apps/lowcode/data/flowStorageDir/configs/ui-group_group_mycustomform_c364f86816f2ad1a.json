@@ -1,0 +1,14 @@
+{
+  "id": "c364f86816f2ad1a",
+  "type": "ui-group",
+  "name": "Group MyCustomForm",
+  "page": "d25f72fd251fc872",
+  "width": "12",
+  "height": 1,
+  "order": 1,
+  "showTitle": false,
+  "className": "",
+  "visible": "true",
+  "disabled": "false",
+  "groupType": "default"
+}

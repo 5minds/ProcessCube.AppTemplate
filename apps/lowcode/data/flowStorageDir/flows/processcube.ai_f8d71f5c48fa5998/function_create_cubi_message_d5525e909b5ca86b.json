@@ -1,0 +1,19 @@
+{
+  "id": "d5525e909b5ca86b",
+  "type": "function",
+  "z": "f8d71f5c48fa5998",
+  "name": "create cubi message",
+  "func": "const response = msg.payload.choices[0];\n\nmsg.payload = response;\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "40924ad744fda798",
+  "wires": [
+    [
+      "721f1ee7835a517e"
+    ]
+  ]
+}

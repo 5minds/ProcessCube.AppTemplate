@@ -1,0 +1,31 @@
+{
+  "id": "fc999ae14f92f0e7",
+  "type": "switch",
+  "z": "f8d71f5c48fa5998",
+  "name": "tools?",
+  "property": "payload.choices[0].finish_reason",
+  "propertyType": "msg",
+  "rules": [
+    {
+      "t": "eq",
+      "v": "tool_calls",
+      "vt": "str"
+    },
+    {
+      "t": "else"
+    }
+  ],
+  "checkall": "true",
+  "repair": false,
+  "outputs": 2,
+  "g": "40924ad744fda798",
+  "wires": [
+    [
+      "5513bbbdfae58604",
+      "b9779421c4578acf"
+    ],
+    [
+      "d5525e909b5ca86b"
+    ]
+  ]
+}

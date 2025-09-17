@@ -10,10 +10,10 @@
     "groupOutline": "#cacaca"
   },
   "sizes": {
-    "density": "comfortable",
-    "pagePadding": "24px",
-    "groupGap": "6px",
+    "density": "compact",
+    "pagePadding": "6px",
+    "groupGap": "2px",
     "groupBorderRadius": "6px",
-    "widgetGap": "6px"
+    "widgetGap": "2px"
   }
 }

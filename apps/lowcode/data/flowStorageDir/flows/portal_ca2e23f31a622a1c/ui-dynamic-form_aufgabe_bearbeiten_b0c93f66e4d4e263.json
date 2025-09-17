@@ -7,25 +7,25 @@
   "order": 1,
   "options": [
     {
-      "label": "Abbrechen",
+      "label": "Ok",
+      "condition": "!usertask.isConfirmDialog",
+      "errorMessage": "",
+      "alignment": "right",
+      "primary": "primary"
+    },
+    {
+      "label": "Abbruch",
+      "condition": "!usertask.isConfirmDialog",
+      "errorMessage": "",
+      "alignment": "left",
+      "primary": "secondary"
+    },
+    {
+      "label": "Beenden",
       "condition": "",
       "errorMessage": "",
       "alignment": "left",
-      "primary": "false"
-    },
-    {
-      "label": "Speichern",
-      "condition": "",
-      "errorMessage": "",
-      "alignment": "right",
-      "primary": "true"
-    },
-    {
-      "label": "Speichern und nächster",
-      "condition": "",
-      "errorMessage": "",
-      "alignment": "right",
-      "primary": "true"
+      "primary": "destructive"
     }
   ],
   "waiting_title": "Warten auf den Usertask...",
@@ -36,27 +36,45 @@
   "collapse_when_finished": false,
   "actions_inside_card": true,
   "card_size_styling": "",
-  "inner_card_styling": "_max-height: 100%",
-  "title_text": "Aufgabe bearbeiten",
-  "title_text_type": "str",
+  "inner_card_styling": "_max-height: none, max-height: 50vh",
+  "title_text": "payload.title",
+  "title_text_type": "msg",
   "title_style": "default",
   "title_custom_text_styling": "",
   "title_icon": "",
   "trigger_on_change": false,
-  "handle_confirmation_dialogs": false,
-  "width": "12",
-  "height": "1",
-  "outputs": 3,
+  "handle_confirmation_dialogs": true,
+  "confirm_actions": [
+    {
+      "label": "Confirm",
+      "alignment": "right",
+      "primary": "primary"
+    },
+    {
+      "label": "Decline",
+      "alignment": "right",
+      "primary": "secondary"
+    }
+  ],
+  "width": "0",
+  "height": "0",
+  "outputs": 5,
   "g": "1d9402592caecfc1",
   "wires": [
     [
+      "66c6e05b534b1f8a"
+    ],
+    [
       "c3063da116fa8926"
+    ],
+    [
+      "f9b640e7b61b5b6a"
     ],
     [
       "66c6e05b534b1f8a"
     ],
     [
-      "483c820136abf8a4"
+      "66c6e05b534b1f8a"
     ]
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "id": "c599400031bd9a72",
+  "type": "list-mcp-tools",
+  "z": "f8d71f5c48fa5998",
+  "name": "get tools",
+  "g": "40924ad744fda798",
+  "wires": [
+    [
+      "02826b470fbff62b",
+      "859fa25ced89dbf9"
+    ]
+  ]
+}

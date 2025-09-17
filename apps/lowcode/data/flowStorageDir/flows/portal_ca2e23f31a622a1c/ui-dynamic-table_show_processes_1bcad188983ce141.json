@@ -10,14 +10,15 @@
   "data_type": "msg",
   "options": [
     {
-      "label": "Starten",
+      "label": "startEventName",
+      "label_type": "row",
       "condition": ""
     }
   ],
   "columns": [
     {
-      "label": "Kategorie",
-      "value": "modelCategory",
+      "label": "Process Tag",
+      "value": "processTag",
       "type": "str"
     },
     {
@@ -26,22 +27,22 @@
       "type": "str"
     },
     {
-      "label": "Event",
-      "value": "startEventName",
+      "label": "Beschreibung",
+      "value": "description",
       "type": "str"
     }
   ],
   "width": 0,
   "height": 0,
   "outputs": 1,
-  "title_text": "Alle startbaren Prozesse mit deren Start-Events",
+  "title_text": "Prozesse",
   "title_style": "",
   "title_custom_text_styling": "",
   "title_icon": "",
   "g": "9d369434a5d404a0",
   "wires": [
     [
-      "440a1262579fdf0e"
+      "60e8ba395df4e52f"
     ]
   ]
 }

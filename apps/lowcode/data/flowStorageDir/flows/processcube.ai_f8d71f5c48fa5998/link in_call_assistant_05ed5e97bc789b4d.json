@@ -1,0 +1,15 @@
+{
+  "id": "05ed5e97bc789b4d",
+  "type": "link in",
+  "z": "f8d71f5c48fa5998",
+  "name": "call assistant",
+  "links": [
+    "853b9c3dea14c4d0"
+  ],
+  "g": "40924ad744fda798",
+  "wires": [
+    [
+      "073236adbb6fe648"
+    ]
+  ]
+}

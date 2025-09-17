@@ -1,0 +1,24 @@
+{
+  "id": "aa34ab24636d3417",
+  "type": "group",
+  "z": "ca2e23f31a622a1c",
+  "name": "Lookup handler",
+  "style": {
+    "label": true,
+    "stroke": "#777777",
+    "fill": "#a4a4a4",
+    "color": "#ffffff"
+  },
+  "nodes": [
+    "d4df72098461ad58",
+    "78955db15c8912d1",
+    "f8348e6267dc6be7",
+    "c056bafbef4d2b33",
+    "967c5fcb8f500cfc",
+    "be1d54c719d4b69f",
+    "195fac3374502e53",
+    "bacbf79bf1c790d4",
+    "82a27944aac09f1a",
+    "7f0f3be1f0f4dcf6"
+  ]
+}

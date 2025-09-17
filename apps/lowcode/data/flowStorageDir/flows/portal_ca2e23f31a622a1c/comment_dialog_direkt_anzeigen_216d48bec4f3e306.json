@@ -1,0 +1,9 @@
+{
+  "id": "216d48bec4f3e306",
+  "type": "comment",
+  "z": "ca2e23f31a622a1c",
+  "name": "Dialog direkt anzeigen",
+  "g": "45d4cb29ec64d4c4",
+  "wires": [],
+  "info": "- wenn CorrelationId == msg._client.socketId\n\n"
+}

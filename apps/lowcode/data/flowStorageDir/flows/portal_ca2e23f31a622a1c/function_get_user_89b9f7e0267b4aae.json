@@ -1,0 +1,19 @@
+{
+  "id": "89b9f7e0267b4aae",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "get user",
+  "func": "msg.target = \"notification\";\n\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "45d4cb29ec64d4c4",
+  "wires": [
+    [
+      "0ffe355b34f0f3e0"
+    ]
+  ]
+}

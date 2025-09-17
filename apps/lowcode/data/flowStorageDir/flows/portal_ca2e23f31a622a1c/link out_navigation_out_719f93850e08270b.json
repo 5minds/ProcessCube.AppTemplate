@@ -1,0 +1,10 @@
+{
+  "id": "719f93850e08270b",
+  "type": "link out",
+  "z": "ca2e23f31a622a1c",
+  "name": "navigation out",
+  "mode": "return",
+  "links": [],
+  "g": "6f350abd5e1475cc",
+  "wires": []
+}

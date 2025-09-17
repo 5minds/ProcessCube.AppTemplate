@@ -1,0 +1,19 @@
+{
+  "id": "9302baba696e53be",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "get action",
+  "func": "\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "967d7bb42c23c704",
+  "wires": [
+    [
+      "74d1b8f08d5c2cdd"
+    ]
+  ]
+}

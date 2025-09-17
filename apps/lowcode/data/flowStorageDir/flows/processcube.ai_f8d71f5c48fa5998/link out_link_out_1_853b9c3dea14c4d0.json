@@ -1,0 +1,12 @@
+{
+  "id": "853b9c3dea14c4d0",
+  "type": "link out",
+  "z": "f8d71f5c48fa5998",
+  "name": "link out 1",
+  "mode": "link",
+  "links": [
+    "05ed5e97bc789b4d"
+  ],
+  "g": "096175e7e868d9e0",
+  "wires": []
+}

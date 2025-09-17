@@ -1,0 +1,16 @@
+{
+  "id": "d566f69adfb3cac0",
+  "type": "usertask-input",
+  "z": "f49f3b83269a97d4",
+  "name": "",
+  "engine": "ba20533f27a1b167",
+  "query": "payload",
+  "query_type": "msg",
+  "sendtype": "first",
+  "g": "547fb7c154795b80",
+  "wires": [
+    [
+      "2cabed897f46e589"
+    ]
+  ]
+}

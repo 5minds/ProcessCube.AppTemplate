@@ -1,0 +1,15 @@
+{
+  "id": "22bc9c7878ada582",
+  "type": "usertask-output",
+  "z": "f49f3b83269a97d4",
+  "name": "finish UserTask",
+  "engine": "ba20533f27a1b167",
+  "result": "payload.formData",
+  "result_type": "msg",
+  "g": "547fb7c154795b80",
+  "wires": [
+    [
+      "f8d3e4a8edd7b0b2"
+    ]
+  ]
+}

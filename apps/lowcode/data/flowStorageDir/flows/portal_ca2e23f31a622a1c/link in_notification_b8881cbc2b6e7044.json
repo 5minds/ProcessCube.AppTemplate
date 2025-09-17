@@ -1,0 +1,13 @@
+{
+  "id": "b8881cbc2b6e7044",
+  "type": "link in",
+  "z": "ca2e23f31a622a1c",
+  "name": "notification",
+  "links": [],
+  "g": "6f350abd5e1475cc",
+  "wires": [
+    [
+      "20ba9661363af8d5"
+    ]
+  ]
+}

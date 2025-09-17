@@ -1,0 +1,19 @@
+{
+  "id": "9c9c15cc9145c908",
+  "type": "function",
+  "z": "ca2e23f31a622a1c",
+  "name": "Claims",
+  "func": "const claims = msg._client.user.claims;\n\nmsg.payload = [];\n\nObject.entries(claims).forEach(([name, value]) => {\n\n    msg.payload.push(\n        {\n            \"Name\": name,\n            \"Wert\": value\n        }\n    )\n\n});\n\nmsg.payload = msg.payload.sort((a, b) => a.Name.localeCompare(b.Name, \"de\", { sensitivity: \"base\" }))\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "6f350abd5e1475cc",
+  "wires": [
+    [
+      "3444b96b2abd244c"
+    ]
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "c0ed620e62f5e11f",
+  "type": "e-mail",
+  "z": "28bce906c0d46bbe",
+  "server": "smtp.gmail.com",
+  "port": "465",
+  "authtype": "BASIC",
+  "saslformat": true,
+  "token": "oauth2Response.access_token",
+  "secure": true,
+  "tls": true,
+  "name": "",
+  "dname": "",
+  "g": "38e93d9360c8e017",
+  "wires": []
+}

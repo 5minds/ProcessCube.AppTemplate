@@ -1,0 +1,17 @@
+{
+  "id": "096175e7e868d9e0",
+  "type": "group",
+  "z": "f8d71f5c48fa5998",
+  "name": "ProcessCube.ai Chat",
+  "style": {
+    "label": true
+  },
+  "nodes": [
+    "ad8e57fd93491fcb",
+    "47b34bca1c595d45",
+    "853b9c3dea14c4d0",
+    "ad79b56b02b3697f",
+    "107e43f474712488",
+    "c2c3be6c9bfc4aa3"
+  ]
+}

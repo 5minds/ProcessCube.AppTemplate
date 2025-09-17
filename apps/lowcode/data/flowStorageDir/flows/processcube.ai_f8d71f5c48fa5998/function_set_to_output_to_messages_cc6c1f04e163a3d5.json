@@ -1,0 +1,19 @@
+{
+  "id": "cc6c1f04e163a3d5",
+  "type": "function",
+  "z": "f8d71f5c48fa5998",
+  "name": "set to output to messages",
+  "func": "const key = `messages-${msg.userId}`;\nconst messages = global.get(key) ?? [];\n\nconst toolMessage = msg.payload[0].output;\nconst toolCallId = msg.payload[0].tool_call_id\n\nmessages.push({\n    \"role\": \"tool\",\n    \"content\": toolMessage,\n    \"tool_call_id\": toolCallId\n});\n\nglobal.set(key, messages);\n\nreturn msg;",
+  "outputs": 1,
+  "timeout": 0,
+  "noerr": 0,
+  "initialize": "",
+  "finalize": "",
+  "libs": [],
+  "g": "40924ad744fda798",
+  "wires": [
+    [
+      "c599400031bd9a72"
+    ]
+  ]
+}

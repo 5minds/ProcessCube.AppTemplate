@@ -1,0 +1,16 @@
+{
+  "id": "d01922275b7e42bf",
+  "type": "group",
+  "z": "f49f3b83269a97d4",
+  "name": "Beispiel Lookup's",
+  "style": {
+    "label": true
+  },
+  "nodes": [
+    "5ac9f8b7491ee6f0",
+    "8d0b6baea613ceef",
+    "6ebc41b5f45c024b",
+    "2db2fa0a0f1fdf2b",
+    "d5bafbf03ecc2c3a"
+  ]
+}
