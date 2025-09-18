@@ -89,6 +89,8 @@ services:
       - NODERED_HTTP_STATIC=/data/static/
       - NODERED_CUSTOM_SETTINGS=/lowcode/src/custom_settings.js
       - NODERED_NAME=LowCode Docker
+      - NODERED_DASHBOARD_SHOW_NOTIFICATION=false
+      - NODERED_DIRECT_TASK_EDIT=true
       #- NODERED_THEME=
       - NODERED_PORT=1880
       - ENGINE_URL=http://engine:8000
