@@ -1,0 +1,290 @@
+id: 25da589dc1e669d4
+type: tab
+label: Rest API zum Portal
+disabled: true
+info: ''
+env: []
+order: 3
+nodes:
+  - id: 2ee555d9b68ca141
+    type: group
+    z: 25da589dc1e669d4
+    x: 14
+    'y': 19
+    w: 1052
+    h: 162
+    style:
+      stroke: '#5d5d5d'
+      stroke-opacity: '1'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      label-position: nw
+      color: '#e2e8f0'
+    nodes:
+      - 89e872af5027b0cd
+      - c297bd3fc1486984
+      - cb0997e6774c4288
+      - 4f16f0ec6315a21d
+      - 13acdc63f7b1b786
+      - 6d2a9f67b5998e20
+      - 27314c6391a6e6de
+  - id: 89e872af5027b0cd
+    type: comment
+    z: 25da589dc1e669d4
+    name: Liste der Prozesse ausgeben
+    x: 160
+    'y': 60
+    g: 2ee555d9b68ca141
+    wires: []
+  - id: c297bd3fc1486984
+    type: http in
+    z: 25da589dc1e669d4
+    name: Liste der Prozesse
+    url: /list_processes
+    method: get
+    upload: false
+    swaggerDoc: 0842cd9b6ece25fc
+    x: 130
+    'y': 140
+    g: 2ee555d9b68ca141
+    wires:
+      - - 4f16f0ec6315a21d
+        - cb0997e6774c4288
+  - id: cb0997e6774c4288
+    type: debug
+    z: 25da589dc1e669d4
+    name: debug 5
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 280
+    'y': 100
+    g: 2ee555d9b68ca141
+    wires: []
+  - id: 4f16f0ec6315a21d
+    type: processdefinition-query
+    z: 25da589dc1e669d4
+    name: load Processes
+    engine: ba20533f27a1b167
+    query: payload
+    query_type: msg
+    models_only: true
+    x: 340
+    'y': 140
+    g: 2ee555d9b68ca141
+    wires:
+      - - 13acdc63f7b1b786
+  - id: 13acdc63f7b1b786
+    type: function
+    z: 25da589dc1e669d4
+    name: filter 'cannot_start_in_portal'
+    func: |-
+      const result = [];
+
+      (msg.payload.models || []).forEach(function(model) {
+
+          if (model.customProperties['cannot_start_in_portal'] === undefined) {
+              result.push(model);
+          }
+      });
+
+
+      msg.payload = result;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 580
+    'y': 140
+    g: 2ee555d9b68ca141
+    wires:
+      - - 6d2a9f67b5998e20
+  - id: 6d2a9f67b5998e20
+    type: function
+    z: 25da589dc1e669d4
+    name: find start events
+    func: |-
+      const result = [];
+
+      msg.payload.forEach(function(model) {
+
+          if (model && model.isExecutable) {
+
+              let model_category = "-";
+
+              if (model.customProperties['model_category']) {
+                  model_category = model.customProperties['model_category'];
+              };
+
+              model.startEvents.forEach(function(startEvent) {
+
+                  const entry = {
+                      "modelCategory": model_category,
+                      "processModelId": model.processModelId,
+                      "processModelName": model.processModelName,
+                      "startEventId": startEvent.id,
+                      "startEventName": startEvent.name
+                  };
+
+                  result.push(entry);
+
+              });
+          }
+      });
+
+      msg.payload = result;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 820
+    'y': 140
+    g: 2ee555d9b68ca141
+    wires:
+      - - 27314c6391a6e6de
+  - id: 27314c6391a6e6de
+    type: http response
+    z: 25da589dc1e669d4
+    name: ''
+    statusCode: ''
+    headers: {}
+    x: 990
+    'y': 140
+    g: 2ee555d9b68ca141
+    wires: []
+  - id: ce13543f82bd42c4
+    type: group
+    z: 25da589dc1e669d4
+    x: 14
+    'y': 199
+    w: 832
+    h: 222
+    style:
+      stroke: '#5d5d5d'
+      stroke-opacity: '1'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      label-position: nw
+      color: '#e2e8f0'
+    nodes:
+      - 9b75e7c702530df7
+      - e54a6240d286847c
+      - c549a320522b414b
+      - 61f3bebac5289ae4
+      - c1d570f4b2338a9f
+      - bc2a85da7613c5d4
+      - a78b1a01026aea45
+  - id: 9b75e7c702530df7
+    type: comment
+    z: 25da589dc1e669d4
+    name: Startet ein Prozess
+    x: 130
+    'y': 240
+    g: ce13543f82bd42c4
+    wires: []
+  - id: e54a6240d286847c
+    type: http in
+    z: 25da589dc1e669d4
+    name: ''
+    url: /start_process
+    method: post
+    upload: false
+    swaggerDoc: 0e3b1485f2fdfc32
+    x: 130
+    'y': 300
+    g: ce13543f82bd42c4
+    wires:
+      - - c549a320522b414b
+        - a78b1a01026aea45
+  - id: c549a320522b414b
+    type: function
+    z: 25da589dc1e669d4
+    name: set process start parameters
+    func: |-
+      msg.processModelId = msg.req.query.processModelId;
+      msg.startEventId = msg.req.query.startEventId;
+
+      msg.payload = {};
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 380
+    'y': 300
+    g: ce13543f82bd42c4
+    wires:
+      - - 61f3bebac5289ae4
+        - bc2a85da7613c5d4
+  - id: 61f3bebac5289ae4
+    type: process-start
+    z: 25da589dc1e669d4
+    name: ''
+    engine: ba20533f27a1b167
+    processmodel: ''
+    startevent: ''
+    x: 610
+    'y': 300
+    g: ce13543f82bd42c4
+    wires:
+      - - c1d570f4b2338a9f
+  - id: c1d570f4b2338a9f
+    type: http response
+    z: 25da589dc1e669d4
+    name: ''
+    statusCode: ''
+    headers: {}
+    x: 770
+    'y': 300
+    g: ce13543f82bd42c4
+    wires: []
+  - id: bc2a85da7613c5d4
+    type: debug
+    z: 25da589dc1e669d4
+    name: debug 11
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 550
+    'y': 380
+    g: ce13543f82bd42c4
+    wires: []
+  - id: a78b1a01026aea45
+    type: debug
+    z: 25da589dc1e669d4
+    name: debug 1
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 300
+    'y': 360
+    g: ce13543f82bd42c4
+    wires: []

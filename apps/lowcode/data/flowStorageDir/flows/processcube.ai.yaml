@@ -1,0 +1,877 @@
+id: f8d71f5c48fa5998
+type: tab
+label: ProcessCube.ai
+disabled: true
+info: ''
+env: []
+order: 6
+nodes:
+  - id: 096175e7e868d9e0
+    type: group
+    z: f8d71f5c48fa5998
+    name: ProcessCube.ai Chat
+    x: 54
+    'y': 39
+    w: 432
+    h: 182
+    style:
+      label: true
+    nodes:
+      - 107e43f474712488
+      - ad8e57fd93491fcb
+      - c2c3be6c9bfc4aa3
+      - 47b34bca1c595d45
+      - ad79b56b02b3697f
+      - 853b9c3dea14c4d0
+  - id: 107e43f474712488
+    type: ui-template
+    z: f8d71f5c48fa5998
+    d: true
+    group: 5dc0c511cc243abf
+    page: ''
+    ui: ''
+    name: reset
+    order: 1
+    width: '6'
+    height: '1'
+    head: ''
+    format: |-
+      <template>
+          <div>
+              <v-btn @click="newMail()">Neu</v-btn>
+          </div>
+      </template>
+
+      <script>
+          export default {
+
+              methods: {
+                  // expose a method to our <template> and Vue Application
+                  newMail: function () {
+                      this.send('Button clicked')
+                  }
+              }
+          }
+      </script>
+      <style>
+          /* define any styles here - supports raw CSS */
+          .my-class {
+              color: red;
+          }
+      </style>
+    storeOutMessages: true
+    passthru: true
+    resendOnRefresh: true
+    templateScope: local
+    className: ''
+    x: 130
+    'y': 80
+    g: 096175e7e868d9e0
+    wires:
+      - - ad8e57fd93491fcb
+  - id: ad8e57fd93491fcb
+    type: function
+    z: f8d71f5c48fa5998
+    name: remove thread id
+    func: |-
+      global.set("messages", null);
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 370
+    'y': 80
+    g: 096175e7e868d9e0
+    wires:
+      - []
+  - id: c2c3be6c9bfc4aa3
+    type: ui-template
+    z: f8d71f5c48fa5998
+    group: ''
+    page: ''
+    ui: 9f39f3effcdcb077
+    name: toolbar action button
+    order: 1
+    width: 0
+    height: 0
+    head: ''
+    format: |
+      <template>    
+          <Teleport v-if="mounted && $route.path === '/dashboard/processcube_ai'" to="#app-bar-processcube-actions">
+              <div class="teleported-box inline-flex items-center">
+                  <v-btn @click="send({payload: 'Hello World'})" variant="flat" prepend-icon="mdi-reload">ProcessCube.ai zurücksetzen</v-btn>
+                  <v-divider class="mx-3 align-self-center" length="24" thickness="2" vertical></v-divider>
+              </div>
+          </Teleport>
+      </template>
+      <script>
+          export default {
+              data() {
+                  return {
+                      mounted: false
+                  }
+              },
+              mounted() {
+                  this.mounted = true
+              }
+          }
+      </script>
+    storeOutMessages: true
+    passthru: false
+    resendOnRefresh: true
+    templateScope: widget:ui
+    className: ''
+    x: 180
+    'y': 120
+    g: 096175e7e868d9e0
+    wires:
+      - - ad8e57fd93491fcb
+  - id: 47b34bca1c595d45
+    type: link in
+    z: f8d71f5c48fa5998
+    name: link in 1
+    links:
+      - 721f1ee7835a517e
+    x: 145
+    'y': 180
+    g: 096175e7e868d9e0
+    wires:
+      - - ad79b56b02b3697f
+  - id: ad79b56b02b3697f
+    type: ui-deepchat
+    z: f8d71f5c48fa5998
+    group: 5dc0c511cc243abf
+    name: ''
+    order: 2
+    width: '12'
+    height: '18'
+    introMessage: Moin. Wie kann ich helfen?
+    placeholder: Type a message...
+    model: custom
+    speechToText: true
+    camera: true
+    attachments: true
+    avatars: true
+    names: true
+    timestamps: false
+    stream: false
+    x: 270
+    'y': 180
+    g: 096175e7e868d9e0
+    wires:
+      - - 853b9c3dea14c4d0
+  - id: 853b9c3dea14c4d0
+    type: link out
+    z: f8d71f5c48fa5998
+    name: link out 1
+    mode: link
+    links:
+      - 05ed5e97bc789b4d
+    x: 395
+    'y': 180
+    g: 096175e7e868d9e0
+    wires: []
+  - id: 40924ad744fda798
+    type: group
+    z: f8d71f5c48fa5998
+    name: ProcessCube.ai Assistant
+    x: 54
+    'y': 259
+    w: 1612
+    h: 482
+    style:
+      label: true
+    nodes:
+      - 05ed5e97bc789b4d
+      - 073236adbb6fe648
+      - c599400031bd9a72
+      - 859fa25ced89dbf9
+      - 02826b470fbff62b
+      - c6914010dbfd53d5
+      - 1d36dff82545b1d4
+      - e6defa733e9ce2db
+      - cba5fc381f6dd9c4
+      - fc999ae14f92f0e7
+      - b9779421c4578acf
+      - 721f1ee7835a517e
+      - d5525e909b5ca86b
+      - 5513bbbdfae58604
+      - c153fe99837f4bbf
+      - cc6c1f04e163a3d5
+      - d5c47ade27524692
+      - 15f818ee9b3aa077
+      - 2668138e476237c0
+      - 55cdfa3709aec799
+  - id: 05ed5e97bc789b4d
+    type: link in
+    z: f8d71f5c48fa5998
+    name: call assistant
+    links:
+      - 853b9c3dea14c4d0
+    x: 95
+    'y': 480
+    g: 40924ad744fda798
+    wires:
+      - - 073236adbb6fe648
+  - id: 073236adbb6fe648
+    type: function
+    z: f8d71f5c48fa5998
+    name: remember messages
+    func: |-
+      msg.userId = msg._client.user.id;
+      const key = `messages-${msg.userId}`;
+      const messages = global.get(key) ?? [];
+      messages.push(msg.payload.messages[msg.payload.messages.length -1]);
+
+      global.set(key, messages);
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 260
+    'y': 480
+    g: 40924ad744fda798
+    wires:
+      - - c599400031bd9a72
+  - id: c599400031bd9a72
+    type: list-mcp-tools
+    z: f8d71f5c48fa5998
+    name: get tools
+    x: 420
+    'y': 360
+    g: 40924ad744fda798
+    wires:
+      - - 02826b470fbff62b
+        - 859fa25ced89dbf9
+  - id: 859fa25ced89dbf9
+    type: debug
+    z: f8d71f5c48fa5998
+    name: get tools
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: payload
+    targetType: msg
+    statusVal: ''
+    statusType: auto
+    x: 600
+    'y': 300
+    g: 40924ad744fda798
+    wires: []
+  - id: 02826b470fbff62b
+    type: function
+    z: f8d71f5c48fa5998
+    name: create chat request
+    func: |-
+      const key = `messages-${msg.userId}`;
+      msg.payload = {
+          "model": "gpt-oss-processcube",
+          "messages": global.get(key),
+          "tools": msg.payload
+      }
+
+
+      msg.url = 'http://host.docker.internal:11434/v1/chat/completions'
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 610
+    'y': 360
+    g: 40924ad744fda798
+    wires:
+      - - 1d36dff82545b1d4
+        - c6914010dbfd53d5
+  - id: c6914010dbfd53d5
+    type: debug
+    z: f8d71f5c48fa5998
+    name: create chat request
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: payload.messages
+    targetType: msg
+    statusVal: ''
+    statusType: auto
+    x: 830
+    'y': 300
+    g: 40924ad744fda798
+    wires: []
+  - id: 1d36dff82545b1d4
+    type: http request
+    z: f8d71f5c48fa5998
+    name: request llm
+    method: POST
+    ret: obj
+    paytoqs: ignore
+    url: ''
+    tls: ''
+    persist: false
+    proxy: ''
+    insecureHTTPParser: false
+    authType: ''
+    senderr: false
+    headers: []
+    x: 810
+    'y': 360
+    g: 40924ad744fda798
+    wires:
+      - - cba5fc381f6dd9c4
+        - e6defa733e9ce2db
+  - id: e6defa733e9ce2db
+    type: debug
+    z: f8d71f5c48fa5998
+    name: request llm
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: payload
+    targetType: msg
+    statusVal: ''
+    statusType: auto
+    x: 1070
+    'y': 300
+    g: 40924ad744fda798
+    wires: []
+  - id: cba5fc381f6dd9c4
+    type: function
+    z: f8d71f5c48fa5998
+    name: add message to history
+    func: |-
+      const key = `messages-${msg.userId}`;
+      const messages = global.get(key) ?? [];
+
+      const payload = msg.payload;
+
+      messages.push(payload.choices[0].message);
+      global.set(key, messages);
+
+      msg.payload = payload;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1030
+    'y': 360
+    g: 40924ad744fda798
+    wires:
+      - - fc999ae14f92f0e7
+  - id: fc999ae14f92f0e7
+    type: switch
+    z: f8d71f5c48fa5998
+    name: tools?
+    property: payload.choices[0].finish_reason
+    propertyType: msg
+    rules:
+      - t: eq
+        v: tool_calls
+        vt: str
+      - t: else
+    checkall: 'true'
+    repair: false
+    outputs: 2
+    x: 1230
+    'y': 360
+    g: 40924ad744fda798
+    wires:
+      - - 5513bbbdfae58604
+        - b9779421c4578acf
+      - - d5525e909b5ca86b
+  - id: b9779421c4578acf
+    type: function
+    z: f8d71f5c48fa5998
+    name: create cubi message
+    func: |-
+      const response = msg.payload.choices[0];
+      response.intermediateMessage = true;
+
+      msg.payload = response;
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1460
+    'y': 320
+    g: 40924ad744fda798
+    wires:
+      - - 721f1ee7835a517e
+  - id: 721f1ee7835a517e
+    type: link out
+    z: f8d71f5c48fa5998
+    name: call assistant out
+    mode: link
+    links:
+      - 47b34bca1c595d45
+    x: 1625
+    'y': 340
+    g: 40924ad744fda798
+    wires: []
+  - id: d5525e909b5ca86b
+    type: function
+    z: f8d71f5c48fa5998
+    name: create cubi message
+    func: |-
+      const response = msg.payload.choices[0];
+
+      msg.payload = response;
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1460
+    'y': 380
+    g: 40924ad744fda798
+    wires:
+      - - 721f1ee7835a517e
+  - id: 5513bbbdfae58604
+    type: function
+    z: f8d71f5c48fa5998
+    name: get tools call
+    func: |-
+      const clonedMessage = RED.util.cloneMessage(msg);
+
+      msg.payload = clonedMessage.payload.choices[0].message.tool_calls;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1100
+    'y': 440
+    g: 40924ad744fda798
+    wires:
+      - - c153fe99837f4bbf
+  - id: c153fe99837f4bbf
+    type: call-mcp-tools
+    z: f8d71f5c48fa5998
+    name: call tools
+    x: 1260
+    'y': 440
+    g: 40924ad744fda798
+    wires:
+      - - cc6c1f04e163a3d5
+        - d5c47ade27524692
+  - id: cc6c1f04e163a3d5
+    type: function
+    z: f8d71f5c48fa5998
+    name: set to output to messages
+    func: |-
+      const key = `messages-${msg.userId}`;
+      const messages = global.get(key) ?? [];
+
+      const toolMessage = msg.payload[0].output;
+      const toolCallId = msg.payload[0].tool_call_id
+
+      messages.push({
+          "role": "tool",
+          "content": toolMessage,
+          "tool_call_id": toolCallId
+      });
+
+      global.set(key, messages);
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 710
+    'y': 540
+    g: 40924ad744fda798
+    wires:
+      - - c599400031bd9a72
+  - id: d5c47ade27524692
+    type: debug
+    z: f8d71f5c48fa5998
+    name: call tools
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: payload
+    targetType: msg
+    statusVal: ''
+    statusType: auto
+    x: 1290
+    'y': 560
+    g: 40924ad744fda798
+    wires: []
+  - id: 15f818ee9b3aa077
+    type: catch
+    z: f8d71f5c48fa5998
+    name: ''
+    scope: null
+    uncaught: false
+    x: 940
+    'y': 700
+    g: 40924ad744fda798
+    wires:
+      - - 55cdfa3709aec799
+        - 2668138e476237c0
+  - id: 2668138e476237c0
+    type: function
+    z: f8d71f5c48fa5998
+    name: create cubi error message
+    func: |-
+      msg.payload = {
+          message: {
+              content: msg.error.message
+          }
+      }
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1470
+    'y': 500
+    g: 40924ad744fda798
+    wires:
+      - []
+  - id: 55cdfa3709aec799
+    type: debug
+    z: f8d71f5c48fa5998
+    name: error raised
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 1140
+    'y': 700
+    g: 40924ad744fda798
+    wires: []
+  - id: d147108fc00efd42
+    type: group
+    z: f8d71f5c48fa5998
+    name: Processes Tools
+    x: 54
+    'y': 779
+    w: 652
+    h: 162
+    style:
+      label: true
+    nodes:
+      - 25c524bff805c6cd
+      - cd31bf381a925e1d
+      - 18e1eab0299dc96e
+      - ec498fa38b8cd15c
+      - 1d7f23133a2ddcbe
+  - id: 25c524bff805c6cd
+    type: processes-tools-input
+    z: f8d71f5c48fa5998
+    name: ''
+    engine: e021764f5dd07272
+    x: 180
+    'y': 820
+    g: d147108fc00efd42
+    wires:
+      - - cd31bf381a925e1d
+  - id: cd31bf381a925e1d
+    type: process-start
+    z: f8d71f5c48fa5998
+    name: ''
+    engine: e021764f5dd07272
+    processmodel: ''
+    startevent: ''
+    correlationId: ''
+    x: 440
+    'y': 820
+    g: d147108fc00efd42
+    wires:
+      - - 18e1eab0299dc96e
+  - id: 18e1eab0299dc96e
+    type: processes-tools-output
+    z: f8d71f5c48fa5998
+    name: Output
+    x: 630
+    'y': 820
+    g: d147108fc00efd42
+    wires: []
+  - id: ec498fa38b8cd15c
+    type: catch
+    z: f8d71f5c48fa5998
+    name: ''
+    scope: group
+    uncaught: false
+    x: 370
+    'y': 900
+    g: d147108fc00efd42
+    wires:
+      - - 1d7f23133a2ddcbe
+  - id: 1d7f23133a2ddcbe
+    type: processes-tools-error
+    z: f8d71f5c48fa5998
+    name: ''
+    x: 580
+    'y': 900
+    g: d147108fc00efd42
+    wires: []
+  - id: 14f12cff6783b85b
+    type: group
+    z: f8d71f5c48fa5998
+    name: Finish UserTask Tools
+    x: 54
+    'y': 979
+    w: 1062
+    h: 222
+    style:
+      label: true
+    nodes:
+      - e1df01ec9caba482
+      - a7ad5d96c4e49d6f
+      - 68adf94a9e283c20
+      - 31b5de32794cf4de
+      - debef2bda5140f25
+      - 0b502a332eb5e0c5
+      - 77242d89b21873fa
+      - e08a29db1b4cec3a
+      - 5e93cc40882d4727
+  - id: e1df01ec9caba482
+    type: finish-usertask-tools-input
+    z: f8d71f5c48fa5998
+    name: ''
+    engine: e021764f5dd07272
+    x: 190
+    'y': 1020
+    g: 14f12cff6783b85b
+    wires:
+      - - a7ad5d96c4e49d6f
+        - 77242d89b21873fa
+  - id: a7ad5d96c4e49d6f
+    type: switch
+    z: f8d71f5c48fa5998
+    name: ''
+    property: payload.userTask.flowNodeInstanceId
+    propertyType: msg
+    rules:
+      - t: nnull
+      - t: else
+    checkall: 'true'
+    repair: false
+    outputs: 2
+    x: 380
+    'y': 1020
+    g: 14f12cff6783b85b
+    wires:
+      - - 68adf94a9e283c20
+      - - debef2bda5140f25
+  - id: 68adf94a9e283c20
+    type: usertask-output
+    z: f8d71f5c48fa5998
+    name: ''
+    engine: e021764f5dd07272
+    result: result
+    result_type: msg
+    x: 750
+    'y': 1020
+    g: 14f12cff6783b85b
+    wires:
+      - - 31b5de32794cf4de
+  - id: 31b5de32794cf4de
+    type: finish-usertask-tools-output
+    z: f8d71f5c48fa5998
+    name: ''
+    x: 970
+    'y': 1020
+    g: 14f12cff6783b85b
+    wires: []
+  - id: debef2bda5140f25
+    type: usertask-input
+    z: f8d71f5c48fa5998
+    name: ''
+    engine: e021764f5dd07272
+    query: payload.query
+    query_type: msg
+    sendtype: first
+    x: 550
+    'y': 1080
+    g: 14f12cff6783b85b
+    wires:
+      - - 68adf94a9e283c20
+        - 0b502a332eb5e0c5
+  - id: 0b502a332eb5e0c5
+    type: debug
+    z: f8d71f5c48fa5998
+    name: usertask finished
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: payload
+    targetType: msg
+    statusVal: ''
+    statusType: auto
+    x: 760
+    'y': 1080
+    g: 14f12cff6783b85b
+    wires: []
+  - id: 77242d89b21873fa
+    type: debug
+    z: f8d71f5c48fa5998
+    name: finish usertask
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 330
+    'y': 1100
+    g: 14f12cff6783b85b
+    wires: []
+  - id: e08a29db1b4cec3a
+    type: catch
+    z: f8d71f5c48fa5998
+    name: ''
+    scope: group
+    uncaught: false
+    x: 750
+    'y': 1160
+    g: 14f12cff6783b85b
+    wires:
+      - - 5e93cc40882d4727
+  - id: 5e93cc40882d4727
+    type: finish-usertask-tools-error
+    z: f8d71f5c48fa5998
+    name: ''
+    x: 970
+    'y': 1160
+    g: 14f12cff6783b85b
+    wires: []
+  - id: 85a384553cfede0b
+    type: group
+    z: f8d71f5c48fa5998
+    name: List UserTasks Tools
+    x: 54
+    'y': 1239
+    w: 832
+    h: 222
+    style:
+      label: true
+    nodes:
+      - 6bceab7cca209134
+      - 7bdb44242666b07a
+      - afcf6427228c52d0
+      - b01bc425a047b108
+      - 1dcff39cf1b3c475
+      - 966791d901adbd1c
+      - 1677647d88ba7f6c
+  - id: 6bceab7cca209134
+    type: list-usertasks-tools-input
+    z: f8d71f5c48fa5998
+    name: ''
+    engine: e021764f5dd07272
+    x: 190
+    'y': 1280
+    g: 85a384553cfede0b
+    wires:
+      - - 7bdb44242666b07a
+        - 1dcff39cf1b3c475
+  - id: 7bdb44242666b07a
+    type: usertask-input
+    z: f8d71f5c48fa5998
+    name: ''
+    engine: e021764f5dd07272
+    query: payload.query
+    query_type: msg
+    sendtype: array
+    x: 460
+    'y': 1280
+    g: 85a384553cfede0b
+    wires:
+      - - afcf6427228c52d0
+        - b01bc425a047b108
+  - id: afcf6427228c52d0
+    type: list-usertasks-tools-output
+    z: f8d71f5c48fa5998
+    name: ''
+    x: 740
+    'y': 1280
+    g: 85a384553cfede0b
+    wires: []
+  - id: b01bc425a047b108
+    type: debug
+    z: f8d71f5c48fa5998
+    name: usertask listed
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: payload
+    targetType: msg
+    statusVal: ''
+    statusType: auto
+    x: 580
+    'y': 1340
+    g: 85a384553cfede0b
+    wires: []
+  - id: 1dcff39cf1b3c475
+    type: debug
+    z: f8d71f5c48fa5998
+    name: list usertask
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 330
+    'y': 1340
+    g: 85a384553cfede0b
+    wires: []
+  - id: 966791d901adbd1c
+    type: catch
+    z: f8d71f5c48fa5998
+    name: ''
+    scope: group
+    uncaught: false
+    x: 530
+    'y': 1420
+    g: 85a384553cfede0b
+    wires:
+      - - 1677647d88ba7f6c
+  - id: 1677647d88ba7f6c
+    type: list-usertasks-tools-error
+    z: f8d71f5c48fa5998
+    name: ''
+    x: 750
+    'y': 1420
+    g: 85a384553cfede0b
+    wires: []

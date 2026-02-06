@@ -1,0 +1,15 @@
+id: 6b2051166497428d
+type: ui-theme
+name: ui-base.label.theme 2
+colors:
+  surface: '#ffffff'
+  primary: '#0094ce'
+  bgPage: '#eeeeee'
+  groupBg: '#ffffff'
+  groupOutline: '#cccccc'
+sizes:
+  density: default
+  pagePadding: 12px
+  groupGap: 12px
+  groupBorderRadius: 4px
+  widgetGap: 12px

@@ -1,0 +1,96 @@
+<script type="text/javascript">
+  RED.nodes.registerType("form_context", {
+    category: "MyProject",
+    color: "#02AFD6",
+    defaults: {
+      name: { value: "" },
+      useClientContext: { value: false }
+    },
+    inputs: 1,
+    outputs: 1,
+    icon: "font-awesome/fa-database",
+    label: function () {
+      return this.name || "Form Context";
+    }
+  });
+</script>
+
+<script type="text/html" data-template-name="form_context">
+  <div class="form-row">
+    <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Form Context" />
+  </div>
+  <div class="form-row">
+    <label for="node-input-useClientContext"><i class="fa fa-users"></i> Client-Context</label>
+    <input type="checkbox" id="node-input-useClientContext" style="width: auto; margin-left: 5px;" />
+    <span style="margin-left: 10px;">Daten pro Client speichern (msg._client)</span>
+  </div>
+</script>
+
+<script type="text/html" data-help-name="form_context">
+  <p>Ein Context-Storage Node für ProcessCube, der Nachrichten nach Topic speichert und optional nach Client unterscheidet.</p>
+
+  <h3>Eingabe</h3>
+  <dl class="message-properties">
+    <dt>topic <span class="property-type">string</span></dt>
+    <dd>Der Schlüssel, unter dem die Payload gespeichert wird. Bei "action" werden spezielle Befehle ausgeführt.</dd>
+    
+    <dt>payload <span class="property-type">any</span></dt>
+    <dd>Der Wert, der unter dem Topic gespeichert wird, oder ein Action-Befehl ("clear", "send").</dd>
+    
+    <dt class="optional">_client <span class="property-type">string</span></dt>
+    <dd>Client-ID für Dashboard-Kontext. Wird nur verwendet, wenn "Client-Context" aktiviert ist.</dd>
+  </dl>
+  
+  <h3>Ausgabe</h3>
+  <dl class="message-properties">
+    <dt>Normaler Modus</dt>
+    <dd>Die ursprüngliche Nachricht wird weitergeleitet.</dd>
+    
+    <dt>Action "send"</dt>
+    <dd>msg.payload = { topic1: value1, topic2: value2, ... }<br/>
+        msg.topic = "formData"</dd>
+    
+    <dt>Action "clear"</dt>
+    <dd>Keine Ausgabe. Speicher wird zurückgesetzt.</dd>
+  </dl>
+  
+  <h3>Konfiguration</h3>
+  <dl class="message-properties">
+    <dt>Name <span class="property-type">string</span></dt>
+    <dd>Optionaler Name für den Node.</dd>
+    
+    <dt>Client-Context <span class="property-type">boolean</span></dt>
+    <dd>Wenn aktiviert, werden Daten pro msg._client getrennt gespeichert (für Multi-User-Dashboards).</dd>
+  </dl>
+  
+  <h3>Details</h3>
+  <p>Dieser Node speichert eingehende Nachrichten intern nach Topic. Der gespeicherte Zustand bleibt erhalten, bis er explizit gelöscht wird.</p>
+  
+  <h4>Speicher-Modus</h4>
+  <p>Normale Nachrichten werden nach ihrem Topic gespeichert:</p>
+  <pre>{ topic: "username", payload: "Max" }
+{ topic: "email", payload: "max@example.com" }</pre>
+  
+  <h4>Action-Befehle (msg.topic = "action")</h4>
+  <ul>
+    <li><b>clear:</b> Löscht alle gespeicherten Daten (oder nur für einen Client)</li>
+    <li><b>send:</b> Gibt alle gespeicherten Daten als Objekt aus</li>
+  </ul>
+  
+  <h3>Beispiel</h3>
+  <p><b>Ohne Client-Context:</b></p>
+  <pre>IN:  { topic: "name", payload: "Alice" }
+IN:  { topic: "age", payload: 30 }
+IN:  { topic: "action", payload: "send" }
+OUT: { topic: "formData", payload: { name: "Alice", age: 30 } }</pre>
+  
+  <p><b>Mit Client-Context:</b></p>
+  <pre>IN:  { topic: "name", payload: "Bob", _client: "user1" }
+IN:  { topic: "name", payload: "Alice", _client: "user2" }
+IN:  { topic: "action", payload: "send", _client: "user1" }
+OUT: { topic: "formData", payload: { name: "Bob" }, _client: "user1" }</pre>
+  
+  <h3>Weitere Informationen</h3>
+  <p>Weitere Beispiele und Dokumentation finden Sie im <a href="https://github.com/5minds/ProcessCube.AppTemplate" target="_blank">ProcessCube.AppTemplate Repository</a>.</p>
+</script>

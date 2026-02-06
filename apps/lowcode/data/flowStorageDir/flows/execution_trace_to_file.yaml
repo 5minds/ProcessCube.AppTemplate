@@ -1,0 +1,157 @@
+id: deb37cb7927e0951
+type: tab
+label: Execution Trace to File
+disabled: true
+info: ''
+env: []
+order: 8
+nodes:
+  - id: 13e6928de6dab9b4
+    type: group
+    z: deb37cb7927e0951
+    name: Execution trace to csv file
+    x: 34
+    'y': 19
+    w: 792
+    h: 162
+    style:
+      label: true
+    nodes:
+      - 14fdd2c29eaf2178
+      - 60be76146baae773
+      - eb56c62a9ff35bf9
+      - 747290e8b9f9d9b3
+      - 0652a1f42a1dde13
+  - id: 14fdd2c29eaf2178
+    type: execution-trace
+    z: deb37cb7927e0951
+    d: true
+    name: ''
+    with_msg: true
+    hook_types:
+      - preDeliver
+      - onReceive
+    complete: payload
+    targetType: msg
+    x: 140
+    'y': 60
+    g: 13e6928de6dab9b4
+    wires:
+      - - 60be76146baae773
+        - 0652a1f42a1dde13
+  - id: 60be76146baae773
+    type: csv
+    z: deb37cb7927e0951
+    name: ''
+    spec: rfc
+    sep: ','
+    hdrin: ''
+    hdrout: none
+    multi: one
+    ret: \r\n
+    temp: ''
+    skip: '0'
+    strings: true
+    include_empty_strings: ''
+    include_null_values: ''
+    x: 310
+    'y': 60
+    g: 13e6928de6dab9b4
+    wires:
+      - - eb56c62a9ff35bf9
+  - id: eb56c62a9ff35bf9
+    type: file
+    z: deb37cb7927e0951
+    name: ''
+    filename: /data/event_log.csv
+    filenameType: str
+    appendNewline: false
+    createDir: false
+    overwriteFile: 'false'
+    encoding: none
+    x: 490
+    'y': 60
+    g: 13e6928de6dab9b4
+    wires:
+      - - 747290e8b9f9d9b3
+  - id: 747290e8b9f9d9b3
+    type: debug
+    z: deb37cb7927e0951
+    name: execution trace
+    active: false
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 700
+    'y': 60
+    g: 13e6928de6dab9b4
+    wires: []
+  - id: 0652a1f42a1dde13
+    type: debug
+    z: deb37cb7927e0951
+    name: execute trace debug
+    active: false
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 360
+    'y': 140
+    g: 13e6928de6dab9b4
+    wires: []
+  - id: 4d227984678b0941
+    type: group
+    z: deb37cb7927e0951
+    name: Simple test execution
+    x: 34
+    'y': 219
+    w: 372
+    h: 82
+    style:
+      label: true
+    nodes:
+      - 5dba7c799491f1a3
+      - 98732c7738fcfd45
+  - id: 5dba7c799491f1a3
+    type: inject
+    z: deb37cb7927e0951
+    name: myName
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: ''
+    payloadType: date
+    x: 140
+    'y': 260
+    g: 4d227984678b0941
+    wires:
+      - - 98732c7738fcfd45
+  - id: 98732c7738fcfd45
+    type: debug
+    z: deb37cb7927e0951
+    name: debug 10
+    active: false
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 300
+    'y': 260
+    g: 4d227984678b0941
+    wires: []

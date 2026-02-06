@@ -96,6 +96,8 @@ services:
       - ENGINE_URL=http://engine:8000
       - NODE_RED_ETW_HEARTBEAT_LOGGING=true 
       - _NODE_RED_ETW_LONGPOLLING_TIMEOUT=100000
+      - NODERED_FLOW_STORAGE_OUTPUT_FORMAT=yaml
+      - NODERED_FLOW_STORAGE_SAVE_BY_NODE=false
       - PROMETHEUS_COLLECT_DEFAULT_METRICS=true
     volumes:
       - ./apps/lowcode/data:/data

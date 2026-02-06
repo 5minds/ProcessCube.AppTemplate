@@ -1,0 +1,6 @@
+id: 41c8774439df63d1
+type: Service Host
+apiBase: https://api.openai.com/v1
+secureApiKeyHeaderOrQueryName: Authorization
+organizationId: ''
+name: ''

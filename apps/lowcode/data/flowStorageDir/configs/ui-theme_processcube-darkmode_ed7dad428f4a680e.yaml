@@ -1,0 +1,15 @@
+id: ed7dad428f4a680e
+type: ui-theme
+name: ProcessCube-Darkmode
+colors:
+  surface: '#edeaea'
+  primary: '#f2a602'
+  bgPage: '#e5e3e4'
+  groupBg: '#edeaea'
+  groupOutline: '#cacaca'
+sizes:
+  density: compact
+  pagePadding: 6px
+  groupGap: 2px
+  groupBorderRadius: 6px
+  widgetGap: 2px

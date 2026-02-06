@@ -1,0 +1,2743 @@
+id: ca2e23f31a622a1c
+type: tab
+label: Portal
+disabled: false
+info: ''
+env: []
+order: 1
+nodes:
+  - id: 9d369434a5d404a0
+    type: group
+    z: ca2e23f31a622a1c
+    name: Prozesse anzeigen + ausführen
+    x: 34
+    'y': 39
+    w: 1642
+    h: 342
+    style:
+      stroke: '#5d5d5d'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      color: '#e2e8f0'
+    nodes:
+      - 8fb02bbf0a73a7f5
+      - 99f157f562dc9074
+      - d58c04623307647d
+      - f14d0c588572c2ec
+      - 478570a2cf0a6629
+      - 5c2bfbb66d2c29f0
+      - 1bcad188983ce141
+      - 60e8ba395df4e52f
+      - 440a1262579fdf0e
+      - a0940ba7c2d8c4ed
+      - a41de7c302f96c64
+      - 49fddf8b3bf9f25e
+      - a31ed267ec28bf3a
+      - a1bbe3fd43641a2d
+      - 312dd60927bcd5cc
+      - c9689bf649835d86
+      - 7aeff44d190d4c63
+      - 3e974ec4d356249f
+      - 33342ac96db75b42
+      - 909136c54aacaacf
+  - id: 8fb02bbf0a73a7f5
+    type: ui-page-navigation
+    z: ca2e23f31a622a1c
+    page: 8ec9ac9d035ff412
+    name: visit /processes
+    event: $pageview
+    x: 140
+    'y': 120
+    g: 9d369434a5d404a0
+    wires:
+      - - d58c04623307647d
+        - 99f157f562dc9074
+  - id: 99f157f562dc9074
+    type: debug
+    z: ca2e23f31a622a1c
+    name: visit /processes
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 420
+    'y': 80
+    g: 9d369434a5d404a0
+    wires: []
+  - id: d58c04623307647d
+    type: processdefinition-query
+    z: ca2e23f31a622a1c
+    name: load Processes
+    engine: ba20533f27a1b167
+    query: payload
+    query_type: msg
+    models_only: true
+    x: 420
+    'y': 120
+    g: 9d369434a5d404a0
+    wires:
+      - - f14d0c588572c2ec
+  - id: f14d0c588572c2ec
+    type: function
+    z: ca2e23f31a622a1c
+    name: build metadata cache
+    func: |-
+      const cache = {};
+
+      const models = msg.payload.models || [];
+
+      models.forEach(function(model) {
+
+          const flowNodes = model.flowNodes || [];
+
+          if (model && model.isExecutable) {
+
+              flowNodes.forEach(function(flowNode) {
+                  
+                  const processModelId = flowNode.processModelId;
+                  const flowNodeId = flowNode.id;
+
+                  const key = `${processModelId}_${flowNodeId}`;
+
+                  const description = flowNode.customProperties["engine.setCorrelationMetadata.description"];
+                  const progressDescription = flowNode.customProperties["engine.setCorrelationMetadata.progressDescription"];
+
+                  cache[key] = {
+                      description: description,
+                      progressDescription: progressDescription
+                  };
+              });
+          }
+      });
+
+      const socketId = msg._client?.socketId || "";
+
+      global.set(`flownode_cache_${socketId}`, cache);
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 640
+    'y': 120
+    g: 9d369434a5d404a0
+    wires:
+      - - 478570a2cf0a6629
+  - id: 478570a2cf0a6629
+    type: function
+    z: ca2e23f31a622a1c
+    name: filter 'cannot_start_in_portal'
+    func: |-
+      const result = [];
+
+      (msg.payload.models || []).forEach(function(model) {
+
+          if (model.customProperties['cannot_start_in_portal'] === undefined) {
+              result.push(model);
+          }
+      });
+
+
+      msg.payload = result;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 900
+    'y': 120
+    g: 9d369434a5d404a0
+    wires:
+      - - 5c2bfbb66d2c29f0
+  - id: 5c2bfbb66d2c29f0
+    type: function
+    z: ca2e23f31a622a1c
+    name: find start events
+    func: |-
+      const socketId = msg._client?.socketId || "";
+      const cache = global.get(`flownode_cache_${socketId}`) || {};
+
+      const result = [];
+
+      const processTagFieldName = "Process Tag";
+
+      const models = msg.payload || [];
+
+      models.forEach(function(model) {
+
+          if (model && model.isExecutable) {
+
+              let processTag = "-";
+
+              if (model.customProperties[processTagFieldName]) {
+                  processTag = model.customProperties[processTagFieldName];
+              };
+
+              (model.startEvents ?? []).forEach(function(startEvent) {
+
+                  const processModelId = startEvent.processModelId;
+                  const flowNodeId = startEvent.id;
+
+                  const key = `${processModelId}_${flowNodeId}`;
+                  const description = cache[key]?.description || "";
+
+                  const name = model.processModelName || model.processModelId;
+                  const startEventName = startEvent.name || startEvent.id;
+
+                  const entry = {
+                      "processTag": processTag,
+                      "processModelId": model.processModelId,
+                      "processModelName": name,
+                      "description": description,
+                      "startEventId": startEvent.id,
+                      "startEventName": startEventName
+                  };
+
+                  result.push(entry);
+
+              });
+          }
+      });
+
+      // sortieren
+      result.sort((a, b) => {
+          const tagCompare = a.processTag.localeCompare(b.processTag);
+          if (tagCompare !== 0) return tagCompare;
+
+          const modelCompare = a.processModelName.localeCompare(b.processModelName);
+          if (modelCompare !== 0) return modelCompare;
+
+          return a.startEventName.localeCompare(b.startEventName);
+      });
+
+      msg.payload = result;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1140
+    'y': 120
+    g: 9d369434a5d404a0
+    wires:
+      - - 1bcad188983ce141
+  - id: 1bcad188983ce141
+    type: ui-dynamic-table
+    z: ca2e23f31a622a1c
+    name: show Processes
+    tableName: ''
+    group: 40b8cfe0fe1486ed
+    order: 1
+    data: payload
+    data_type: msg
+    options:
+      - label: startEventName
+        label_type: row
+        condition: ''
+      - label: NoAction
+        label_type: str
+        condition: row.processTag==='Rechte'
+    columns:
+      - label: Process Tag
+        value: processTag
+        type: str
+      - label: Prozess
+        value: processModelName
+        type: str
+      - label: Beschreibung
+        value: description
+        type: str
+    width: 0
+    height: 0
+    outputs: 2
+    showToolbar: true
+    title_text: Prozesse
+    title_style: ''
+    title_custom_text_styling: ''
+    title_icon: ''
+    x: 1340
+    'y': 120
+    g: 9d369434a5d404a0
+    wires:
+      - - 60e8ba395df4e52f
+      - []
+  - id: 60e8ba395df4e52f
+    type: switch
+    z: ca2e23f31a622a1c
+    name: Reload?
+    property: payload.action
+    propertyType: msg
+    rules:
+      - t: neq
+        v: reload
+        vt: str
+      - t: eq
+        v: reload
+        vt: str
+    checkall: 'true'
+    repair: false
+    outputs: 2
+    x: 1520
+    'y': 120
+    g: 9d369434a5d404a0
+    wires:
+      - - 440a1262579fdf0e
+      - []
+  - id: 440a1262579fdf0e
+    type: link out
+    z: ca2e23f31a622a1c
+    name: Start process (out)
+    mode: link
+    links:
+      - a31ed267ec28bf3a
+    x: 1635
+    'y': 120
+    g: 9d369434a5d404a0
+    wires: []
+  - id: a0940ba7c2d8c4ed
+    type: process-event-listener
+    z: ca2e23f31a622a1c
+    name: is-exeutable-changed
+    engine: ba20533f27a1b167
+    processmodel: ''
+    eventtype: is-executable-changed
+    query: '{}'
+    query_type: json
+    x: 160
+    'y': 180
+    g: 9d369434a5d404a0
+    wires:
+      - - a41de7c302f96c64
+  - id: a41de7c302f96c64
+    type: link call
+    z: ca2e23f31a622a1c
+    name: get user call
+    links:
+      - b8881cbc2b6e7044
+    linkType: static
+    timeout: '30'
+    x: 410
+    'y': 200
+    g: 9d369434a5d404a0
+    wires:
+      - - d58c04623307647d
+  - id: 49fddf8b3bf9f25e
+    type: process-event-listener
+    z: ca2e23f31a622a1c
+    name: deployed
+    engine: ba20533f27a1b167
+    processmodel: ''
+    eventtype: deployed
+    query: '{}'
+    query_type: json
+    x: 200
+    'y': 240
+    g: 9d369434a5d404a0
+    wires:
+      - - a41de7c302f96c64
+  - id: a31ed267ec28bf3a
+    type: link in
+    z: ca2e23f31a622a1c
+    name: Start process (in)
+    links:
+      - 440a1262579fdf0e
+    x: 925
+    'y': 240
+    g: 9d369434a5d404a0
+    wires:
+      - - a1bbe3fd43641a2d
+  - id: a1bbe3fd43641a2d
+    type: function
+    z: ca2e23f31a622a1c
+    name: build start
+    func: |-
+
+      msg.processModelId = msg.payload.processModelId;
+      msg.processModelName = msg.payload.processModelName;
+
+      msg.startEventId = msg.payload.startEventId;
+      msg.startEventName = msg.payload.startEventName;
+
+      if (msg.payload.correlationId) {
+          msg.correlationId = msg.payload.correlationId;
+      } else {
+          msg.correlationId = msg._client?.socketId;
+
+          const directTaskEdit = (String(env.get("NODERED_DIRECT_TASK_EDIT")).toLowerCase() === "true");
+
+          global.set(`backtoProcesses_${msg._client?.socketId}`, directTaskEdit);
+      }
+
+
+      msg.payload = {};
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1060
+    'y': 240
+    g: 9d369434a5d404a0
+    wires:
+      - - c9689bf649835d86
+        - 312dd60927bcd5cc
+  - id: 312dd60927bcd5cc
+    type: debug
+    z: ca2e23f31a622a1c
+    name: start process
+    active: false
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 1250
+    'y': 200
+    g: 9d369434a5d404a0
+    wires: []
+  - id: c9689bf649835d86
+    type: process-start
+    z: ca2e23f31a622a1c
+    name: ''
+    engine: ba20533f27a1b167
+    processmodel: ''
+    startevent: ''
+    correlationId: ''
+    x: 1250
+    'y': 240
+    g: 9d369434a5d404a0
+    wires:
+      - - 7aeff44d190d4c63
+  - id: 7aeff44d190d4c63
+    type: function
+    z: ca2e23f31a622a1c
+    name: add instance to cache
+    func: |-
+      const cache = global.get('instance_for_client') || {};
+
+      cache[msg.processInstanceIdstring] = msg._client.socketId;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1460
+    'y': 240
+    g: 9d369434a5d404a0
+    wires:
+      - []
+  - id: 3e974ec4d356249f
+    type: process-event-listener
+    z: ca2e23f31a622a1c
+    name: undeployed
+    engine: ba20533f27a1b167
+    processmodel: ''
+    eventtype: undeployed
+    query: '{}'
+    query_type: json
+    x: 190
+    'y': 300
+    g: 9d369434a5d404a0
+    wires:
+      - - a41de7c302f96c64
+  - id: 33342ac96db75b42
+    type: comment
+    z: ca2e23f31a622a1c
+    name: '☝️ Ausblenden aus dem Portal: Prozess-Meta-Attribute ''cannot_start_in_portal'' setzen'
+    x: 660
+    'y': 300
+    g: 9d369434a5d404a0
+    wires: []
+  - id: 909136c54aacaacf
+    type: comment
+    z: ca2e23f31a622a1c
+    name: '☝️ Den Prozess einer Kategory zuordnen: Prozess-Meta-Attribute ''model_category'' mit entsprechendem Wert beschreiben'
+    x: 770
+    'y': 340
+    g: 9d369434a5d404a0
+    wires: []
+  - id: 40de6279b84a1716
+    type: group
+    z: ca2e23f31a622a1c
+    name: Cache handling
+    x: 1724
+    'y': 39
+    w: 342
+    h: 82
+    style:
+      label: true
+    nodes:
+      - f4ad5b6aabd8474a
+      - 0370704601c8dd26
+  - id: f4ad5b6aabd8474a
+    type: ui-control
+    z: ca2e23f31a622a1c
+    name: ''
+    ui: 9f39f3effcdcb077
+    events: connect
+    x: 1810
+    'y': 80
+    g: 40de6279b84a1716
+    wires:
+      - - 0370704601c8dd26
+  - id: 0370704601c8dd26
+    type: debug
+    z: ca2e23f31a622a1c
+    name: debug 6
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 1960
+    'y': 80
+    g: 40de6279b84a1716
+    wires: []
+  - id: 967d7bb42c23c704
+    type: group
+    z: ca2e23f31a622a1c
+    name: UserTasks auflisten (Table)
+    x: 34
+    'y': 419
+    w: 1592
+    h: 262
+    style:
+      stroke: '#5d5d5d'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      color: '#e2e8f0'
+    nodes:
+      - ba9e77a856c7cab6
+      - c3391d78fefd3a9e
+      - aba4c39c263e91a3
+      - ad2aafd3042794ad
+      - 4e9e273b329023c8
+      - 74d1b8f08d5c2cdd
+      - c2bd27904413e887
+      - 128d2326a858bfa3
+      - df5d241902cae7a4
+      - c58a93663d948722
+      - 23ffbc14ea33c034
+      - 6ca6e77640970d8a
+  - id: ba9e77a856c7cab6
+    type: comment
+    z: ca2e23f31a622a1c
+    name: Exception können nicht abgefangen werden
+    x: 1430
+    'y': 480
+    g: 967d7bb42c23c704
+    wires: []
+  - id: c3391d78fefd3a9e
+    type: ui-page-navigation
+    z: ca2e23f31a622a1c
+    page: 817b6d166f33e8f3
+    name: visit /user_tasks
+    event: $pageview
+    x: 140
+    'y': 520
+    g: 967d7bb42c23c704
+    wires:
+      - - ad2aafd3042794ad
+        - aba4c39c263e91a3
+  - id: aba4c39c263e91a3
+    type: debug
+    z: ca2e23f31a622a1c
+    name: visit /user_tasks
+    active: false
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 390
+    'y': 460
+    g: 967d7bb42c23c704
+    wires: []
+  - id: ad2aafd3042794ad
+    type: usertask-input
+    z: ca2e23f31a622a1c
+    name: load UserTask
+    engine: ba20533f27a1b167
+    query: '{"state":"suspended"}'
+    query_type: json
+    sendtype: array
+    x: 420
+    'y': 540
+    g: 967d7bb42c23c704
+    wires:
+      - - 4e9e273b329023c8
+  - id: 4e9e273b329023c8
+    type: function
+    z: ca2e23f31a622a1c
+    name: format fields
+    func: |-
+      function formatDate(date) {
+          // Holen der einzelnen Komponenten des Datums
+          let day = String(date.getDate()).padStart(2, '0');
+          let month = String(date.getMonth() + 1).padStart(2, '0');
+          let year = String(date.getFullYear()); // Nur die letzten zwei Stellen des Jahres
+          let hours = String(date.getHours()).padStart(2, '0');
+          let minutes = String(date.getMinutes()).padStart(2, '0');
+
+          // Formatieren in TT.MM.YY HH:MM
+          return `${day}.${month}.${year} ${hours}:${minutes}`;
+      }
+
+      const socketId = msg._client?.socketId || "";
+      const cache = global.get(`flownode_cache_${socketId}`) || {};
+
+      const userTasks = msg.payload.userTasks || [];
+
+      msg.payload.userTasks = userTasks.map(userTask => {
+          
+          // startedAt
+          const startedAt = new Date(userTask.startedAt);
+          userTask.startedAtFormatted = formatDate(startedAt);
+          
+          // description
+          const processModelId = userTask.processModelId;
+          const flowNodeId = userTask.flowNodeId;
+
+          const key = `${processModelId}_${flowNodeId}`;
+          const description = cache[key]?.description || "";
+          userTask.description = description;
+
+          return userTask;
+      });
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 610
+    'y': 540
+    g: 967d7bb42c23c704
+    wires:
+      - - 74d1b8f08d5c2cdd
+  - id: 74d1b8f08d5c2cdd
+    type: ui-dynamic-table
+    z: ca2e23f31a622a1c
+    name: show UserTask List
+    tableName: ''
+    group: 08a8626b8d3a8326
+    order: 1
+    data: payload.userTasks
+    data_type: msg
+    options:
+      - label: flowNodeName
+        label_type: row
+        condition: ''
+    columns:
+      - label: Prozess
+        value: processModelName
+        type: str
+      - label: Aktiv seit
+        value: startedAtFormatted
+        type: str
+      - label: Correlation ID
+        value: correlationId
+        type: str
+      - label: Beschreibung
+        value: description
+        type: str
+    width: '0'
+    height: '0'
+    outputs: 1
+    showToolbar: true
+    title_text: Aufgaben
+    title_style: ''
+    title_custom_text_styling: ''
+    title_icon: ''
+    x: 810
+    'y': 540
+    g: 967d7bb42c23c704
+    wires:
+      - - c2bd27904413e887
+  - id: c2bd27904413e887
+    type: switch
+    z: ca2e23f31a622a1c
+    name: ''
+    property: payload.action
+    propertyType: msg
+    rules:
+      - t: neq
+        v: reload
+        vt: str
+      - t: eq
+        v: reload
+        vt: str
+    checkall: 'true'
+    repair: false
+    outputs: 2
+    x: 990
+    'y': 540
+    g: 967d7bb42c23c704
+    wires:
+      - - 128d2326a858bfa3
+      - []
+  - id: 128d2326a858bfa3
+    type: function
+    z: ca2e23f31a622a1c
+    name: pre page navigation
+    func: |-
+      global.set(`backtoProcesses_${msg._client?.socketId}`, false);
+
+      let pageName = 'UserTask';
+
+      if (msg.payload.userTaskConfig?.customForm) {
+          pageName = msg.payload.userTaskConfig.customForm;
+      }
+
+      msg.payload = {
+          page: pageName,
+          query: {
+              flowNodeInstanceId: msg.payload.flowNodeInstanceId
+          }
+      };
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1200
+    'y': 540
+    g: 967d7bb42c23c704
+    wires:
+      - - df5d241902cae7a4
+  - id: df5d241902cae7a4
+    type: ui-control
+    z: ca2e23f31a622a1c
+    name: go to taskform
+    ui: 9f39f3effcdcb077
+    events: all
+    x: 1420
+    'y': 540
+    g: 967d7bb42c23c704
+    wires:
+      - []
+  - id: c58a93663d948722
+    type: usertask-event-listener
+    z: ca2e23f31a622a1c
+    name: new UserTask
+    engine: ba20533f27a1b167
+    usertask: ''
+    eventtype: new
+    query: '{}'
+    query_type: json
+    x: 130
+    'y': 580
+    g: 967d7bb42c23c704
+    wires:
+      - - 23ffbc14ea33c034
+  - id: 23ffbc14ea33c034
+    type: link call
+    z: ca2e23f31a622a1c
+    name: get user call
+    links:
+      - b8881cbc2b6e7044
+    linkType: static
+    timeout: '30'
+    x: 370
+    'y': 620
+    g: 967d7bb42c23c704
+    wires:
+      - - ad2aafd3042794ad
+  - id: 6ca6e77640970d8a
+    type: usertask-event-listener
+    z: ca2e23f31a622a1c
+    name: finish UserTask
+    engine: ba20533f27a1b167
+    usertask: ''
+    eventtype: finished
+    query: '{}'
+    query_type: json
+    x: 140
+    'y': 640
+    g: 967d7bb42c23c704
+    wires:
+      - - 23ffbc14ea33c034
+  - id: 1d9402592caecfc1
+    type: group
+    z: ca2e23f31a622a1c
+    name: UserTask bearbeiten (Form)
+    x: 34
+    'y': 719
+    w: 1362
+    h: 542
+    style:
+      stroke: '#5d5d5d'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      color: '#e2e8f0'
+    nodes:
+      - 9479dd92ebc0af66
+      - 539350516590f58a
+      - 944616fa6021619c
+      - c37f1c877e84a577
+      - b4b956a3755f43e3
+      - b0c93f66e4d4e263
+      - 66c6e05b534b1f8a
+      - c3063da116fa8926
+      - f9b640e7b61b5b6a
+      - 241cea973df182e1
+      - 6c50e257e201d2d8
+      - 7c81ccac71e3b27d
+      - a3ad21ae9008e2b0
+      - 8a7e01188fcebbd1
+      - 10d14a1a650cbc21
+      - a9926583b7581f61
+      - 63e7c3088e5fe84c
+      - 1692331ec061c5c4
+      - 40309daf077edc94
+      - cfec3be14f82700d
+      - 4e89c5cf73cc6abc
+      - f73144aa922f5cb3
+      - b9302d88c265b160
+      - bdc265c7d6dd9430
+      - 99b0915e2dce12fa
+      - a7be0aa8d1ceddec
+      - fc0ffe5c482d2e99
+      - 5dd86eb7e28e9b74
+      - 3b9f36322107ac6e
+      - eec44be460f9ea72
+      - 5306f6ecec9c999e
+      - 55456da8b2ab3526
+      - b70fa04ab398ad83
+      - 5c81368e855feb63
+  - id: 9479dd92ebc0af66
+    type: ui-page-navigation
+    z: ca2e23f31a622a1c
+    page: 55f64b58023912fe
+    name: visit /user_task
+    event: $pageview
+    x: 140
+    'y': 820
+    g: 1d9402592caecfc1
+    wires:
+      - - 539350516590f58a
+  - id: 539350516590f58a
+    type: function
+    z: ca2e23f31a622a1c
+    name: build query
+    func: |-
+
+      msg.payload = {
+          "flowNodeInstanceId": msg.payload.query.flowNodeInstanceId
+      }
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 330
+    'y': 820
+    g: 1d9402592caecfc1
+    wires:
+      - - 944616fa6021619c
+  - id: 944616fa6021619c
+    type: usertask-input
+    z: ca2e23f31a622a1c
+    name: ''
+    engine: ba20533f27a1b167
+    query: payload
+    query_type: msg
+    sendtype: first
+    x: 520
+    'y': 820
+    g: 1d9402592caecfc1
+    wires:
+      - - c37f1c877e84a577
+  - id: c37f1c877e84a577
+    type: link call
+    z: ca2e23f31a622a1c
+    name: fill lookup
+    links:
+      - 195fac3374502e53
+    linkType: static
+    timeout: '30'
+    x: 700
+    'y': 820
+    g: 1d9402592caecfc1
+    wires:
+      - - b4b956a3755f43e3
+  - id: b4b956a3755f43e3
+    type: function
+    z: ca2e23f31a622a1c
+    name: get title
+    func: |-
+      let title = msg.payload?.userTask?.flowNodeName || msg.payload?.userTask?.flowNodeId;
+
+      msg.payload.title = title;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 860
+    'y': 820
+    g: 1d9402592caecfc1
+    wires:
+      - - b0c93f66e4d4e263
+        - 241cea973df182e1
+  - id: b0c93f66e4d4e263
+    type: ui-dynamic-form
+    z: ca2e23f31a622a1c
+    name: Aufgabe bearbeiten
+    group: 02d2cfd2e56e99c3
+    order: 1
+    options:
+      - label: Ok
+        condition: form.context.state.valid
+        errorMessage: Eingaben bitte korrigieren.
+        alignment: right
+        primary: primary
+      - label: Abbruch
+        condition: ''
+        errorMessage: ''
+        alignment: left
+        primary: secondary
+      - label: Beenden
+        condition: ''
+        errorMessage: ''
+        alignment: left
+        primary: destructive
+    waiting_title: Warten auf den Usertask...
+    waiting_info: Der Usertask wird automatisch angezeigt, wenn ein entsprechender Task vorhanden ist.
+    form_columns: '1'
+    readonly: false
+    collapsible: false
+    collapse_when_finished: false
+    actions_inside_card: true
+    card_size_styling: ''
+    inner_card_styling: 'max-height: none'
+    title_text: payload.title
+    title_text_type: msg
+    title_style: default
+    title_custom_text_styling: ''
+    title_icon: ''
+    trigger_on_change: false
+    handle_confirmation_dialogs: false
+    confirm_actions:
+      - label: Confirm
+        alignment: right
+        primary: primary
+      - label: Decline
+        alignment: right
+        primary: secondary
+    width: '0'
+    height: '0'
+    outputs: 3
+    x: 1030
+    'y': 820
+    g: 1d9402592caecfc1
+    wires:
+      - - 66c6e05b534b1f8a
+      - - c3063da116fa8926
+      - - f9b640e7b61b5b6a
+  - id: 66c6e05b534b1f8a
+    type: link out
+    z: ca2e23f31a622a1c
+    name: Form speichern (out)
+    mode: link
+    links:
+      - 8a7e01188fcebbd1
+    x: 1195
+    'y': 760
+    g: 1d9402592caecfc1
+    wires: []
+  - id: c3063da116fa8926
+    type: link out
+    z: ca2e23f31a622a1c
+    name: Form abbrechen (out)
+    mode: link
+    links:
+      - 6c50e257e201d2d8
+    x: 1195
+    'y': 820
+    g: 1d9402592caecfc1
+    wires: []
+  - id: f9b640e7b61b5b6a
+    type: link out
+    z: ca2e23f31a622a1c
+    name: User Task terminieren (out)
+    mode: link
+    links:
+      - bdc265c7d6dd9430
+    x: 1195
+    'y': 880
+    g: 1d9402592caecfc1
+    wires: []
+  - id: 241cea973df182e1
+    type: debug
+    z: ca2e23f31a622a1c
+    name: debug 8
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'false'
+    statusVal: ''
+    statusType: auto
+    x: 950
+    'y': 920
+    g: 1d9402592caecfc1
+    wires: []
+  - id: 6c50e257e201d2d8
+    type: link in
+    z: ca2e23f31a622a1c
+    name: Form abbrechen (in)
+    links:
+      - c3063da116fa8926
+      - 55456da8b2ab3526
+    x: 245
+    'y': 900
+    g: 1d9402592caecfc1
+    wires:
+      - - 7c81ccac71e3b27d
+  - id: 7c81ccac71e3b27d
+    type: function
+    z: ca2e23f31a622a1c
+    name: pre navigation
+    func: |-
+      const backtoProcesses = global.get(`backtoProcesses_${msg._client?.socketId}`);
+
+      let thePage = 'Aufgaben';
+
+      if (backtoProcesses) {
+          thePage = 'Prozesse';
+      }
+
+      msg.payload = {
+          page: thePage
+      };
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 420
+    'y': 900
+    g: 1d9402592caecfc1
+    wires:
+      - - a3ad21ae9008e2b0
+  - id: a3ad21ae9008e2b0
+    type: ui-control
+    z: ca2e23f31a622a1c
+    name: ''
+    ui: 9f39f3effcdcb077
+    events: all
+    x: 600
+    'y': 900
+    g: 1d9402592caecfc1
+    wires:
+      - []
+  - id: 8a7e01188fcebbd1
+    type: link in
+    z: ca2e23f31a622a1c
+    name: Form speichern (in)
+    links:
+      - 66c6e05b534b1f8a
+    x: 85
+    'y': 960
+    g: 1d9402592caecfc1
+    wires:
+      - - 10d14a1a650cbc21
+  - id: 10d14a1a650cbc21
+    type: usertask-output
+    z: ca2e23f31a622a1c
+    name: finish UserTask
+    engine: ba20533f27a1b167
+    result: payload.formData
+    result_type: msg
+    x: 220
+    'y': 960
+    g: 1d9402592caecfc1
+    wires:
+      - - 7c81ccac71e3b27d
+  - id: a9926583b7581f61
+    type: comment
+    z: ca2e23f31a622a1c
+    name: Instanz zum Client merken
+    x: 470
+    'y': 960
+    g: 1d9402592caecfc1
+    wires: []
+  - id: 63e7c3088e5fe84c
+    type: catch
+    z: ca2e23f31a622a1c
+    name: 'catch: finish UserTask'
+    scope:
+      - 10d14a1a650cbc21
+    uncaught: false
+    x: 220
+    'y': 1020
+    g: 1d9402592caecfc1
+    wires:
+      - - 7c81ccac71e3b27d
+        - 1692331ec061c5c4
+  - id: 1692331ec061c5c4
+    type: function
+    z: ca2e23f31a622a1c
+    name: build query
+    func: |-
+
+      msg.payload = {
+          "flowNodeInstanceId": msg.payload.userTask.flowNodeInstanceId
+      }
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 450
+    'y': 1020
+    g: 1d9402592caecfc1
+    wires:
+      - - 40309daf077edc94
+  - id: 40309daf077edc94
+    type: usertask-input
+    z: ca2e23f31a622a1c
+    name: load flownode
+    engine: ba20533f27a1b167
+    query: payload
+    query_type: msg
+    sendtype: first
+    x: 640
+    'y': 1020
+    g: 1d9402592caecfc1
+    wires:
+      - - cfec3be14f82700d
+  - id: cfec3be14f82700d
+    type: switch
+    z: ca2e23f31a622a1c
+    name: ''
+    property: payload.userTask.state
+    propertyType: msg
+    rules:
+      - t: eq
+        v: finished
+        vt: str
+    checkall: 'true'
+    repair: false
+    outputs: 1
+    x: 810
+    'y': 1020
+    g: 1d9402592caecfc1
+    wires:
+      - - 4e89c5cf73cc6abc
+  - id: 4e89c5cf73cc6abc
+    type: template
+    z: ca2e23f31a622a1c
+    name: ''
+    field: payload
+    fieldType: msg
+    format: handlebars
+    syntax: mustache
+    template: |-
+      <h3>Aufgabe kann nicht abgeschlossen werden</h3>
+
+      <p>
+          Diese Aufgabe wurde bereits von einer anderen Person fertiggestellt. 
+      </p>
+    output: str
+    x: 960
+    'y': 1020
+    g: 1d9402592caecfc1
+    wires:
+      - - f73144aa922f5cb3
+  - id: f73144aa922f5cb3
+    type: ui-notification
+    z: ca2e23f31a622a1c
+    ui: 9f39f3effcdcb077
+    position: top right
+    colorDefault: true
+    color: '#000000'
+    displayTime: '5'
+    showCountdown: true
+    outputs: 1
+    allowDismiss: true
+    dismissText: Schließen
+    allowConfirm: false
+    confirmText: Öffnen
+    raw: true
+    className: ''
+    name: Aufgabe kann nicht bearbeitet werden
+    x: 1210
+    'y': 1020
+    g: 1d9402592caecfc1
+    wires:
+      - []
+  - id: b9302d88c265b160
+    type: comment
+    z: ca2e23f31a622a1c
+    name: Prozess beenden abgeschlossen
+    x: 190
+    'y': 1080
+    g: 1d9402592caecfc1
+    wires: []
+  - id: bdc265c7d6dd9430
+    type: link in
+    z: ca2e23f31a622a1c
+    name: isProcessStillOpen (in)
+    links:
+      - f9b640e7b61b5b6a
+    x: 85
+    'y': 1140
+    g: 1d9402592caecfc1
+    wires:
+      - - 99b0915e2dce12fa
+  - id: 99b0915e2dce12fa
+    type: change
+    z: ca2e23f31a622a1c
+    name: ''
+    rules:
+      - t: set
+        p: result_payload
+        pt: msg
+        to: payload
+        tot: msg
+    action: ''
+    property: ''
+    from: ''
+    to: ''
+    reg: false
+    x: 250
+    'y': 1140
+    g: 1d9402592caecfc1
+    wires:
+      - - a7be0aa8d1ceddec
+  - id: a7be0aa8d1ceddec
+    type: function
+    z: ca2e23f31a622a1c
+    name: build query
+    func: |-
+
+      msg.payload = {
+          "processInstanceId": msg.payload.userTask.processInstanceId
+      }
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 470
+    'y': 1140
+    g: 1d9402592caecfc1
+    wires:
+      - - fc0ffe5c482d2e99
+  - id: fc0ffe5c482d2e99
+    type: processinstance-query
+    z: ca2e23f31a622a1c
+    name: load processes
+    engine: ba20533f27a1b167
+    query: payload
+    query_type: msg
+    limit: ''
+    offset: ''
+    x: 660
+    'y': 1140
+    g: 1d9402592caecfc1
+    wires:
+      - - 5dd86eb7e28e9b74
+  - id: 5dd86eb7e28e9b74
+    type: switch
+    z: ca2e23f31a622a1c
+    name: running?
+    property: payload.processInstances[0].state
+    propertyType: msg
+    rules:
+      - t: eq
+        v: running
+        vt: str
+      - t: else
+    checkall: 'true'
+    repair: false
+    outputs: 2
+    x: 840
+    'y': 1160
+    g: 1d9402592caecfc1
+    wires:
+      - - 3b9f36322107ac6e
+      - - b70fa04ab398ad83
+  - id: 3b9f36322107ac6e
+    type: change
+    z: ca2e23f31a622a1c
+    name: ''
+    rules:
+      - t: set
+        p: payload
+        pt: msg
+        to: result_payload
+        tot: msg
+    action: ''
+    property: ''
+    from: ''
+    to: ''
+    reg: false
+    x: 930
+    'y': 1100
+    g: 1d9402592caecfc1
+    wires:
+      - - eec44be460f9ea72
+  - id: eec44be460f9ea72
+    type: function
+    z: ca2e23f31a622a1c
+    name: extract process instance id
+    func: |-
+      msg.payload =  msg.payload.userTask.processInstanceId
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1160
+    'y': 1100
+    g: 1d9402592caecfc1
+    wires:
+      - - 5306f6ecec9c999e
+  - id: 5306f6ecec9c999e
+    type: process-terminate
+    z: ca2e23f31a622a1c
+    name: ''
+    engine: ba20533f27a1b167
+    x: 1210
+    'y': 1160
+    g: 1d9402592caecfc1
+    wires:
+      - - 55456da8b2ab3526
+  - id: 55456da8b2ab3526
+    type: link out
+    z: ca2e23f31a622a1c
+    name: Prozess abgebrochen (out)
+    mode: link
+    links:
+      - 6c50e257e201d2d8
+    x: 1355
+    'y': 1160
+    g: 1d9402592caecfc1
+    wires: []
+  - id: b70fa04ab398ad83
+    type: template
+    z: ca2e23f31a622a1c
+    name: ''
+    field: payload
+    fieldType: msg
+    format: handlebars
+    syntax: mustache
+    template: |
+      <h3>Prozess kann nicht beendet werden</h3>
+
+      <p>
+          Dieser Prozess wurde bereits von einer anderen Person fertiggestellt. 
+      </p>
+      <p>
+          Bitte die Bearbeitung abbrechen.
+      </p>
+    output: str
+    x: 960
+    'y': 1220
+    g: 1d9402592caecfc1
+    wires:
+      - - 5c81368e855feb63
+  - id: 5c81368e855feb63
+    type: ui-notification
+    z: ca2e23f31a622a1c
+    ui: 9f39f3effcdcb077
+    position: top right
+    colorDefault: true
+    color: '#000000'
+    displayTime: '5'
+    showCountdown: true
+    outputs: 1
+    allowDismiss: true
+    dismissText: Schließen
+    allowConfirm: false
+    confirmText: Öffnen
+    raw: true
+    className: ''
+    name: Prozess kann nicht beendet werden
+    x: 1210
+    'y': 1220
+    g: 1d9402592caecfc1
+    wires:
+      - []
+  - id: 9f57cdc8d68bc088
+    type: group
+    z: ca2e23f31a622a1c
+    x: 34
+    'y': 1299
+    w: 712
+    h: 202
+    style:
+      stroke: '#5d5d5d'
+      stroke-opacity: '1'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      label-position: nw
+      color: '#e2e8f0'
+    nodes:
+      - bb283ddbeee15faf
+      - b9aae04bf9cbdf37
+      - f8b1412a673cea8f
+      - 6e4c3573c780651c
+      - b20844ec5de14201
+  - id: bb283ddbeee15faf
+    type: comment
+    z: ca2e23f31a622a1c
+    name: Page ReloadUserTask (dient zum Neuladen, da ansonten die Daten nicht korrekt geladen werden)
+    x: 390
+    'y': 1340
+    g: 9f57cdc8d68bc088
+    wires: []
+  - id: b9aae04bf9cbdf37
+    type: ui-page-navigation
+    z: ca2e23f31a622a1c
+    page: 79c909b1b0d2f9e7
+    name: visit /reload_user_task
+    event: $pageview
+    x: 160
+    'y': 1400
+    g: 9f57cdc8d68bc088
+    wires:
+      - - f8b1412a673cea8f
+        - b20844ec5de14201
+  - id: f8b1412a673cea8f
+    type: function
+    z: ca2e23f31a622a1c
+    name: pre page navigation
+    func: |-
+      msg.payload = {
+          page: msg.payload.query.nextPage,
+          query: {
+              'flowNodeInstanceId': msg.payload.query.flowNodeInstanceId
+          }
+      };
+
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 400
+    'y': 1400
+    g: 9f57cdc8d68bc088
+    wires:
+      - - 6e4c3573c780651c
+  - id: 6e4c3573c780651c
+    type: ui-control
+    z: ca2e23f31a622a1c
+    name: go to /user_task
+    ui: 9f39f3effcdcb077
+    events: all
+    x: 620
+    'y': 1400
+    g: 9f57cdc8d68bc088
+    wires:
+      - []
+  - id: b20844ec5de14201
+    type: ui-text-input
+    z: ca2e23f31a622a1c
+    group: fc28a8b648d9242d
+    name: ''
+    label: text
+    order: 1
+    width: 0
+    height: 0
+    topic: topic
+    topicType: msg
+    mode: textarea
+    tooltip: ''
+    delay: 300
+    passthru: true
+    sendOnDelay: false
+    sendOnBlur: true
+    sendOnEnter: true
+    className: ''
+    clearable: false
+    sendOnClear: false
+    iconPosition: left
+    iconInnerPosition: inside
+    x: 350
+    'y': 1460
+    g: 9f57cdc8d68bc088
+    wires:
+      - []
+  - id: 45d4cb29ec64d4c4
+    type: group
+    z: ca2e23f31a622a1c
+    name: Benachrichtigungen oder Autostart Dialog
+    x: 34
+    'y': 1539
+    w: 1392
+    h: 402
+    style:
+      stroke: '#5d5d5d'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      color: '#e2e8f0'
+    nodes:
+      - b0866c84100b008c
+      - 2518798cb5f1cc83
+      - 0ffe355b34f0f3e0
+      - d010e81ea972177e
+      - 9601fe337754658c
+      - 1c65c39b3255333e
+      - 5d565efe4fec75eb
+      - 03d7fcdb55e7f676
+      - f9e8aedb5f977c7b
+      - e7759b57c860ece4
+      - 1a23f397adb971a8
+      - 1db32274fac6b69d
+      - 873e3796a6099cf4
+      - db0d1947aebf77ea
+      - 216d48bec4f3e306
+      - dd8a4fcbab9b1aa6
+      - 2706035e39784adc
+  - id: b0866c84100b008c
+    type: usertask-event-listener
+    z: ca2e23f31a622a1c
+    name: ''
+    engine: ba20533f27a1b167
+    usertask: ''
+    eventtype: new
+    query: '{}'
+    query_type: json
+    x: 130
+    'y': 1580
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - 2518798cb5f1cc83
+  - id: 2518798cb5f1cc83
+    type: change
+    z: ca2e23f31a622a1c
+    name: ''
+    rules:
+      - t: set
+        p: payload
+        pt: flow
+        to: payload
+        tot: msg
+        dc: true
+    action: ''
+    property: ''
+    from: ''
+    to: ''
+    reg: false
+    x: 330
+    'y': 1580
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - 0ffe355b34f0f3e0
+  - id: 0ffe355b34f0f3e0
+    type: link call
+    z: ca2e23f31a622a1c
+    name: get user call
+    links:
+      - b8881cbc2b6e7044
+    linkType: static
+    timeout: '30'
+    x: 550
+    'y': 1580
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - d010e81ea972177e
+  - id: d010e81ea972177e
+    type: function
+    z: ca2e23f31a622a1c
+    name: build query
+    func: |-
+
+      msg.payload = {
+          "flowNodeInstanceId": msg.payload.flowNodeInstanceId
+      }
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 290
+    'y': 1640
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - 9601fe337754658c
+  - id: 9601fe337754658c
+    type: usertask-input
+    z: ca2e23f31a622a1c
+    name: ''
+    engine: ba20533f27a1b167
+    query: payload
+    query_type: msg
+    sendtype: first
+    x: 520
+    'y': 1640
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - 1c65c39b3255333e
+  - id: 1c65c39b3255333e
+    type: function
+    z: ca2e23f31a622a1c
+    name: Dialog direkt aufrufen?
+    func: |-
+      const disableShowNotification = (String(env.get("NODERED_DASHBOARD_DISABLE_SHOW_NOTIFICATION")).toLowerCase() === "true");
+      const directTaskEdit = (String(env.get("NODERED_DIRECT_TASK_EDIT")).toLowerCase() === "true");
+
+      if (directTaskEdit && msg._client?.socketId == msg.payload?.userTask?.correlationId) {
+          msg._openDialog = true;
+      } else {
+          msg._openDialog = false;
+
+          if (disableShowNotification) {
+              msg._showNotification = false;
+          } else {
+              msg._showNotification = true;
+          }
+      }
+
+
+
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 480
+    'y': 1720
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - 5d565efe4fec75eb
+  - id: 5d565efe4fec75eb
+    type: switch
+    z: ca2e23f31a622a1c
+    name: openDialog?
+    property: _openDialog
+    propertyType: msg
+    rules:
+      - t: 'true'
+      - t: 'false'
+    checkall: 'true'
+    repair: false
+    outputs: 2
+    x: 390
+    'y': 1780
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - 1db32274fac6b69d
+      - - 03d7fcdb55e7f676
+  - id: 03d7fcdb55e7f676
+    type: switch
+    z: ca2e23f31a622a1c
+    name: showNotification?
+    property: _showNotification
+    propertyType: msg
+    rules:
+      - t: 'true'
+    checkall: 'true'
+    repair: false
+    outputs: 1
+    x: 290
+    'y': 1820
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - f9e8aedb5f977c7b
+  - id: f9e8aedb5f977c7b
+    type: template
+    z: ca2e23f31a622a1c
+    name: ''
+    field: payload
+    fieldType: msg
+    format: handlebars
+    syntax: mustache
+    template: |-
+      <h3>Neue Aufgabe</h3>
+
+      <p>
+          Es gibt eine neue Aufgabe '{{payload.userTask.flowNodeName}}'.
+      </p>
+    output: str
+    x: 160
+    'y': 1900
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - e7759b57c860ece4
+  - id: e7759b57c860ece4
+    type: ui-notification
+    z: ca2e23f31a622a1c
+    ui: 9f39f3effcdcb077
+    position: top right
+    colorDefault: true
+    color: '#000000'
+    displayTime: '5'
+    showCountdown: true
+    outputs: 1
+    allowDismiss: true
+    dismissText: Schließen
+    allowConfirm: true
+    confirmText: Öffnen
+    raw: true
+    className: ''
+    name: Info zu neuer Aufgabe anzeigen
+    x: 390
+    'y': 1900
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - 1a23f397adb971a8
+  - id: 1a23f397adb971a8
+    type: switch
+    z: ca2e23f31a622a1c
+    name: UserTask öffnen?
+    property: payload
+    propertyType: msg
+    rules:
+      - t: eq
+        v: confirm_clicked
+        vt: str
+    checkall: 'true'
+    repair: false
+    outputs: 1
+    x: 650
+    'y': 1900
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - 1db32274fac6b69d
+  - id: 1db32274fac6b69d
+    type: change
+    z: ca2e23f31a622a1c
+    name: ''
+    rules:
+      - t: set
+        p: payload
+        pt: msg
+        to: payload
+        tot: flow
+        dc: true
+    action: ''
+    property: ''
+    from: ''
+    to: ''
+    reg: false
+    x: 870
+    'y': 1900
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - 873e3796a6099cf4
+  - id: 873e3796a6099cf4
+    type: function
+    z: ca2e23f31a622a1c
+    name: pre page navigation
+    func: |-
+      let pageName = 'UserTask';
+
+      if (msg.payload.userTask?.userTaskConfig?.customForm) {
+          pageName = msg.payload.userTask?.userTaskConfig.customForm;
+      }
+
+      msg.payload = {
+          page: pageName,
+          query: {
+              flowNodeInstanceId: msg.payload.flowNodeInstanceId
+          }
+      };
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1100
+    'y': 1900
+    g: 45d4cb29ec64d4c4
+    wires:
+      - - db0d1947aebf77ea
+  - id: db0d1947aebf77ea
+    type: ui-control
+    z: ca2e23f31a622a1c
+    name: go to taskform
+    ui: 9f39f3effcdcb077
+    events: all
+    x: 1320
+    'y': 1900
+    g: 45d4cb29ec64d4c4
+    wires:
+      - []
+  - id: 216d48bec4f3e306
+    type: comment
+    z: ca2e23f31a622a1c
+    name: Dialog direkt anzeigen
+    x: 720
+    'y': 1720
+    g: 45d4cb29ec64d4c4
+    wires: []
+    info: |+
+      - wenn CorrelationId == msg._client.socketId
+
+  - id: dd8a4fcbab9b1aa6
+    type: comment
+    z: ca2e23f31a622a1c
+    name: gemerkte Instanz starten zum Client
+    x: 780
+    'y': 1780
+    g: 45d4cb29ec64d4c4
+    wires: []
+  - id: 2706035e39784adc
+    type: comment
+    z: ca2e23f31a622a1c
+    name: Exception können nicht abgefangen werden
+    x: 1170
+    'y': 1840
+    g: 45d4cb29ec64d4c4
+    wires: []
+  - id: aa34ab24636d3417
+    type: group
+    z: ca2e23f31a622a1c
+    name: Lookup handler
+    x: 34
+    'y': 1979
+    w: 972
+    h: 242
+    style:
+      label: true
+      stroke: '#777777'
+      fill: '#27272a'
+      color: '#ffffff'
+      fill-opacity: '0.5'
+    nodes:
+      - 195fac3374502e53
+      - 82a27944aac09f1a
+      - f8348e6267dc6be7
+      - bacbf79bf1c790d4
+      - c056bafbef4d2b33
+      - 7f0f3be1f0f4dcf6
+      - be1d54c719d4b69f
+      - 967c5fcb8f500cfc
+      - d4df72098461ad58
+      - 78955db15c8912d1
+  - id: 195fac3374502e53
+    type: link in
+    z: ca2e23f31a622a1c
+    name: lookup in
+    links: []
+    x: 75
+    'y': 2060
+    g: aa34ab24636d3417
+    wires:
+      - - 82a27944aac09f1a
+  - id: 82a27944aac09f1a
+    type: loop
+    z: ca2e23f31a622a1c
+    name: 'loop of formFields '
+    kind: enum
+    count: '10'
+    initial: '1'
+    step: '1'
+    condition: ''
+    conditionType: js
+    when: before
+    enumeration: payload.userTask.userTaskConfig.formFields
+    enumerationType: msg
+    limit: ''
+    loopPayload: loop-keep
+    finalPayload: final-last
+    x: 250
+    'y': 2060
+    g: aa34ab24636d3417
+    wires:
+      - - f8348e6267dc6be7
+      - - c056bafbef4d2b33
+  - id: f8348e6267dc6be7
+    type: function
+    z: ca2e23f31a622a1c
+    name: cleanup
+    func: |-
+      delete msg.target;
+      delete msg.loop;
+      delete msg.formField;
+      delete msg.entries;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 460
+    'y': 2020
+    g: aa34ab24636d3417
+    wires:
+      - - bacbf79bf1c790d4
+  - id: bacbf79bf1c790d4
+    type: link out
+    z: ca2e23f31a622a1c
+    name: lookup out
+    mode: return
+    links: []
+    x: 575
+    'y': 2020
+    g: aa34ab24636d3417
+    wires: []
+  - id: c056bafbef4d2b33
+    type: function
+    z: ca2e23f31a622a1c
+    name: lookup entries
+    func: |-
+      msg.formField = msg.payload.userTask.userTaskConfig.formFields[msg.loop.index];
+
+      if (msg.formField.customForm !== undefined) {
+          msg.formField.customForm = JSON.parse(msg.formField.customForm);
+
+          const lookup = msg.formField.customForm?.customProperties?.find(entry => entry.name === "lookup")?.value;
+          
+          delete msg.target;
+
+          if (lookup != undefined) {
+              msg.target = lookup;
+
+              if (msg.formField.customForm == undefined) {
+                  msg.formField.customForm = {};
+              }
+
+              if (msg.formField.customForm.entries == undefined) {
+                  msg.formField.customForm.entries = {};
+              }
+
+              msg.entries = {};
+          }
+      }
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 480
+    'y': 2080
+    g: aa34ab24636d3417
+    wires:
+      - - 7f0f3be1f0f4dcf6
+  - id: 7f0f3be1f0f4dcf6
+    type: switch
+    z: ca2e23f31a622a1c
+    name: ''
+    property: target
+    propertyType: msg
+    rules:
+      - t: nnull
+      - t: else
+    checkall: 'true'
+    repair: false
+    outputs: 2
+    x: 650
+    'y': 2080
+    g: aa34ab24636d3417
+    wires:
+      - - be1d54c719d4b69f
+      - - 82a27944aac09f1a
+  - id: be1d54c719d4b69f
+    type: link call
+    z: ca2e23f31a622a1c
+    name: Call Handler (Dynamic)
+    links: []
+    linkType: dynamic
+    timeout: '30'
+    x: 840
+    'y': 2080
+    g: aa34ab24636d3417
+    wires:
+      - - 967c5fcb8f500cfc
+  - id: 967c5fcb8f500cfc
+    type: function
+    z: ca2e23f31a622a1c
+    name: set entries
+    func: |-
+
+      if (msg.payload.userTask.userTaskConfig.formFields[msg.loop.index]?.customForm?.entries && msg.entries && Object.keys(msg.entries).length > 0) {
+          msg.payload.userTask.userTaskConfig.formFields[msg.loop.index].customForm.entries = msg.entries;
+      }
+
+      if (msg.payload.userTask.userTaskConfig.formFields[msg.loop.index]?.customForm) {
+          //msg.payload.userTask.userTaskConfig.formFields[msg.loop.index].customForm = JSON.stringify(msg.payload.userTask.userTaskConfig.formFields[msg.loop.index].customForm);
+      }
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 890
+    'y': 2140
+    g: aa34ab24636d3417
+    wires:
+      - - 82a27944aac09f1a
+  - id: d4df72098461ad58
+    type: catch
+    z: ca2e23f31a622a1c
+    name: ''
+    scope: group
+    uncaught: false
+    x: 690
+    'y': 2140
+    g: aa34ab24636d3417
+    wires:
+      - - 78955db15c8912d1
+        - 967c5fcb8f500cfc
+  - id: 78955db15c8912d1
+    type: debug
+    z: ca2e23f31a622a1c
+    name: print error
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 900
+    'y': 2180
+    g: aa34ab24636d3417
+    wires: []
+  - id: 6f350abd5e1475cc
+    type: group
+    z: ca2e23f31a622a1c
+    name: User Profile
+    x: 34
+    'y': 2259
+    w: 1412
+    h: 482
+    style:
+      label: true
+      fill: '#27272a'
+      stroke: '#777777'
+      fill-opacity: '0.5'
+      color: '#ffffff'
+    nodes:
+      - 05967fef76065555
+      - f36b5e768a5d4766
+      - fed2459e9919f14f
+      - 20ba9661363af8d5
+      - 0b8f33f719578270
+      - 3068db5a54b3db19
+      - 0686f503ec26a345
+      - 97d1fee9db4aece4
+      - 719f93850e08270b
+      - 6ce4b642204698f9
+      - 04b3dd0532194bc6
+      - b8881cbc2b6e7044
+      - c014cd55e7206d30
+      - d624abcfc85dfd9e
+      - 35e4b0059aa199b2
+      - 367cb92096cf56ee
+      - 54e6021a3f502ae3
+      - b4313894394b4613
+      - 9c9c15cc9145c908
+      - 3444b96b2abd244c
+      - 8fe7e76f28fa86e7
+      - f3b9b4cd0371b8d5
+      - b623491745f7d4b7
+      - 8503c9e02303cfd9
+      - bf0bde34ed8c1f17
+      - 1c314058968d0d15
+  - id: 05967fef76065555
+    type: ui-event
+    z: ca2e23f31a622a1c
+    ui: 9f39f3effcdcb077
+    name: ''
+    x: 120
+    'y': 2300
+    g: 6f350abd5e1475cc
+    wires:
+      - - f36b5e768a5d4766
+  - id: f36b5e768a5d4766
+    type: function
+    z: ca2e23f31a622a1c
+    name: profile init
+    func: |-
+      const userId = msg._client.socketId;
+
+      const key = `profile_init_${userId}`;
+
+      const seen = global.get(key);
+
+      if (seen) {
+          msg._need_init = false;
+      } else {
+          msg._need_init = true;
+          global.set(key, true);
+      }
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 280
+    'y': 2300
+    g: 6f350abd5e1475cc
+    wires:
+      - - fed2459e9919f14f
+  - id: fed2459e9919f14f
+    type: switch
+    z: ca2e23f31a622a1c
+    name: ''
+    property: _need_init
+    propertyType: msg
+    rules:
+      - t: 'true'
+    checkall: 'true'
+    repair: false
+    outputs: 1
+    x: 430
+    'y': 2300
+    g: 6f350abd5e1475cc
+    wires:
+      - - 20ba9661363af8d5
+        - 04b3dd0532194bc6
+  - id: 20ba9661363af8d5
+    type: ui-template
+    z: ca2e23f31a622a1c
+    group: ''
+    page: ''
+    ui: 9f39f3effcdcb077
+    name: User-Profile anzeigen
+    order: 1
+    width: 0
+    height: 0
+    head: ''
+    format: |-
+      <template>
+          <Teleport v-if="mounted" to="#app-bar-actions">
+              <div id="app-bar-processcube-actions" class="flex flex-row flex-nowrap items-center gap-3 ml-auto">
+              </div>
+
+              <div id="app-bar-processcube-profile" class="hidden sm:flex">
+                  <v-btn @click="send({ payload: 'profile' })" variant="outlined" rounded="lg">
+                      {{ username || 'Public' }}
+                  </v-btn>
+              </div>
+
+              <div id="app-bar-processcube-logout" v-if="isAuthenticated">
+                  <v-btn class="logout-btn" prepend-icon="mdi-logout" density="comfortable" @click="logout()" variant="plain">
+                      <span>Abmelden</span>
+                  </v-btn>
+              </div>
+          </Teleport>
+      </template>
+      <script>
+          export default {
+              props: ['msg'],
+              data() {
+                  return {
+                      mounted: false
+                  }
+              },
+              computed: {
+                  user() {
+                      return this.msg?._client?.user || null
+                  },
+                  username() {
+                      return this.user?.claims?.preferred_username || this.user?.displayName || null
+                  },
+                  isAuthenticated() {
+                      // Nur anzeigen, wenn wirklich identifizierbar
+                      return !!(this.username || this.user?.sub || this.msg?._client?.accessToken)
+                  }
+              },        
+              mounted() {
+                  this.mounted = true
+              },
+              methods: {
+                  logout: function() {
+                      window.location.href = "/auth/dashboard/logout";
+                  }
+              },
+              watch: {
+                  // läuft bei JEDEM eingehenden msg vom Flow
+                  msg: {
+                      deep: true,
+                      immediate: true,
+                      handler(m) {
+                          // hier verarbeitest du Events/Daten vom Backend
+                          const str = JSON.stringify(m || {});
+                          if (this.last === str) {
+                              // nothing todo
+                          } else {
+                              this.last = str;
+                              this.send(m);
+                          }
+                      }
+                  }
+              }    
+          }
+      </script>
+      <style scoped>
+          /* Mobile first: Text ausblenden, nur Icon anzeigen */
+          .logout-btn .v-btn__content span {
+              display: none;
+          }
+
+          /* Ab mittlerer Bildschirmbreite (z. B. ≥ 640px): Text wieder anzeigen */
+          @media (min-width: 640px) {
+              .logout-btn .v-btn__content span {
+                  display: inline;
+              }
+
+              #app-bar-processcube-profile {
+                  display: flex !important;
+              }
+          }
+      </style>
+    storeOutMessages: true
+    passthru: false
+    resendOnRefresh: true
+    templateScope: widget:ui
+    className: ''
+    x: 620
+    'y': 2300
+    g: 6f350abd5e1475cc
+    wires:
+      - - 0b8f33f719578270
+  - id: 0b8f33f719578270
+    type: switch
+    z: ca2e23f31a622a1c
+    name: ''
+    property: payload
+    propertyType: msg
+    rules:
+      - t: eq
+        v: profile
+        vt: str
+      - t: else
+    checkall: 'true'
+    repair: false
+    outputs: 2
+    x: 810
+    'y': 2300
+    g: 6f350abd5e1475cc
+    wires:
+      - - 3068db5a54b3db19
+      - - 97d1fee9db4aece4
+  - id: 3068db5a54b3db19
+    type: function
+    z: ca2e23f31a622a1c
+    name: pre navigation
+    func: |-
+      msg.payload = {
+          page: 'Profile'
+      };
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 1000
+    'y': 2300
+    g: 6f350abd5e1475cc
+    wires:
+      - - 0686f503ec26a345
+  - id: 0686f503ec26a345
+    type: ui-control
+    z: ca2e23f31a622a1c
+    name: ''
+    ui: 9f39f3effcdcb077
+    events: change
+    x: 1200
+    'y': 2300
+    g: 6f350abd5e1475cc
+    wires:
+      - []
+  - id: 97d1fee9db4aece4
+    type: switch
+    z: ca2e23f31a622a1c
+    name: ''
+    property: _linkSource
+    propertyType: msg
+    rules:
+      - t: nnull
+    checkall: 'true'
+    repair: false
+    outputs: 1
+    x: 870
+    'y': 2380
+    g: 6f350abd5e1475cc
+    wires:
+      - - 719f93850e08270b
+        - 6ce4b642204698f9
+  - id: 719f93850e08270b
+    type: link out
+    z: ca2e23f31a622a1c
+    name: navigation out
+    mode: return
+    links: []
+    x: 1095
+    'y': 2380
+    g: 6f350abd5e1475cc
+    wires: []
+  - id: 6ce4b642204698f9
+    type: debug
+    z: ca2e23f31a622a1c
+    name: navigation out
+    active: false
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 1160
+    'y': 2440
+    g: 6f350abd5e1475cc
+    wires: []
+  - id: 04b3dd0532194bc6
+    type: debug
+    z: ca2e23f31a622a1c
+    name: profile init
+    active: false
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 580
+    'y': 2360
+    g: 6f350abd5e1475cc
+    wires: []
+  - id: b8881cbc2b6e7044
+    type: link in
+    z: ca2e23f31a622a1c
+    name: notification
+    links: []
+    x: 445
+    'y': 2360
+    g: 6f350abd5e1475cc
+    wires:
+      - - 20ba9661363af8d5
+  - id: c014cd55e7206d30
+    type: ui-page-navigation
+    z: ca2e23f31a622a1c
+    page: 33df0debdfe9e275
+    name: ''
+    event: $pageview
+    x: 350
+    'y': 2440
+    g: 6f350abd5e1475cc
+    wires:
+      - - d624abcfc85dfd9e
+        - 367cb92096cf56ee
+        - b4313894394b4613
+  - id: d624abcfc85dfd9e
+    type: function
+    z: ca2e23f31a622a1c
+    name: Profile
+    func: |-
+      msg.payload = msg._client.user.claims?.preferred_username || msg._client.user.displayName || 'Public';
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 550
+    'y': 2440
+    g: 6f350abd5e1475cc
+    wires:
+      - - 35e4b0059aa199b2
+  - id: 35e4b0059aa199b2
+    type: ui-text
+    z: ca2e23f31a622a1c
+    group: 381e02797037a74d
+    order: 1
+    width: '9'
+    height: '1'
+    name: name
+    label: 'Name:'
+    format: '{{msg.payload}}'
+    layout: row-left
+    style: false
+    font: ''
+    fontSize: 16
+    color: '#717171'
+    wrapText: false
+    className: ''
+    value: payload
+    valueType: msg
+    x: 690
+    'y': 2440
+    g: 6f350abd5e1475cc
+    wires: []
+  - id: 367cb92096cf56ee
+    type: function
+    z: ca2e23f31a622a1c
+    name: SocketId
+    func: |-
+      msg.payload = msg._client?.socketId;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 560
+    'y': 2480
+    g: 6f350abd5e1475cc
+    wires:
+      - - 54e6021a3f502ae3
+  - id: 54e6021a3f502ae3
+    type: ui-text
+    z: ca2e23f31a622a1c
+    group: 381e02797037a74d
+    order: 2
+    width: '9'
+    height: '1'
+    name: socketid
+    label: 'SocketID:'
+    format: '{{msg.payload}}'
+    layout: row-left
+    style: false
+    font: ''
+    fontSize: 16
+    color: '#717171'
+    wrapText: false
+    className: ''
+    x: 700
+    'y': 2480
+    g: 6f350abd5e1475cc
+    wires: []
+  - id: b4313894394b4613
+    type: trigger
+    z: ca2e23f31a622a1c
+    name: ''
+    op1: ''
+    op2: ''
+    op1type: nul
+    op2type: pay
+    duration: '100'
+    extend: false
+    overrideDelay: false
+    units: ms
+    reset: ''
+    bytopic: all
+    topic: topic
+    outputs: 1
+    x: 400
+    'y': 2560
+    g: 6f350abd5e1475cc
+    wires:
+      - - 9c9c15cc9145c908
+  - id: 9c9c15cc9145c908
+    type: function
+    z: ca2e23f31a622a1c
+    name: Claims
+    func: |-
+      const claims = msg._client.user.claims;
+      msg.payload = [];
+
+      Object.entries(claims).forEach(([name, value]) => {
+          msg.payload.push(
+              {
+                  "Name": name,
+                  "Wert": value
+              }
+          )
+      });
+
+      msg.payload = msg.payload.sort((a, b) => a.Name.localeCompare(b.Name, "de", { sensitivity: "base" }))
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 550
+    'y': 2560
+    g: 6f350abd5e1475cc
+    wires:
+      - - 3444b96b2abd244c
+  - id: 3444b96b2abd244c
+    type: ui-table
+    z: ca2e23f31a622a1c
+    group: 4a0ebabd3e763bc8
+    name: ''
+    label: ''
+    order: 1
+    width: 0
+    height: 0
+    maxrows: 0
+    passthru: false
+    autocols: true
+    showSearch: true
+    deselect: true
+    selectionType: none
+    columns: []
+    mobileBreakpoint: lg
+    mobileBreakpointType: defaults
+    action: replace
+    x: 690
+    'y': 2560
+    g: 6f350abd5e1475cc
+    wires:
+      - []
+  - id: 8fe7e76f28fa86e7
+    type: catch
+    z: ca2e23f31a622a1c
+    name: ''
+    scope:
+      - 719f93850e08270b
+    uncaught: false
+    x: 1110
+    'y': 2520
+    g: 6f350abd5e1475cc
+    wires:
+      - - f3b9b4cd0371b8d5
+  - id: f3b9b4cd0371b8d5
+    type: debug
+    z: ca2e23f31a622a1c
+    name: 'error: navigation out'
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 1300
+    'y': 2520
+    g: 6f350abd5e1475cc
+    wires: []
+  - id: b623491745f7d4b7
+    type: inject
+    z: ca2e23f31a622a1c
+    name: ''
+    props:
+      - p: payload
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: '{"foo":"bar"}'
+    payloadType: json
+    x: 410
+    'y': 2700
+    g: 6f350abd5e1475cc
+    wires:
+      - - 8503c9e02303cfd9
+  - id: 8503c9e02303cfd9
+    type: function
+    z: ca2e23f31a622a1c
+    name: set target
+    func: |-
+      msg.target = "notification";
+
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 580
+    'y': 2700
+    g: 6f350abd5e1475cc
+    wires:
+      - - bf0bde34ed8c1f17
+  - id: bf0bde34ed8c1f17
+    type: link call
+    z: ca2e23f31a622a1c
+    name: ''
+    links: []
+    linkType: dynamic
+    timeout: '30'
+    x: 740
+    'y': 2700
+    g: 6f350abd5e1475cc
+    wires:
+      - - 1c314058968d0d15
+  - id: 1c314058968d0d15
+    type: debug
+    z: ca2e23f31a622a1c
+    name: debug 10
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 900
+    'y': 2700
+    g: 6f350abd5e1475cc
+    wires: []
+  - id: e70c70c48477ad2e
+    type: group
+    z: ca2e23f31a622a1c
+    name: Header im Portal
+    x: 34
+    'y': 2779
+    w: 332
+    h: 82
+    style:
+      label: true
+    nodes:
+      - d140f35c38328eb2
+      - 47466d4f226e20b3
+  - id: d140f35c38328eb2
+    type: ui-event
+    z: ca2e23f31a622a1c
+    ui: 9f39f3effcdcb077
+    name: ''
+    x: 120
+    'y': 2820
+    g: e70c70c48477ad2e
+    wires:
+      - - 47466d4f226e20b3
+  - id: 47466d4f226e20b3
+    type: ui-template
+    z: ca2e23f31a622a1c
+    group: ''
+    page: ''
+    ui: 9f39f3effcdcb077
+    name: ''
+    order: 1
+    width: 0
+    height: 0
+    head: ''
+    format: |-
+      <template>
+          <Teleport v-if="mounted" to="#app-bar-title">
+              
+              <div class="header-logo" id="header-logo">
+                  <img height="32px" src="/Header_Logo.png" alt="5Minds" />
+                  <span style="font-size: 0.55rem; padding-top: 20px;color: #555;">by ProcessCube&copy;</span>
+              </div>
+
+          </Teleport>
+      </template>
+      <script>
+          export default {
+              data() {
+                  return {
+                      mounted: false
+                  }
+              },
+              mounted() {
+                  this.mounted = true
+              }
+          }
+      </script>
+      <style scoped>
+          .header-logo {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+          }
+
+          .header-logo span {
+              font-size: 0.55rem;
+              padding-top: 20px;
+              color: #555;
+          }
+
+          /* Mobile ausblenden */
+          /*
+          @media (max-width: 768px) {
+              .header-logo {
+                  display: none;
+              }
+          }
+          */
+      </style>
+    storeOutMessages: true
+    passthru: true
+    resendOnRefresh: true
+    templateScope: widget:ui
+    className: ''
+    x: 280
+    'y': 2820
+    g: e70c70c48477ad2e
+    wires:
+      - []

@@ -1,0 +1,1233 @@
+id: 53cd34b2ef882137
+type: tab
+label: Beispiele zu API 'http-in'
+disabled: true
+info: ''
+env: []
+order: 5
+nodes:
+  - id: 18ac65131cf455aa
+    type: group
+    z: 53cd34b2ef882137
+    x: 54
+    'y': 39
+    w: 1052
+    h: 682
+    style:
+      stroke: '#999999'
+      stroke-opacity: '1'
+      fill: none
+      fill-opacity: '1'
+      label: true
+      label-position: nw
+      color: '#a4a4a4'
+    nodes:
+      - f15e66946ae98de6
+      - bf8d69595f960f49
+      - 9cd89d0e978b45b4
+      - 928cc68ed19c7d06
+      - a44ef47cee2fca07
+      - 2db2dbae5c6f6349
+      - d679da26fdb20c97
+      - 07354480a9d8fb9f
+      - 8b7cb3c9aa8e08ce
+      - 995449f7a21653f3
+      - 1012ae04b02e0636
+      - 0a0d873e2add3226
+      - 47d761e51cba2657
+      - 6223499a2576b253
+      - 38b042ab88a5c6fd
+      - 2d5cbf2d2efaf3bf
+      - 595eac156d3ff2a3
+      - 95b382265ea3547d
+      - fee8931b1f1d5d7e
+      - c7a1288cc6d68ce7
+      - c7b13316f244cc30
+      - 6e52738923d7b041
+      - acc6bdaed79934c7
+      - a139fa86766a0c7e
+      - 696535f21c528cb9
+      - 0223cdea6952f25e
+      - d47301852c6b7e7d
+      - 3a0287ba6e0259ff
+      - da03dd6ccca23f96
+      - 7f45a48b76f13987
+      - 8a54ae1f6856fef7
+      - 73747571189cda3a
+      - 7d25d1527e69020b
+      - dc963c4b9ff0ac46
+      - d66db56fd9232334
+      - 5a270b40ebc452d2
+      - c597f31a70c8dd90
+  - id: f15e66946ae98de6
+    type: comment
+    z: 53cd34b2ef882137
+    name: Abgesicherter Endpunkt
+    x: 190
+    'y': 80
+    g: 18ac65131cf455aa
+    wires: []
+  - id: bf8d69595f960f49
+    type: http in
+    z: 53cd34b2ef882137
+    name: ''
+    url: /test
+    method: get
+    upload: false
+    swaggerDoc: ''
+    x: 140
+    'y': 120
+    g: 18ac65131cf455aa
+    wires:
+      - - a44ef47cee2fca07
+        - 9cd89d0e978b45b4
+  - id: 9cd89d0e978b45b4
+    type: function
+    z: 53cd34b2ef882137
+    name: Authorized Response
+    func: |-
+      msg.payload = {
+          authorized: true
+      }
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 360
+    'y': 120
+    g: 18ac65131cf455aa
+    wires:
+      - - 928cc68ed19c7d06
+  - id: 928cc68ed19c7d06
+    type: http response
+    z: 53cd34b2ef882137
+    name: ''
+    statusCode: '200'
+    headers: {}
+    x: 560
+    'y': 120
+    g: 18ac65131cf455aa
+    wires: []
+  - id: a44ef47cee2fca07
+    type: debug
+    z: 53cd34b2ef882137
+    name: Request, Response, Payload
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 380
+    'y': 160
+    g: 18ac65131cf455aa
+    wires: []
+  - id: 2db2dbae5c6f6349
+    type: comment
+    z: 53cd34b2ef882137
+    name: Abgesicherter Endpunkt mit Claim Check
+    x: 240
+    'y': 200
+    g: 18ac65131cf455aa
+    wires: []
+  - id: d679da26fdb20c97
+    type: catch
+    z: 53cd34b2ef882137
+    name: missing claims
+    scope:
+      - 1012ae04b02e0636
+    uncaught: false
+    x: 780
+    'y': 220
+    g: 18ac65131cf455aa
+    wires:
+      - - 07354480a9d8fb9f
+  - id: 07354480a9d8fb9f
+    type: http response
+    z: 53cd34b2ef882137
+    name: success or error response
+    statusCode: ''
+    headers: {}
+    x: 810
+    'y': 280
+    g: 18ac65131cf455aa
+    wires: []
+  - id: 8b7cb3c9aa8e08ce
+    type: http in
+    z: 53cd34b2ef882137
+    name: ''
+    url: /test_with_claim_check
+    method: get
+    upload: false
+    swaggerDoc: ''
+    x: 200
+    'y': 240
+    g: 18ac65131cf455aa
+    wires:
+      - - 995449f7a21653f3
+  - id: 995449f7a21653f3
+    type: function
+    z: 53cd34b2ef882137
+    name: Set JWK URL
+    func: |-
+      msg.jwkUrl = msg.req.token.payload.iss + 'jwks'
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 440
+    'y': 240
+    g: 18ac65131cf455aa
+    wires:
+      - - 1012ae04b02e0636
+  - id: 1012ae04b02e0636
+    type: jwt verify
+    z: 53cd34b2ef882137
+    name: ''
+    algorithms: ''
+    mode: jwtid
+    secret: ''
+    secretType: str
+    publicKey: ''
+    publicKeyType: str
+    autoDetectjwkid: 'true'
+    autoDetectjwkidType: bool
+    jwkid: req.token.header.kid
+    jwkidType: msg
+    jwkurl: jwkUrl
+    jwkurlType: msg
+    ignoreExpiration: 'false'
+    ignoreExpirationType: bool
+    ignoreNotBefore: 'false'
+    ignoreNotBeforeType: bool
+    audience: ''
+    audienceType: str
+    issuer: ''
+    issuerType: str
+    token: bearer_authorization_header
+    maxAge: ''
+    maxAgeType: num
+    constraints:
+      - property: not_in_token
+        validator: required
+        value: ''
+        error: Missing claim
+        typeValue: str
+    output: payload
+    outputType: msg
+    x: 620
+    'y': 240
+    g: 18ac65131cf455aa
+    wires:
+      - - 07354480a9d8fb9f
+  - id: 0a0d873e2add3226
+    type: comment
+    z: 53cd34b2ef882137
+    name: Test Claim Check (Error Test)
+    x: 200
+    'y': 340
+    g: 18ac65131cf455aa
+    wires: []
+  - id: 47d761e51cba2657
+    type: inject
+    z: 53cd34b2ef882137
+    name: ''
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: ''
+    payloadType: date
+    x: 160
+    'y': 380
+    g: 18ac65131cf455aa
+    wires:
+      - - 6223499a2576b253
+  - id: 6223499a2576b253
+    type: link out
+    z: 53cd34b2ef882137
+    name: link out 4
+    mode: link
+    links:
+      - 429af6c4850b54d9
+    x: 265
+    'y': 380
+    g: 18ac65131cf455aa
+    wires: []
+  - id: 38b042ab88a5c6fd
+    type: link in
+    z: 53cd34b2ef882137
+    name: link in 4
+    links:
+      - ac0e0c19396492aa
+    x: 315
+    'y': 380
+    g: 18ac65131cf455aa
+    wires:
+      - - 2d5cbf2d2efaf3bf
+  - id: 2d5cbf2d2efaf3bf
+    type: function
+    z: 53cd34b2ef882137
+    name: Set Authorization Header
+    func: |-
+      let msg2 = {
+          headers: {
+              Authorization: "Bearer "+ msg.payload.access_token
+          },
+          url: env.get('NODERED_BASE_URL') + '/test_with_claim_check'
+      }
+
+      return msg2;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 470
+    'y': 380
+    g: 18ac65131cf455aa
+    wires:
+      - - 595eac156d3ff2a3
+  - id: 595eac156d3ff2a3
+    type: http request
+    z: 53cd34b2ef882137
+    name: /test_with_claim_check
+    method: GET
+    ret: txt
+    paytoqs: ignore
+    url: ''
+    tls: ''
+    persist: false
+    proxy: ''
+    insecureHTTPParser: false
+    authType: ''
+    senderr: false
+    headers: []
+    x: 710
+    'y': 380
+    g: 18ac65131cf455aa
+    wires:
+      - - 95b382265ea3547d
+  - id: 95b382265ea3547d
+    type: debug
+    z: 53cd34b2ef882137
+    name: Missing Claim Response
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 950
+    'y': 380
+    g: 18ac65131cf455aa
+    wires: []
+  - id: fee8931b1f1d5d7e
+    type: comment
+    z: 53cd34b2ef882137
+    name: Test unauthorized
+    x: 170
+    'y': 440
+    g: 18ac65131cf455aa
+    wires: []
+  - id: c7a1288cc6d68ce7
+    type: inject
+    z: 53cd34b2ef882137
+    name: ''
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: ''
+    payloadType: date
+    x: 160
+    'y': 480
+    g: 18ac65131cf455aa
+    wires:
+      - - c7b13316f244cc30
+  - id: c7b13316f244cc30
+    type: function
+    z: 53cd34b2ef882137
+    name: Set URL
+    func: |-
+      msg.url = env.get('NODERED_BASE_URL') + '/test'
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 320
+    'y': 480
+    g: 18ac65131cf455aa
+    wires:
+      - - 6e52738923d7b041
+  - id: 6e52738923d7b041
+    type: http request
+    z: 53cd34b2ef882137
+    name: /test
+    method: GET
+    ret: txt
+    paytoqs: ignore
+    url: ''
+    tls: ''
+    persist: false
+    proxy: ''
+    insecureHTTPParser: false
+    authType: ''
+    senderr: false
+    headers: []
+    x: 470
+    'y': 480
+    g: 18ac65131cf455aa
+    wires:
+      - - acc6bdaed79934c7
+  - id: acc6bdaed79934c7
+    type: debug
+    z: 53cd34b2ef882137
+    name: Response /test
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 640
+    'y': 480
+    g: 18ac65131cf455aa
+    wires: []
+  - id: a139fa86766a0c7e
+    type: comment
+    z: 53cd34b2ef882137
+    name: Test mit Authorization Header
+    x: 200
+    'y': 540
+    g: 18ac65131cf455aa
+    wires: []
+  - id: 696535f21c528cb9
+    type: inject
+    z: 53cd34b2ef882137
+    name: ''
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: ''
+    payloadType: date
+    x: 160
+    'y': 580
+    g: 18ac65131cf455aa
+    wires:
+      - - 0223cdea6952f25e
+  - id: 0223cdea6952f25e
+    type: link out
+    z: 53cd34b2ef882137
+    name: link out 2
+    mode: link
+    links:
+      - 0560ec451f14c866
+    x: 265
+    'y': 580
+    g: 18ac65131cf455aa
+    wires: []
+  - id: d47301852c6b7e7d
+    type: link in
+    z: 53cd34b2ef882137
+    name: link in 1
+    links:
+      - f2b4fd7cd68a279f
+    x: 355
+    'y': 580
+    g: 18ac65131cf455aa
+    wires:
+      - - 3a0287ba6e0259ff
+  - id: 3a0287ba6e0259ff
+    type: function
+    z: 53cd34b2ef882137
+    name: Set URL
+    func: |-
+      msg.url = env.get('NODERED_BASE_URL') + '/test'
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 460
+    'y': 580
+    g: 18ac65131cf455aa
+    wires:
+      - - da03dd6ccca23f96
+  - id: da03dd6ccca23f96
+    type: http request
+    z: 53cd34b2ef882137
+    name: /test
+    method: GET
+    ret: txt
+    paytoqs: ignore
+    url: ''
+    tls: ''
+    persist: false
+    proxy: ''
+    insecureHTTPParser: false
+    authType: ''
+    senderr: false
+    headers: []
+    x: 610
+    'y': 580
+    g: 18ac65131cf455aa
+    wires:
+      - - 7f45a48b76f13987
+  - id: 7f45a48b76f13987
+    type: debug
+    z: 53cd34b2ef882137
+    name: Response /test
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 780
+    'y': 580
+    g: 18ac65131cf455aa
+    wires: []
+  - id: 8a54ae1f6856fef7
+    type: comment
+    z: 53cd34b2ef882137
+    name: Test mit Query Param
+    x: 180
+    'y': 640
+    g: 18ac65131cf455aa
+    wires: []
+  - id: 73747571189cda3a
+    type: inject
+    z: 53cd34b2ef882137
+    name: ''
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: ''
+    payloadType: date
+    x: 160
+    'y': 680
+    g: 18ac65131cf455aa
+    wires:
+      - - 7d25d1527e69020b
+  - id: 7d25d1527e69020b
+    type: link out
+    z: 53cd34b2ef882137
+    name: link out 3
+    mode: link
+    links:
+      - 0560ec451f14c866
+    x: 265
+    'y': 680
+    g: 18ac65131cf455aa
+    wires: []
+  - id: dc963c4b9ff0ac46
+    type: link in
+    z: 53cd34b2ef882137
+    name: link in 3
+    links:
+      - f2b4fd7cd68a279f
+    x: 355
+    'y': 680
+    g: 18ac65131cf455aa
+    wires:
+      - - d66db56fd9232334
+  - id: d66db56fd9232334
+    type: function
+    z: 53cd34b2ef882137
+    name: Remove Authorization Header
+    func: |-
+
+      return {
+          token: msg.token,
+          url: env.get('NODERED_BASE_URL') + '/test?access_token=' + msg.token
+      };
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 530
+    'y': 680
+    g: 18ac65131cf455aa
+    wires:
+      - - 5a270b40ebc452d2
+  - id: 5a270b40ebc452d2
+    type: http request
+    z: 53cd34b2ef882137
+    name: /test
+    method: GET
+    ret: txt
+    paytoqs: ignore
+    url: ''
+    tls: ''
+    persist: false
+    proxy: ''
+    insecureHTTPParser: false
+    authType: ''
+    senderr: false
+    headers: []
+    x: 730
+    'y': 680
+    g: 18ac65131cf455aa
+    wires:
+      - - c597f31a70c8dd90
+  - id: c597f31a70c8dd90
+    type: debug
+    z: 53cd34b2ef882137
+    name: Response /test
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 880
+    'y': 680
+    g: 18ac65131cf455aa
+    wires: []
+  - id: e6127068065a0d59
+    type: group
+    z: 53cd34b2ef882137
+    x: 54
+    'y': 779
+    w: 1112
+    h: 442
+    style:
+      stroke: '#999999'
+      stroke-opacity: '1'
+      fill: none
+      fill-opacity: '1'
+      label: true
+      label-position: nw
+      color: '#a4a4a4'
+    nodes:
+      - 3b828135f6f1ec83
+      - 9b04bea5169f5831
+      - ec16974744d9dad7
+      - 35aa9acceaa4758e
+      - b97e0f68948787dd
+      - f2b4fd7cd68a279f
+      - cc3d8437a24b741e
+      - 1e64c950be84f25b
+      - 0560ec451f14c866
+      - e1d4285cac040a87
+      - 744946476e6a3bb2
+      - 0593bb87c575ddc0
+      - 08adbf23861d8c42
+      - 1c8abf4ac4719b44
+      - b476afa973c02a02
+      - 3ab22f6e60a073d4
+      - 6d6c53734f44d8af
+      - f899ceaa68e683a6
+      - 479d076d6eccd2e6
+      - daed101a12642a86
+      - 031b9e57469533a6
+      - 7012997344d1db90
+      - ea60b1d2137e12e1
+      - ac0e0c19396492aa
+      - 429af6c4850b54d9
+  - id: 3b828135f6f1ec83
+    type: comment
+    z: 53cd34b2ef882137
+    name: AccessToken ausstellen zum testen
+    x: 240
+    'y': 820
+    g: e6127068065a0d59
+    wires: []
+  - id: 9b04bea5169f5831
+    type: inject
+    z: 53cd34b2ef882137
+    name: ''
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: ''
+    payloadType: date
+    x: 180
+    'y': 860
+    g: e6127068065a0d59
+    wires:
+      - - ec16974744d9dad7
+  - id: ec16974744d9dad7
+    type: function
+    z: 53cd34b2ef882137
+    name: Set URL
+    func: |-
+      msg.oauth2Request = {
+         access_token_url: env.get('NODERED_AUTHORITY_URL') + '/token',
+      };
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 340
+    'y': 860
+    g: e6127068065a0d59
+    wires:
+      - - 35aa9acceaa4758e
+  - id: 35aa9acceaa4758e
+    type: oauth2
+    z: 53cd34b2ef882137
+    name: ''
+    container: oauth2Response
+    grant_type: client_credentials
+    access_token_url: ''
+    authorization_endpoint: ''
+    redirect_uri: http://localhost:1880/oauth2/redirect
+    open_authentication: ''
+    username: ''
+    password: ''
+    client_id: nodered_app_deployment
+    client_secret: nodered_app_secret_deployment
+    response_type: ''
+    access_type: ''
+    refresh_token: ''
+    prompt: ''
+    scope: engine_read engine_write
+    resource: ''
+    state: ''
+    proxy: ''
+    debug: false
+    force: false
+    senderr: false
+    client_credentials_in_body: true
+    rejectUnauthorized: true
+    headers: {}
+    x: 470
+    'y': 860
+    g: e6127068065a0d59
+    wires:
+      - - b97e0f68948787dd
+        - 1e64c950be84f25b
+  - id: b97e0f68948787dd
+    type: function
+    z: 53cd34b2ef882137
+    name: Set Authorization Header
+    func: |-
+      let msg2 = {
+          headers: {
+              Authorization: "Bearer "+ msg.oauth2Response.access_token
+          },
+          token: msg.oauth2Response.access_token,
+      }
+
+      return msg2;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 670
+    'y': 860
+    g: e6127068065a0d59
+    wires:
+      - - cc3d8437a24b741e
+        - f2b4fd7cd68a279f
+  - id: f2b4fd7cd68a279f
+    type: link out
+    z: 53cd34b2ef882137
+    name: link out 1
+    mode: link
+    links:
+      - dc963c4b9ff0ac46
+      - d47301852c6b7e7d
+    x: 835
+    'y': 840
+    g: e6127068065a0d59
+    wires: []
+  - id: cc3d8437a24b741e
+    type: debug
+    z: 53cd34b2ef882137
+    name: HTTP Header
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 900
+    'y': 900
+    g: e6127068065a0d59
+    wires: []
+  - id: 1e64c950be84f25b
+    type: debug
+    z: 53cd34b2ef882137
+    name: oAuth Response
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 510
+    'y': 900
+    g: e6127068065a0d59
+    wires: []
+  - id: 0560ec451f14c866
+    type: link in
+    z: 53cd34b2ef882137
+    name: link in 2
+    links:
+      - 0223cdea6952f25e
+      - 7d25d1527e69020b
+    x: 235
+    'y': 900
+    g: e6127068065a0d59
+    wires:
+      - - ec16974744d9dad7
+  - id: e1d4285cac040a87
+    type: comment
+    z: 53cd34b2ef882137
+    name: AccessToken ausstellen für 3.Software
+    x: 250
+    'y': 980
+    g: e6127068065a0d59
+    wires: []
+  - id: 744946476e6a3bb2
+    type: comment
+    z: 53cd34b2ef882137
+    name: /token als skipUrls angegeben
+    x: 640
+    'y': 980
+    g: e6127068065a0d59
+    wires: []
+  - id: 0593bb87c575ddc0
+    type: comment
+    z: 53cd34b2ef882137
+    name: Kann auch direkt über Authority gemacht werden
+    x: 960
+    'y': 980
+    g: e6127068065a0d59
+    wires: []
+  - id: 08adbf23861d8c42
+    type: http in
+    z: 53cd34b2ef882137
+    name: ''
+    url: /token
+    method: post
+    upload: false
+    swaggerDoc: ''
+    x: 170
+    'y': 1020
+    g: e6127068065a0d59
+    wires:
+      - - 1c8abf4ac4719b44
+  - id: 1c8abf4ac4719b44
+    type: function
+    z: 53cd34b2ef882137
+    name: Create oAuth Request
+    func: |-
+      msg.oauth2Request = {
+         access_token_url: env.get('NODERED_AUTHORITY_URL') + '/token',
+         credentials: {
+            grant_type: 'client_credentials',
+            client_id: msg.payload.client_id,
+            client_secret: msg.payload.client_secret,
+            scope: msg.payload.scope,
+            resource: env.get('NODERED_BASE_URL')
+         }
+      };
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 360
+    'y': 1020
+    g: e6127068065a0d59
+    wires:
+      - - b476afa973c02a02
+        - f899ceaa68e683a6
+  - id: b476afa973c02a02
+    type: oauth2
+    z: 53cd34b2ef882137
+    name: ''
+    container: oauth2Response
+    grant_type: set_by_credentials
+    access_token_url: ''
+    authorization_endpoint: ''
+    redirect_uri: http://localhost:1880/oauth2/redirect
+    open_authentication: ''
+    username: ''
+    password: ''
+    client_id: ''
+    client_secret: ''
+    response_type: ''
+    access_type: ''
+    refresh_token: ''
+    prompt: ''
+    scope: ''
+    resource: ''
+    state: ''
+    proxy: ''
+    debug: false
+    force: false
+    senderr: false
+    client_credentials_in_body: true
+    rejectUnauthorized: false
+    headers: {}
+    x: 530
+    'y': 1020
+    g: e6127068065a0d59
+    wires:
+      - - 3ab22f6e60a073d4
+  - id: 3ab22f6e60a073d4
+    type: function
+    z: 53cd34b2ef882137
+    name: oAuth2Response
+    func: |-
+      msg.payload = msg.oauth2Response;
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 690
+    'y': 1020
+    g: e6127068065a0d59
+    wires:
+      - - 6d6c53734f44d8af
+  - id: 6d6c53734f44d8af
+    type: http response
+    z: 53cd34b2ef882137
+    name: ''
+    statusCode: '200'
+    headers: {}
+    x: 860
+    'y': 1020
+    g: e6127068065a0d59
+    wires: []
+  - id: f899ceaa68e683a6
+    type: debug
+    z: 53cd34b2ef882137
+    name: Request
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 520
+    'y': 1060
+    g: e6127068065a0d59
+    wires: []
+  - id: 479d076d6eccd2e6
+    type: comment
+    z: 53cd34b2ef882137
+    name: 'Test /token '
+    x: 160
+    'y': 1100
+    g: e6127068065a0d59
+    wires: []
+  - id: daed101a12642a86
+    type: inject
+    z: 53cd34b2ef882137
+    name: ''
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: ''
+    payloadType: date
+    x: 160
+    'y': 1140
+    g: e6127068065a0d59
+    wires:
+      - - 031b9e57469533a6
+  - id: 031b9e57469533a6
+    type: function
+    z: 53cd34b2ef882137
+    name: Create Payload
+    func: |-
+      msg.payload = {
+          "grant_type": "client_credentials",
+          "client_id": "nodered_app_deployment",
+          "client_secret": "nodered_app_secret_deployment",
+          "scope": "engine_read"
+      }
+
+      msg.url = env.get('NODERED_BASE_URL') + '/token';
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 320
+    'y': 1140
+    g: e6127068065a0d59
+    wires:
+      - - 7012997344d1db90
+  - id: 7012997344d1db90
+    type: http request
+    z: 53cd34b2ef882137
+    name: /token
+    method: POST
+    ret: obj
+    paytoqs: ignore
+    url: ''
+    tls: ''
+    persist: false
+    proxy: ''
+    insecureHTTPParser: false
+    authType: ''
+    senderr: false
+    headers: []
+    x: 510
+    'y': 1140
+    g: e6127068065a0d59
+    wires:
+      - - ea60b1d2137e12e1
+        - ac0e0c19396492aa
+  - id: ea60b1d2137e12e1
+    type: debug
+    z: 53cd34b2ef882137
+    name: Response
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: payload
+    targetType: msg
+    statusVal: ''
+    statusType: auto
+    x: 680
+    'y': 1140
+    g: e6127068065a0d59
+    wires: []
+  - id: ac0e0c19396492aa
+    type: link out
+    z: 53cd34b2ef882137
+    name: link out 5
+    mode: link
+    links:
+      - 38b042ab88a5c6fd
+    x: 625
+    'y': 1180
+    g: e6127068065a0d59
+    wires: []
+  - id: 429af6c4850b54d9
+    type: link in
+    z: 53cd34b2ef882137
+    name: link in 5
+    links:
+      - 6223499a2576b253
+    x: 205
+    'y': 1180
+    g: e6127068065a0d59
+    wires:
+      - - 031b9e57469533a6
+  - id: 0562257a3ecccf1f
+    type: group
+    z: 53cd34b2ef882137
+    x: 54
+    'y': 1279
+    w: 792
+    h: 222
+    style:
+      stroke: '#999999'
+      stroke-opacity: '1'
+      fill: none
+      fill-opacity: '1'
+      label: true
+      label-position: nw
+      color: '#a4a4a4'
+    nodes:
+      - 0864e723b442378b
+      - 5c4d026fae89b17c
+      - f10d4650674a7e51
+      - 0ff9139869a05596
+      - 47cb99f31f827e98
+      - 09d3ee2b34501eed
+      - b8a86ddaee0dd241
+      - f868bea252e029ba
+  - id: 0864e723b442378b
+    type: comment
+    z: 53cd34b2ef882137
+    name: Public => Request geht durch
+    x: 220
+    'y': 1320
+    g: 0562257a3ecccf1f
+    wires: []
+  - id: 5c4d026fae89b17c
+    type: http in
+    z: 53cd34b2ef882137
+    name: ''
+    url: /public_api/test
+    method: get
+    upload: false
+    swaggerDoc: ''
+    x: 190
+    'y': 1360
+    g: 0562257a3ecccf1f
+    wires:
+      - - f10d4650674a7e51
+  - id: f10d4650674a7e51
+    type: http response
+    z: 53cd34b2ef882137
+    name: ''
+    statusCode: '200'
+    headers:
+      X-Test: 'true'
+    x: 380
+    'y': 1360
+    g: 0562257a3ecccf1f
+    wires: []
+  - id: 0ff9139869a05596
+    type: comment
+    z: 53cd34b2ef882137
+    name: 'Test Public '
+    x: 160
+    'y': 1420
+    g: 0562257a3ecccf1f
+    wires: []
+  - id: 47cb99f31f827e98
+    type: inject
+    z: 53cd34b2ef882137
+    name: ''
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: ''
+    payloadType: date
+    x: 160
+    'y': 1460
+    g: 0562257a3ecccf1f
+    wires:
+      - - 09d3ee2b34501eed
+  - id: 09d3ee2b34501eed
+    type: function
+    z: 53cd34b2ef882137
+    name: Set URL
+    func: |-
+      msg.url = env.get('NODERED_BASE_URL') + '/public_api/test'
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 320
+    'y': 1460
+    g: 0562257a3ecccf1f
+    wires:
+      - - b8a86ddaee0dd241
+  - id: b8a86ddaee0dd241
+    type: http request
+    z: 53cd34b2ef882137
+    name: /public_api/test
+    method: GET
+    ret: txt
+    paytoqs: ignore
+    url: ''
+    tls: ''
+    persist: false
+    proxy: ''
+    insecureHTTPParser: false
+    authType: ''
+    senderr: false
+    headers: []
+    x: 500
+    'y': 1460
+    g: 0562257a3ecccf1f
+    wires:
+      - - f868bea252e029ba
+  - id: f868bea252e029ba
+    type: debug
+    z: 53cd34b2ef882137
+    name: Public Response
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 710
+    'y': 1460
+    g: 0562257a3ecccf1f
+    wires: []

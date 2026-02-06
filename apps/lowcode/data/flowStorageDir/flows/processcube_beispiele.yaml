@@ -1,0 +1,477 @@
+id: 0d9117cae8c03a95
+type: tab
+label: ProcessCube Beispiele
+disabled: true
+info: ''
+env: []
+order: 4
+nodes:
+  - id: b2243b23e837f82f
+    type: group
+    z: 0d9117cae8c03a95
+    x: 54
+    'y': 99
+    w: 652
+    h: 202
+    style:
+      stroke: '#5d5d5d'
+      stroke-opacity: '1'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      label-position: nw
+      color: '#e2e8f0'
+    nodes:
+      - 88a7a61fc44a1b98
+      - ad8578449937f7bf
+      - 4699fe55518be606
+      - ccee37d8cb1bf959
+      - bbd28b1994539308
+      - e7de68a4a59b2ecb
+      - da39100dfb7c78a8
+  - id: 88a7a61fc44a1b98
+    type: comment
+    z: 0d9117cae8c03a95
+    name: Abfrage von Modellen and Instanzen
+    x: 220
+    'y': 140
+    g: b2243b23e837f82f
+    wires: []
+  - id: ad8578449937f7bf
+    type: inject
+    z: 0d9117cae8c03a95
+    name: run
+    props: []
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    x: 150
+    'y': 200
+    g: b2243b23e837f82f
+    wires:
+      - - 4699fe55518be606
+  - id: 4699fe55518be606
+    type: processdefinition-query
+    z: 0d9117cae8c03a95
+    name: ''
+    engine: ba20533f27a1b167
+    query: '{}'
+    query_type: json
+    models_only: false
+    x: 350
+    'y': 200
+    g: b2243b23e837f82f
+    wires:
+      - - ccee37d8cb1bf959
+  - id: ccee37d8cb1bf959
+    type: debug
+    z: 0d9117cae8c03a95
+    name: debug 12
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'false'
+    statusVal: ''
+    statusType: auto
+    x: 560
+    'y': 200
+    g: b2243b23e837f82f
+    wires: []
+  - id: bbd28b1994539308
+    type: inject
+    z: 0d9117cae8c03a95
+    name: run (limit+offset)
+    props:
+      - p: limit
+        v: '10'
+        vt: str
+      - p: offset
+        v: '5'
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    x: 180
+    'y': 260
+    g: b2243b23e837f82f
+    wires:
+      - - e7de68a4a59b2ecb
+  - id: e7de68a4a59b2ecb
+    type: processinstance-query
+    z: 0d9117cae8c03a95
+    name: ''
+    engine: ba20533f27a1b167
+    query: '{"status":"running"}'
+    query_type: json
+    limit: ''
+    offset: ''
+    x: 400
+    'y': 260
+    g: b2243b23e837f82f
+    wires:
+      - - da39100dfb7c78a8
+  - id: da39100dfb7c78a8
+    type: debug
+    z: 0d9117cae8c03a95
+    name: debug 2
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'false'
+    statusVal: ''
+    statusType: auto
+    x: 600
+    'y': 260
+    g: b2243b23e837f82f
+    wires: []
+  - id: 5d2f55d01cc0bf4d
+    type: group
+    z: 0d9117cae8c03a95
+    x: 54
+    'y': 339
+    w: 672
+    h: 262
+    style:
+      stroke: '#5d5d5d'
+      stroke-opacity: '1'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      label-position: nw
+      color: '#e2e8f0'
+    nodes:
+      - d2fdd273b53a241e
+      - 77d330f852fce2c3
+      - 38d5e9a9e58db2d1
+      - b9e3f086c6c4f02a
+      - bab96347016331d5
+      - 61bfb22170dbb1a7
+      - efc3b160edcb6d2a
+      - cb3d30a67b84cfe5
+      - 6fdc68a644040391
+  - id: d2fdd273b53a241e
+    type: comment
+    z: 0d9117cae8c03a95
+    name: External-Task-Pattern mit unterschiedlichen Topics und dynamisches Error-Handling
+    x: 370
+    'y': 380
+    g: 5d2f55d01cc0bf4d
+    wires: []
+  - id: 77d330f852fce2c3
+    type: externaltask-input
+    z: 0d9117cae8c03a95
+    name: ''
+    workername: ''
+    engine: ba20533f27a1b167
+    topic: etw
+    topicType: str
+    workerConfig: '{}'
+    workerConfigType: json
+    traces:
+      - start
+      - finish
+    x: 140
+    'y': 440
+    g: 5d2f55d01cc0bf4d
+    wires:
+      - - 38d5e9a9e58db2d1
+  - id: 38d5e9a9e58db2d1
+    type: delay
+    z: 0d9117cae8c03a95
+    name: ''
+    pauseType: delay
+    timeout: '5'
+    timeoutUnits: seconds
+    rate: '1'
+    nbRateUnits: '1'
+    rateUnits: second
+    randomFirst: '1'
+    randomLast: '5'
+    randomUnits: seconds
+    drop: false
+    allowrate: false
+    outputs: 1
+    x: 320
+    'y': 440
+    g: 5d2f55d01cc0bf4d
+    wires:
+      - - b9e3f086c6c4f02a
+  - id: b9e3f086c6c4f02a
+    type: externaltask-output
+    z: 0d9117cae8c03a95
+    name: ''
+    x: 530
+    'y': 440
+    g: 5d2f55d01cc0bf4d
+    wires: []
+  - id: bab96347016331d5
+    type: externaltask-input
+    z: 0d9117cae8c03a95
+    name: ''
+    engine: ba20533f27a1b167
+    topic: aTopic
+    topicType: str
+    workerConfig: '{}'
+    workerConfigType: json
+    x: 150
+    'y': 500
+    g: 5d2f55d01cc0bf4d
+    wires:
+      - - 61bfb22170dbb1a7
+  - id: 61bfb22170dbb1a7
+    type: externaltask-output
+    z: 0d9117cae8c03a95
+    name: ''
+    x: 530
+    'y': 500
+    g: 5d2f55d01cc0bf4d
+    wires: []
+  - id: efc3b160edcb6d2a
+    type: externaltask-input
+    z: 0d9117cae8c03a95
+    name: ''
+    workername: ''
+    engine: ba20533f27a1b167
+    topic: handleError
+    topicType: str
+    workerConfig: '{}'
+    workerConfigType: json
+    traces:
+      - start
+      - finish
+    x: 170
+    'y': 560
+    g: 5d2f55d01cc0bf4d
+    wires:
+      - - cb3d30a67b84cfe5
+  - id: cb3d30a67b84cfe5
+    type: function
+    z: 0d9117cae8c03a95
+    name: dynamic errorCode
+    func: |-
+      msg.errorCode = "code_4711";
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 390
+    'y': 560
+    g: 5d2f55d01cc0bf4d
+    wires:
+      - - 6fdc68a644040391
+  - id: 6fdc68a644040391
+    type: externaltask-error
+    z: 0d9117cae8c03a95
+    name: ''
+    error: ''
+    x: 610
+    'y': 560
+    g: 5d2f55d01cc0bf4d
+    wires:
+      - []
+  - id: 516e2793fc71a239
+    type: group
+    z: 0d9117cae8c03a95
+    x: 54
+    'y': 639
+    w: 652
+    h: 142
+    style:
+      stroke: '#5d5d5d'
+      stroke-opacity: '1'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      label-position: nw
+      color: '#e2e8f0'
+    nodes:
+      - c1933fa762eb857b
+      - a9bdc3457c39d86d
+      - 264533e1041bfb8c
+      - 44353773efaa8bba
+  - id: c1933fa762eb857b
+    type: comment
+    z: 0d9117cae8c03a95
+    name: Prozess starten und Correlation-Id vorgeben
+    x: 250
+    'y': 680
+    g: 516e2793fc71a239
+    wires: []
+  - id: a9bdc3457c39d86d
+    type: inject
+    z: 0d9117cae8c03a95
+    name: run (payload+correlationId)
+    props:
+      - p: payload
+      - p: correlationId
+        v: '4711'
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: '{"hello":"world"}'
+    payloadType: json
+    x: 210
+    'y': 740
+    g: 516e2793fc71a239
+    wires:
+      - - 264533e1041bfb8c
+  - id: 264533e1041bfb8c
+    type: process-start
+    z: 0d9117cae8c03a95
+    name: ''
+    engine: ba20533f27a1b167
+    processmodel: Sample_01_Process
+    startevent: StartEvent_1
+    correlationId: ''
+    x: 430
+    'y': 740
+    g: 516e2793fc71a239
+    wires:
+      - - 44353773efaa8bba
+  - id: 44353773efaa8bba
+    type: debug
+    z: 0d9117cae8c03a95
+    name: debug 3
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'false'
+    statusVal: ''
+    statusType: auto
+    x: 600
+    'y': 740
+    g: 516e2793fc71a239
+    wires: []
+  - id: 9e68b9e45460ad22
+    type: group
+    z: 0d9117cae8c03a95
+    name: Beispiel für Richtext
+    x: 54
+    'y': 819
+    w: 512
+    h: 82
+    style:
+      label: true
+    nodes:
+      - 70621e6ce7e70dbe
+      - b21ae61f1301cf40
+      - b35b33330bce28b3
+  - id: 70621e6ce7e70dbe
+    type: inject
+    z: 0d9117cae8c03a95
+    name: ''
+    props:
+      - p: name
+        v: ProcessCube Member
+        vt: str
+      - p: url
+        v: http://5minds.de
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    x: 150
+    'y': 860
+    g: 9e68b9e45460ad22
+    wires:
+      - - b21ae61f1301cf40
+  - id: b21ae61f1301cf40
+    type: wysiwyg
+    z: 0d9117cae8c03a95
+    name: ''
+    text: <p>Hello {{name}},</p><p>Bitte besuche uns auf dem <a href="https://processcube.io" target="_blank">ProcessCube Developer Network</a>.</p><p>Viele Grüße</p><p>Dein 5Minds-Team</p>
+    field: payload
+    fieldType: msg
+    x: 300
+    'y': 860
+    g: 9e68b9e45460ad22
+    wires:
+      - - b35b33330bce28b3
+  - id: b35b33330bce28b3
+    type: debug
+    z: 0d9117cae8c03a95
+    name: debug 4
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'false'
+    statusVal: ''
+    statusType: auto
+    x: 460
+    'y': 860
+    g: 9e68b9e45460ad22
+    wires: []
+  - id: bbc5b06934e2de01
+    type: group
+    z: 0d9117cae8c03a95
+    name: Copilot für Node-RED
+    x: 54
+    'y': 939
+    w: 462
+    h: 82
+    style:
+      label: true
+    nodes:
+      - 969f4d53333b0ccb
+      - c6c040bb12c5b751
+  - id: 969f4d53333b0ccb
+    type: dev-copilot
+    z: 0d9117cae8c03a95
+    d: true
+    name: ''
+    mode: service
+    provider: openai
+    model: gpt-4.1
+    customUrl: http://host.docker.internal:11434/v1/
+    temperature: 0.1
+    maxTokens: 2000
+    toolCallLimit: 10
+    mcpCommand: npx @supcon-international/node-red-mcp-server
+    mcpArgs: ''
+    mcpEnv: ''
+    systemPrompt: ''
+    x: 190
+    'y': 980
+    g: bbc5b06934e2de01
+    wires:
+      - - c6c040bb12c5b751
+  - id: c6c040bb12c5b751
+    type: debug
+    z: 0d9117cae8c03a95
+    name: co pilot
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: payload
+    targetType: msg
+    statusVal: ''
+    statusType: auto
+    x: 410
+    'y': 980
+    g: bbc5b06934e2de01
+    wires: []
+  - id: e8268fe66af83a68
+    type: comment
+    z: 0d9117cae8c03a95
+    name: '☝️ Weitere Beispiele importieren: Burger-Menü -> Import -> Beispiele'
+    x: 310
+    'y': 40
+    wires: []

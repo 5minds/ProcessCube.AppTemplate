@@ -1,0 +1,12 @@
+id: 4be563d524f56eee
+type: ui-group
+name: fields
+page: bb4eea2e8a15b2ae
+width: 14
+height: 1
+order: 2
+showTitle: false
+className: ''
+visible: 'true'
+disabled: 'false'
+groupType: default

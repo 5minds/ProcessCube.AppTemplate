@@ -1,0 +1,9 @@
+id: ba20533f27a1b167
+type: processcube-engine-config
+name: ''
+url: ENGINE_URL
+urlType: env
+clientId: ENGINE_CLIENT_ID
+clientIdType: env
+clientSecret: ENGINE_CLIENT_SECRET
+clientSecretType: env

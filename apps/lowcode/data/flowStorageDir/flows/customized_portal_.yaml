@@ -1,0 +1,532 @@
+id: f49f3b83269a97d4
+type: tab
+label: 'Customized Portal '
+disabled: false
+info: ''
+order: 2
+nodes:
+  - id: d01922275b7e42bf
+    type: group
+    z: f49f3b83269a97d4
+    name: Beispiel Lookup's
+    x: 44
+    'y': 39
+    w: 372
+    h: 142
+    style:
+      label: true
+    nodes:
+      - 6ebc41b5f45c024b
+      - 5ac9f8b7491ee6f0
+      - d5bafbf03ecc2c3a
+      - 2db2fa0a0f1fdf2b
+      - 8d0b6baea613ceef
+  - id: 6ebc41b5f45c024b
+    type: link in
+    z: f49f3b83269a97d4
+    name: aSelect
+    links: []
+    x: 85
+    'y': 80
+    g: d01922275b7e42bf
+    wires:
+      - - 5ac9f8b7491ee6f0
+  - id: 5ac9f8b7491ee6f0
+    type: function
+    z: f49f3b83269a97d4
+    name: fill aSelect
+    func: |-
+      msg.entries = [{
+              "key": "hello",
+              "value": "Hello"
+          },
+          {
+              "key": "world",
+              "value": "World"
+          },
+          {
+              "key": "foo",
+              "value": "Foo"
+          },
+          {
+              "key": "bar",
+              "value": "Bar"
+          }
+      ];
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 210
+    'y': 80
+    g: d01922275b7e42bf
+    wires:
+      - - d5bafbf03ecc2c3a
+  - id: d5bafbf03ecc2c3a
+    type: link out
+    z: f49f3b83269a97d4
+    name: link out 6
+    mode: return
+    links: []
+    x: 375
+    'y': 120
+    g: d01922275b7e42bf
+    wires: []
+  - id: 2db2fa0a0f1fdf2b
+    type: link in
+    z: f49f3b83269a97d4
+    name: bSelect
+    links: []
+    x: 85
+    'y': 140
+    g: d01922275b7e42bf
+    wires:
+      - - 8d0b6baea613ceef
+  - id: 8d0b6baea613ceef
+    type: function
+    z: f49f3b83269a97d4
+    name: fill bSelect
+    func: |-
+      msg.entries = [];
+      for (let i = 0; i < 10; i++) {
+          const entry = {
+              "key": `foo ${i}`,
+              "value": `bar ${i}`
+          }
+
+          msg.entries.push(entry);
+      }
+
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 210
+    'y': 140
+    g: d01922275b7e42bf
+    wires:
+      - - d5bafbf03ecc2c3a
+  - id: 547fb7c154795b80
+    type: group
+    z: f49f3b83269a97d4
+    x: 34
+    'y': 219
+    w: 1122
+    h: 342
+    style:
+      stroke: '#5d5d5d'
+      stroke-opacity: '1'
+      fill: '#27272a'
+      fill-opacity: '0.5'
+      label: true
+      label-position: nw
+      color: '#e2e8f0'
+    nodes:
+      - b198b82f35f7ba5e
+      - 40da3d6be6c60fbd
+      - 05c31dba99de0205
+      - d566f69adfb3cac0
+      - 2cabed897f46e589
+      - b067ba016f0f54c8
+      - bf7ab57480be34c5
+      - 3cdec46be3aa911f
+      - 5c8c563ceba4d850
+      - f8d3e4a8edd7b0b2
+      - c56b1be5fabfea60
+      - a9066d97b248a947
+      - 22bc9c7878ada582
+      - 48e74aeba667426c
+      - f2d72ccda0fe7cc6
+  - id: b198b82f35f7ba5e
+    type: comment
+    z: f49f3b83269a97d4
+    name: UserTask bearbeiten (Form)
+    x: 180
+    'y': 260
+    g: 547fb7c154795b80
+    wires: []
+  - id: 40da3d6be6c60fbd
+    type: ui-page-navigation
+    z: f49f3b83269a97d4
+    page: d25f72fd251fc872
+    name: visit /user_task
+    event: $pageview
+    x: 140
+    'y': 320
+    g: 547fb7c154795b80
+    wires:
+      - - 05c31dba99de0205
+  - id: 05c31dba99de0205
+    type: function
+    z: f49f3b83269a97d4
+    name: build query
+    func: |-
+
+      msg.payload = {
+          "flowNodeInstanceId": msg.payload.query.flowNodeInstanceId
+      }
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 330
+    'y': 320
+    g: 547fb7c154795b80
+    wires:
+      - - d566f69adfb3cac0
+  - id: d566f69adfb3cac0
+    type: usertask-input
+    z: f49f3b83269a97d4
+    name: ''
+    engine: ba20533f27a1b167
+    query: payload
+    query_type: msg
+    sendtype: first
+    x: 520
+    'y': 320
+    g: 547fb7c154795b80
+    wires:
+      - - 2cabed897f46e589
+  - id: 2cabed897f46e589
+    type: link call
+    z: f49f3b83269a97d4
+    name: fill lookup
+    links:
+      - 195fac3374502e53
+    linkType: static
+    timeout: '30'
+    x: 700
+    'y': 320
+    g: 547fb7c154795b80
+    wires:
+      - - b067ba016f0f54c8
+    info: Call the lookup flow
+  - id: b067ba016f0f54c8
+    type: ui-dynamic-form
+    z: f49f3b83269a97d4
+    name: MyCustomForm bearbeiten
+    group: c364f86816f2ad1a
+    order: 1
+    options:
+      - label: Abbrechen
+        condition: ''
+        errorMessage: ''
+        alignment: left
+        primary: secondary
+      - label: Speichern
+        condition: form.context.state.valid
+        errorMessage: Eingaben bitte korrigieren.
+        alignment: right
+        primary: primary
+    waiting_title: Warten auf den Usertask...
+    waiting_info: Der Usertask wird automatisch angezeigt, wenn ein entsprechender Task vorhanden ist.
+    form_columns: '1'
+    readonly: false
+    collapsible: false
+    collapse_when_finished: false
+    actions_inside_card: true
+    card_size_styling: ''
+    inner_card_styling: '_max-height: none, max-height: 50vh'
+    title_text: MyCustomForm bearbeiten
+    title_text_type: str
+    title_style: default
+    title_custom_text_styling: ''
+    title_icon: ''
+    trigger_on_change: false
+    handle_confirmation_dialogs: false
+    confirm_actions:
+      - label: Confirm
+        alignment: right
+        primary: primary
+      - label: Decline
+        alignment: right
+        primary: primary
+    width: '12'
+    height: '1'
+    outputs: 2
+    x: 920
+    'y': 320
+    g: 547fb7c154795b80
+    wires:
+      - - bf7ab57480be34c5
+      - - 3cdec46be3aa911f
+  - id: bf7ab57480be34c5
+    type: link out
+    z: f49f3b83269a97d4
+    name: Form abbrechen (out)
+    mode: link
+    links:
+      - 5c8c563ceba4d850
+    x: 1115
+    'y': 260
+    g: 547fb7c154795b80
+    wires: []
+  - id: 3cdec46be3aa911f
+    type: link out
+    z: f49f3b83269a97d4
+    name: Form speichern (out)
+    mode: link
+    links:
+      - a9066d97b248a947
+    x: 1115
+    'y': 320
+    g: 547fb7c154795b80
+    wires: []
+  - id: 5c8c563ceba4d850
+    type: link in
+    z: f49f3b83269a97d4
+    name: Form abbrechen (in)
+    links:
+      - bf7ab57480be34c5
+    x: 245
+    'y': 400
+    g: 547fb7c154795b80
+    wires:
+      - - f8d3e4a8edd7b0b2
+  - id: f8d3e4a8edd7b0b2
+    type: function
+    z: f49f3b83269a97d4
+    name: pre navigation
+    func: |-
+      msg.payload = {
+          page: 'Aufgaben'
+      };
+
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 420
+    'y': 400
+    g: 547fb7c154795b80
+    wires:
+      - - c56b1be5fabfea60
+  - id: c56b1be5fabfea60
+    type: ui-control
+    z: f49f3b83269a97d4
+    name: ''
+    ui: 9f39f3effcdcb077
+    events: all
+    x: 600
+    'y': 400
+    g: 547fb7c154795b80
+    wires:
+      - []
+  - id: a9066d97b248a947
+    type: link in
+    z: f49f3b83269a97d4
+    name: Form speichern (in)
+    links:
+      - 3cdec46be3aa911f
+    x: 85
+    'y': 460
+    g: 547fb7c154795b80
+    wires:
+      - - 22bc9c7878ada582
+  - id: 22bc9c7878ada582
+    type: usertask-output
+    z: f49f3b83269a97d4
+    name: finish UserTask
+    engine: ba20533f27a1b167
+    result: payload.formData
+    result_type: msg
+    x: 220
+    'y': 460
+    g: 547fb7c154795b80
+    wires:
+      - - f8d3e4a8edd7b0b2
+  - id: 48e74aeba667426c
+    type: catch
+    z: f49f3b83269a97d4
+    name: ''
+    scope:
+      - 22bc9c7878ada582
+    uncaught: false
+    x: 190
+    'y': 520
+    g: 547fb7c154795b80
+    wires:
+      - - f8d3e4a8edd7b0b2
+        - f2d72ccda0fe7cc6
+  - id: f2d72ccda0fe7cc6
+    type: debug
+    z: f49f3b83269a97d4
+    name: debug 7
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'false'
+    statusVal: ''
+    statusType: auto
+    x: 380
+    'y': 520
+    g: 547fb7c154795b80
+    wires: []
+  - id: b92148a18c2056db
+    type: group
+    z: f49f3b83269a97d4
+    name: Toolbar Action Sample
+    x: 34
+    'y': 619
+    w: 612
+    h: 82
+    style:
+      label: true
+    nodes:
+      - da8520bb78f8c313
+      - 8e39e60bb2544d8c
+      - fbd9069166f5c245
+  - id: da8520bb78f8c313
+    type: ui-template
+    z: f49f3b83269a97d4
+    d: true
+    group: ''
+    page: ''
+    ui: 9f39f3effcdcb077
+    name: toolbar action button sample
+    order: 1
+    width: 0
+    height: 0
+    head: ''
+    format: |
+      <template>    
+          <Teleport v-if="mounted" to="#app-bar-processcube-actions">
+              <div class="teleported-box inline-flex items-center">
+                  <v-btn @click="send({payload: 'Hello World'})" variant="flat" prepend-icon="mdi-reload">Aktualisieren</v-btn>
+                  <v-divider class="mx-3 align-self-center" length="24" thickness="2" vertical></v-divider>
+              </div>
+          </Teleport>
+      </template>
+      <script>
+          export default {
+              data() {
+                  return {
+                      mounted: false
+                  }
+              },
+              mounted() {
+                  this.mounted = true
+              }
+          }
+      </script>
+    storeOutMessages: true
+    passthru: false
+    resendOnRefresh: true
+    templateScope: widget:ui
+    className: ''
+    x: 180
+    'y': 660
+    g: b92148a18c2056db
+    wires:
+      - - 8e39e60bb2544d8c
+  - id: 8e39e60bb2544d8c
+    type: template
+    z: f49f3b83269a97d4
+    name: ''
+    field: payload
+    fieldType: msg
+    format: handlebars
+    syntax: mustache
+    template: |-
+      <h3>Aktualisieren</h3>
+      <p>
+          Nur ein einfaches Beispiel.
+      </p>
+    output: str
+    x: 400
+    'y': 660
+    g: b92148a18c2056db
+    wires:
+      - - fbd9069166f5c245
+  - id: fbd9069166f5c245
+    type: ui-notification
+    z: f49f3b83269a97d4
+    ui: 9f39f3effcdcb077
+    position: top center
+    colorDefault: true
+    color: '#000000'
+    displayTime: '5'
+    showCountdown: true
+    outputs: 1
+    allowDismiss: false
+    dismissText: Schließen
+    allowConfirm: false
+    confirmText: Öffnen
+    raw: true
+    className: ''
+    name: Beispiel
+    x: 560
+    'y': 660
+    g: b92148a18c2056db
+    wires:
+      - []
+  - id: 256d2c4b3f9477ac
+    type: ui-deepchat
+    z: f49f3b83269a97d4
+    group: a5891d93aa4230a0
+    name: ''
+    order: 1
+    width: '12'
+    height: 8
+    introMessage: Hello! How can I help you today?
+    placeholder: Type a message...
+    model: gpt-4-turbo
+    speechToText: true
+    camera: true
+    attachments: true
+    avatars: true
+    names: true
+    timestamps: false
+    stream: false
+    x: 150
+    'y': 760
+    wires:
+      - - 8944e59c25de73c6
+  - id: 8944e59c25de73c6
+    type: OpenAI API
+    z: f49f3b83269a97d4
+    name: ''
+    property: payload
+    propertyType: msg
+    service: 41c8774439df63d1
+    method: createChatCompletion
+    x: 440
+    'y': 760
+    wires:
+      - - 29369fceef8bbf07
+  - id: 29369fceef8bbf07
+    type: function
+    z: f49f3b83269a97d4
+    name: function 2
+    func: |-
+      msg.payload = {
+          text: msg.payload.choices[0].message.content,
+          role: "ai"
+      }
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 720
+    'y': 760
+    wires:
+      - - 256d2c4b3f9477ac

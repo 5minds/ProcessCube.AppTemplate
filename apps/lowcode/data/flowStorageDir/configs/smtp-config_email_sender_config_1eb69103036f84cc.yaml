@@ -1,0 +1,20 @@
+id: 1eb69103036f84cc
+type: smtp-config
+name: Email Sender Config
+host: smtp.gmail.com
+hostType: env
+port: 587
+portType: env
+user: EMAIL_SEND_USER
+userType: env
+password: EMAIL_SEND_PASSWORD
+passwordType: env
+connTimeout: 10000
+authTimeout: 5000
+keepalive: true
+secure: false
+autotls: never
+rejectUnauthorized: false
+poolEnabled: false
+poolSize: ''
+poolTimeout: ''

@@ -29,6 +29,7 @@
   "license": "MIT",
   "node-red": {
     "nodes": {
+      "form_context": "nodes/form_context/form_context.js",
       "sample_plugin": "nodes/aplugin/sample_plugin.js",
       "hello": "nodes/sample_node/hello.js",
       "ui-hello": "nodes/ui-hello.js",

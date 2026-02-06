@@ -1,0 +1,154 @@
+id: 28bce906c0d46bbe
+type: tab
+label: ProcessCube.ai Extension
+disabled: true
+info: ''
+env: []
+order: 7
+nodes:
+  - id: 38e93d9360c8e017
+    type: group
+    z: 28bce906c0d46bbe
+    name: send-mail tool
+    x: 54
+    'y': 79
+    w: 892
+    h: 182
+    style:
+      label: true
+    nodes:
+      - 0356b56a3788b930
+      - 7d9a25a76052081d
+      - 39d5e36010546ef5
+      - fc175da8f0d0f4d0
+      - a3a1c2bc33cf4703
+      - 7a36229fa375cb73
+      - 11a6beba6c89293b
+      - 716f76de7aa9d4b5
+  - id: 0356b56a3788b930
+    type: mcp-tool-input
+    z: 28bce906c0d46bbe
+    name: send-mail
+    description: |-
+      Diese Tool kann eine Mail verschicken.
+      Pflicht Argumente:
+      empfaenger (email),
+      betreff (text)
+      text (text)
+    x: 140
+    'y': 120
+    g: 38e93d9360c8e017
+    wires:
+      - - 7a36229fa375cb73
+        - 7d9a25a76052081d
+  - id: 7d9a25a76052081d
+    type: function
+    z: 28bce906c0d46bbe
+    name: create email
+    func: |-
+      const email = msg.payload;
+
+      msg.to = email.empfaenger;
+      msg.topic = email.betreff;
+      msg.payload = email.text;
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 330
+    'y': 120
+    g: 38e93d9360c8e017
+    wires:
+      - - 39d5e36010546ef5
+  - id: 39d5e36010546ef5
+    type: email-sender
+    z: 28bce906c0d46bbe
+    name: Send email
+    sender: SendMailTool
+    senderType: str
+    from: EMAIL_SEND_USER
+    fromType: env
+    to: to
+    toType: msg
+    cc: ''
+    ccType: str
+    bcc: ''
+    bccType: str
+    replyTo: ''
+    replyToType: str
+    subject: topic
+    subjectType: msg
+    htmlContent: payload
+    htmlContentType: msg
+    attachments: ''
+    attachmentsType: msg
+    smtpConfig: 1eb69103036f84cc
+    x: 510
+    'y': 120
+    g: 38e93d9360c8e017
+    wires:
+      - - fc175da8f0d0f4d0
+  - id: fc175da8f0d0f4d0
+    type: function
+    z: 28bce906c0d46bbe
+    name: create result
+    func: |-
+      msg.payload = "Die Mail wurde verschickt";
+      return msg;
+    outputs: 1
+    timeout: 0
+    noerr: 0
+    initialize: ''
+    finalize: ''
+    libs: []
+    x: 710
+    'y': 120
+    g: 38e93d9360c8e017
+    wires:
+      - - a3a1c2bc33cf4703
+  - id: a3a1c2bc33cf4703
+    type: mcp-tool-output
+    z: 28bce906c0d46bbe
+    name: Result
+    x: 870
+    'y': 120
+    g: 38e93d9360c8e017
+    wires: []
+  - id: 7a36229fa375cb73
+    type: debug
+    z: 28bce906c0d46bbe
+    name: debug 1
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: payload
+    targetType: msg
+    statusVal: ''
+    statusType: auto
+    x: 290
+    'y': 160
+    g: 38e93d9360c8e017
+    wires: []
+  - id: 11a6beba6c89293b
+    type: catch
+    z: 28bce906c0d46bbe
+    name: ''
+    scope: group
+    uncaught: false
+    x: 270
+    'y': 220
+    g: 38e93d9360c8e017
+    wires:
+      - - 716f76de7aa9d4b5
+  - id: 716f76de7aa9d4b5
+    type: mcp-tool-error
+    z: 28bce906c0d46bbe
+    name: ''
+    x: 490
+    'y': 220
+    g: 38e93d9360c8e017
+    wires: []

@@ -1,0 +1,464 @@
+id: 39c6a1f51ae965d1
+type: tab
+label: Flowfuse
+disabled: false
+info: ''
+env: []
+order: 9
+nodes:
+  - id: 52e36015141bed8a
+    type: group
+    z: 39c6a1f51ae965d1
+    name: Form
+    x: 74
+    'y': 59
+    w: 402
+    h: 82
+    style:
+      label: true
+    nodes:
+      - d0bafabafa69985a
+      - ea09fa3f36413f02
+  - id: d0bafabafa69985a
+    type: ui-form
+    z: 39c6a1f51ae965d1
+    name: ''
+    group: 3e40ca31ada9bf2a
+    label: ''
+    order: 1
+    width: 0
+    height: 0
+    options:
+      - label: Name 1
+        key: name_01
+        type: text
+        required: true
+        rows: null
+      - label: Name 2
+        key: name_02
+        type: number
+        required: false
+        rows: null
+      - label: Name 3
+        key: name_03
+        type: email
+        required: false
+        rows: null
+      - label: Name 4
+        key: name_04
+        type: dropdown
+        required: false
+        rows: null
+    formValue:
+      name_01: ''
+      name_02: ''
+      name_03: ''
+      name_04: ''
+    payload: ''
+    submit: Absenden
+    cancel: Löschen
+    resetOnSubmit: false
+    topic: topic
+    topicType: msg
+    splitLayout: ''
+    className: ''
+    passthru: false
+    dropdownOptions:
+      - dropdown: name_04
+        value: hello
+        label: world
+      - dropdown: name_04
+        value: foo
+        label: bar
+    x: 150
+    'y': 100
+    g: 52e36015141bed8a
+    wires:
+      - - ea09fa3f36413f02
+  - id: ea09fa3f36413f02
+    type: debug
+    z: 39c6a1f51ae965d1
+    name: debug 9
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 370
+    'y': 100
+    g: 52e36015141bed8a
+    wires: []
+  - id: f3ef87ce49d45af8
+    type: group
+    z: 39c6a1f51ae965d1
+    name: Fields
+    x: 54
+    'y': 199
+    w: 1352
+    h: 582
+    style:
+      label: true
+    nodes:
+      - caf93e9d92bd72e1
+      - d057501f5093251b
+      - 9fdb2aa9886c1288
+      - 358731a4a6087b83
+      - 73ce9cd0cea234e7
+      - 9fd1b03bc79d2d13
+      - 68a023758a5bc749
+      - 293180dce9d244c0
+      - a4c5238dd0c0cfa4
+      - 9b9e06168c311576
+      - e24fb6a595fce4a5
+      - dd6d09090b30f198
+      - e7a163cdc030597a
+      - 2857861345a97ea9
+      - 0c337b4ec14f2ae1
+  - id: caf93e9d92bd72e1
+    type: inject
+    z: 39c6a1f51ae965d1
+    name: text
+    props:
+      - p: ui_update.label
+        v: Hello world
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    x: 170
+    'y': 240
+    g: f3ef87ce49d45af8
+    wires:
+      - - d057501f5093251b
+  - id: d057501f5093251b
+    type: ui-text
+    z: 39c6a1f51ae965d1
+    group: 4be563d524f56eee
+    order: 1
+    width: 3
+    height: 0
+    name: ''
+    label: text
+    format: '{{msg.payload}}'
+    layout: row-spread
+    style: false
+    font: ''
+    fontSize: 16
+    color: '#717171'
+    wrapText: false
+    className: ''
+    value: payloads
+    valueType: msg
+    x: 570
+    'y': 240
+    g: f3ef87ce49d45af8
+    wires: []
+  - id: 9fdb2aa9886c1288
+    type: inject
+    z: 39c6a1f51ae965d1
+    name: text field
+    props:
+      - p: payload
+      - p: ui_update.label
+        v: hello world
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: ''
+    payload: ''
+    payloadType: date
+    x: 160
+    'y': 300
+    g: f3ef87ce49d45af8
+    wires:
+      - - 358731a4a6087b83
+  - id: 358731a4a6087b83
+    type: ui-text-input
+    z: 39c6a1f51ae965d1
+    group: 4be563d524f56eee
+    name: a_text
+    label: text
+    order: 3
+    width: 6
+    height: 0
+    topic: a_text
+    topicType: str
+    mode: text
+    tooltip: ''
+    delay: 300
+    passthru: false
+    sendOnDelay: false
+    sendOnBlur: true
+    sendOnEnter: true
+    className: ''
+    clearable: false
+    sendOnClear: false
+    iconPosition: left
+    iconInnerPosition: inside
+    x: 570
+    'y': 300
+    g: f3ef87ce49d45af8
+    wires:
+      - - 73ce9cd0cea234e7
+        - 9fd1b03bc79d2d13
+  - id: 73ce9cd0cea234e7
+    type: debug
+    z: 39c6a1f51ae965d1
+    name: fields output
+    active: false
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 1030
+    'y': 340
+    g: f3ef87ce49d45af8
+    wires: []
+  - id: 9fd1b03bc79d2d13
+    type: form_context
+    z: 39c6a1f51ae965d1
+    name: ''
+    useClientContext: false
+    x: 1040
+    'y': 520
+    g: f3ef87ce49d45af8
+    wires:
+      - - 68a023758a5bc749
+  - id: 68a023758a5bc749
+    type: debug
+    z: 39c6a1f51ae965d1
+    name: context output
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 1280
+    'y': 520
+    g: f3ef87ce49d45af8
+    wires: []
+  - id: 293180dce9d244c0
+    type: ui-number-input
+    z: 39c6a1f51ae965d1
+    group: 4be563d524f56eee
+    name: a_number
+    label: number
+    order: 4
+    width: 6
+    height: 0
+    topic: a_number
+    topicType: str
+    min: 0
+    max: 10
+    step: 1
+    tooltip: ''
+    passthru: false
+    sendOnBlur: true
+    sendOnEnter: true
+    className: ''
+    clearable: false
+    iconPosition: left
+    iconInnerPosition: inside
+    spinner: default
+    x: 560
+    'y': 360
+    g: f3ef87ce49d45af8
+    wires:
+      - - 73ce9cd0cea234e7
+        - 9fd1b03bc79d2d13
+  - id: a4c5238dd0c0cfa4
+    type: ui-file-input
+    z: 39c6a1f51ae965d1
+    group: 4be563d524f56eee
+    name: a_file
+    order: 5
+    width: 8
+    height: 0
+    topic: a_file
+    topicType: str
+    label: Dateieingabe
+    allowMultiple: false
+    accept: ''
+    className: ''
+    x: 570
+    'y': 420
+    g: f3ef87ce49d45af8
+    wires:
+      - - 73ce9cd0cea234e7
+        - 9fd1b03bc79d2d13
+    icon: paperclip
+  - id: 9b9e06168c311576
+    type: ui-dropdown
+    z: 39c6a1f51ae965d1
+    group: 4be563d524f56eee
+    name: a_option
+    label: 'Option auswählen:'
+    tooltip: ''
+    order: 2
+    width: 5
+    height: 0
+    passthru: false
+    multiple: false
+    chips: false
+    clearable: false
+    options:
+      - label: Name 1
+        value: wert_01
+        type: str
+      - label: Name 2
+        value: wert_02
+        type: str
+      - label: Name 3
+        value: wert_03
+        type: str
+    payload: ''
+    topic: a_option
+    topicType: str
+    className: ''
+    typeIsComboBox: true
+    msgTrigger: onClose
+    x: 560
+    'y': 480
+    g: f3ef87ce49d45af8
+    wires:
+      - - 73ce9cd0cea234e7
+        - 9fd1b03bc79d2d13
+  - id: e24fb6a595fce4a5
+    type: ui-button
+    z: 39c6a1f51ae965d1
+    group: 4be563d524f56eee
+    name: Senden
+    label: Senden
+    order: 7
+    width: 0
+    height: 0
+    emulateClick: false
+    tooltip: ''
+    color: ''
+    bgcolor: ''
+    className: ''
+    iconPosition: left
+    payload: send
+    payloadType: str
+    topic: action
+    topicType: str
+    buttonColor: ''
+    textColor: ''
+    iconColor: ''
+    enableClick: true
+    enablePointerdown: false
+    pointerdownPayload: ''
+    pointerdownPayloadType: str
+    enablePointerup: false
+    pointerupPayload: ''
+    pointerupPayloadType: str
+    x: 560
+    'y': 540
+    g: f3ef87ce49d45af8
+    wires:
+      - - dd6d09090b30f198
+        - 9fd1b03bc79d2d13
+  - id: dd6d09090b30f198
+    type: debug
+    z: 39c6a1f51ae965d1
+    name: action output
+    active: true
+    tosidebar: true
+    console: false
+    tostatus: false
+    complete: 'true'
+    targetType: full
+    statusVal: ''
+    statusType: auto
+    x: 990
+    'y': 680
+    g: f3ef87ce49d45af8
+    wires: []
+  - id: e7a163cdc030597a
+    type: ui-button
+    z: 39c6a1f51ae965d1
+    group: 4be563d524f56eee
+    name: clear
+    label: Clear
+    order: 6
+    width: 5
+    height: 0
+    emulateClick: false
+    tooltip: ''
+    color: ''
+    bgcolor: ''
+    className: ''
+    iconPosition: left
+    payload: '{"action":"clear"}'
+    payloadType: json
+    topic: clear
+    topicType: str
+    buttonColor: ''
+    textColor: ''
+    iconColor: ''
+    enableClick: true
+    enablePointerdown: false
+    pointerdownPayload: ''
+    pointerdownPayloadType: str
+    enablePointerup: false
+    pointerupPayload: ''
+    pointerupPayloadType: str
+    x: 530
+    'y': 600
+    g: f3ef87ce49d45af8
+    wires:
+      - - dd6d09090b30f198
+        - 9fd1b03bc79d2d13
+  - id: 2857861345a97ea9
+    type: inject
+    z: 39c6a1f51ae965d1
+    name: send
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: action
+    payload: '{"action":"send"}'
+    payloadType: json
+    x: 750
+    'y': 680
+    g: f3ef87ce49d45af8
+    wires:
+      - []
+  - id: 0c337b4ec14f2ae1
+    type: inject
+    z: 39c6a1f51ae965d1
+    name: clear
+    props:
+      - p: payload
+      - p: topic
+        vt: str
+    repeat: ''
+    crontab: ''
+    once: false
+    onceDelay: 0.1
+    topic: action
+    payload: '{"action":"clear"}'
+    payloadType: json
+    x: 750
+    'y': 740
+    g: f3ef87ce49d45af8
+    wires:
+      - []
