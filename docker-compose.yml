@@ -1,6 +1,6 @@
 services:
   engine:
-    image: ghcr.io/5minds/processcube_engine:19.2.1-extensions-2.3.0
+    image: ghcr.io/5minds/processcube_engine:19.2.8-extensions-2.5.1
     depends_on:
       postgres:
         condition: service_healthy
@@ -26,7 +26,7 @@ services:
       timeout: 10s
 
   authority:
-    image: ghcr.io/5minds/processcube_authority:3.2.0
+    image: ghcr.io/5minds/processcube_authority:3.3.0
     ports:
       - 11560:11560
     volumes:
