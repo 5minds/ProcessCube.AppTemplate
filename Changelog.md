@@ -2,14 +2,25 @@
 
 ---
 
-## 🔮 In Entwicklung (Ausblick auf nächstes Release)
+## 🧪 v0.10.0-insiders.1 (08.02.2026)
 
-*Diese Features sind nach v0.9.4 hinzugekommen und werden im nächsten Release enthalten sein.*
+**Insiders-Vorschauversion** — Für Feedback und Early Testing
 
-### Neue Funktionen
+### Experimentelle Features
+- PostgreSQL-Image auf ProcessCube.Postgres 0.2.1 umgestellt (PostgreSQL 18 mit Extensions: timescaledb, pgvector, pg_search u.a.)
+- Automatische Datenbank-Initialisierung für engine, authority und appdb
+- WhoDB-Service für Web-basierte Datenbankverwaltung (Port 8080)
+- Authority-Healthcheck und korrekte Service-Abhängigkeiten (behebt OpenID-Verbindungsfehler beim Start)
+
+### Weitere Änderungen seit v0.9.4
 - Flow-Speicherformat von JSON auf YAML umgestellt
 - Parameter zur Dialog-Steuerung hinzugefügt
 - Neues ProcessCube.LowCode-Image integriert
+- Engine- und Authority-Image-Versionen aktualisiert
+- Dockerfile-Build für pnpm-Workspace-Kompatibilität korrigiert
+
+### Bekannte Einschränkungen
+- Bestehende PostgreSQL-17-Daten sind nicht kompatibel — `./postgres/apptemplate_db.instance` muss vor dem ersten Start gelöscht werden
 
 ---
 

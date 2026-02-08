@@ -1,6 +1,6 @@
 {
   "name": "processcube.apptemplate",
-  "version": "0.9.4",
+  "version": "0.10.0-insiders.1",
   "description": "A AppTemplate for a App build with and for the ProcessCube Plattform",
   "repository": {
     "type": "git",
