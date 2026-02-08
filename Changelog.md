@@ -2,6 +2,14 @@
 
 ---
 
+## 🔮 In Entwicklung (Ausblick auf nächstes Release)
+
+*Diese Features sind nach v0.10.0-insiders.1 hinzugekommen und werden im nächsten Release enthalten sein.*
+
+*Noch keine neuen Änderungen.*
+
+---
+
 ## 🧪 v0.10.0-insiders.1 (08.02.2026)
 
 **Insiders-Vorschauversion** — Für Feedback und Early Testing

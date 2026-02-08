@@ -4,12 +4,28 @@
 
 ## 🔮 In Entwicklung
 
+*Commits seit v0.10.0-insiders.1*
+
+*Noch keine neuen Commits.*
+
+---
+
+## 🧪 v0.10.0-insiders.1 (08.02.2026)
+
 *Commits seit v0.9.4*
 
 ### Neue Funktionen
+- `1448fbf` Switch to ProcessCube.Postgres and add WhoDB service
 - `79f7f01` Migrate json -> yaml
 - `7de95de` Add parameter for dialog controlling
 - `a76fb64` add new ProcessCube.LowCode
+
+### Fehlerbehebungen
+- `c58eb79` Fix Dockerfile build: replace npm install with symlink for pnpm workspace compatibility
+
+### Technische Änderungen
+- `3e719a6` Update engine and authority image versions
+- `aaf780c` Add CLAUDE.md and Changelogs
 
 ---
 
