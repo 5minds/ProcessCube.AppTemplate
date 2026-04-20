@@ -1,6 +1,6 @@
 services:
   engine:
-    image: ghcr.io/5minds/processcube_engine:19.2.8-extensions-2.5.1
+    image: ghcr.io/5minds/processcube_engine:20.1.1
     depends_on:
       postgres:
         condition: service_healthy
@@ -20,13 +20,13 @@ services:
       - application__name=Engine (ProcessCube.AppTemplate)
     command: --seed-dir=/processes
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      test: ["CMD", "test", "-f", "/tmp/healthy"]
       interval: 5s
       retries: 10
       timeout: 10s
 
   authority:
-    image: ghcr.io/5minds/processcube_authority:3.3.0
+    image: ghcr.io/5minds/processcube_authority:3.5.2
     depends_on:
       postgres:
         condition: service_healthy
