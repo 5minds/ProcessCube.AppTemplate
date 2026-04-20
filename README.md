@@ -1,66 +1,147 @@
 # ProcessCube.AppTemplate
 
-Dieses Template demonstriert die Entwicklung und das Debugging von Custom-Komponenten für ProcessCube LowCode Apps.
+Template zur Entwicklung eigener Apps für die ProcessCube-Plattform. Unterstützt zwei App-Typen:
 
-## Übersicht
+| App-Typ | Technologie | Zielgruppe | Verzeichnis |
+|---------|-------------|------------|-------------|
+| **LowCode** | Node-RED + Vue.js | Citizen Developer | `apps/lowcode/` |
+| **AppSDK** | Next.js 15 + React 19 | Professionelle Entwickler | `apps/appsdk_sample/` |
 
-Das Template zeigt folgende Konzepte:
+## Schnellstart
 
-- **Custom-Plugin**: `apps/lowcode/src/nodes/aplugin/*`
-- **Custom-Node-RED-Node**: `apps/lowcode/src/nodes/sample_node/*`
-- **UI-Node für das Dashboard-2**:
-   - `/apps/lowcode/src/nodes/ui-hello.js` / `/apps/lowcode/src/nodes/ui-hello.html`
-   - `/apps/lowcode/src/nodes/ui-termo.js` / `/apps/lowcode/src/nodes/ui-termo.html`
+```bash
+# Repository klonen
+git clone https://github.com/5minds/ProcessCube.AppTemplate.git
+cd ProcessCube.AppTemplate
 
-und die Vue.js-Dateien für die UI-Komponenten:
-- `/apps/lowcode/src/ui/componentes/ui-hello.vue`
-- `/apps/lowcode/src/ui/componentes/ui-termo.vue`
+# Alle Services starten
+docker compose up
 
-WICHITG: Das Paket für die UI-Widgets muss mit dem Package-Name `node-red-dashboard-2-` beginnen und im nodesDir der Node-RED-Installation (`RED.settings...userDir`) liegen, damit es korrekt geladen wird.
+# Oder mit benutzerdefiniertem Port für AppSDK
+APPSDK_SAMPLE_PORT=3003 docker compose up
+```
 
-Siehe dazu auch die [Dashboard-2-Dokumentation](https://dashboard.flowfuse.com/contributing/widgets/third-party#naming-your-widget).
+### Erreichbare Dienste
 
-## Custom-Nodes und External Tasks
+| Dienst | URL | Beschreibung |
+|--------|-----|-------------|
+| Node-RED (LowCode) | http://localhost:1880 | Visueller Flow-Editor + Dashboard |
+| AppSDK Sample | http://localhost:3000 | Next.js App mit UserTasks |
+| Engine | http://localhost:8000 | BPMN-Workflow-Engine |
+| Authority | http://localhost:11560 | OAuth2/OIDC Identity Provider |
+| WhoDB | http://localhost:8080 | Web-basierte DB-Verwaltung |
 
-Diese Beispiele zeigen die Entwicklung von Custom-Plugins und -Nodes mittels JavaScript, die in LowCode Apps verwendet werden können.
+## Architektur
 
-Um das Einbinden von Custom-Komponenten zu demonstrieren, haben wir einen Beispiel-Node erstellt, der über External Tasks in Node-RED mit der ProcessCube Engine integriert wird.
+```
+┌─────────────────────────────────────────────────────┐
+│                  Docker Compose                      │
+│                                                      │
+│  ┌──────────┐  ┌──────────┐  ┌───────────────────┐  │
+│  │ LowCode  │  │ AppSDK   │  │    Infrastruktur   │  │
+│  │ Node-RED │  │ Next.js  │  │                    │  │
+│  │ :1880    │  │ :3000    │  │  Engine    :8000   │  │
+│  └────┬─────┘  └────┬─────┘  │  Authority :11560  │  │
+│       │              │        │  Postgres  :5432   │  │
+│       └──────┬───────┘        │  WhoDB     :8080   │  │
+│              ▼                │                    │  │
+│        ProcessCube            └───────────────────┘  │
+│          Engine                                      │
+└─────────────────────────────────────────────────────┘
+```
 
-### Beispiel-Node
+## LowCode-App (Node-RED)
 
-Der Beispiel-Node ist ein einfacher Node, der eine konfigurierbare Begrüßung ausgibt und in Node-RED wie folgt verwendet wird:
+Custom-Nodes, Plugins und Dashboard-2-Widgets für Node-RED:
 
-![Flow mit External Task in LowCode](./assets/hello_node.png)
+- **Custom-Plugin**: `apps/lowcode/src/nodes/aplugin/`
+- **Custom-Node** (External Task): `apps/lowcode/src/nodes/sample_node/`
+- **Dashboard-2-Widgets** (Vue.js): `apps/lowcode/src/ui/components/`
 
-Der zugehörige Prozess mit External Task in der Engine:
+```bash
+# Widgets bauen
+cd apps/lowcode/src
+npm install && npm run build
 
-![Process mit External Task in der Engine](./assets/Sample_With_Custome_Node.png)
+# Docker-Image bauen
+docker compose build lowcode
+```
 
-## Debugging
+### Debugging
 
-### Optionen für das Debugging:
+1. `docker compose up`
+2. VSCode: **Run and Debug** → **Attach to Node-RED** (Port 9229)
+3. Breakpoints in `apps/lowcode/src/` setzen
 
-- **Attach to Node-RED**: [Docker-Compose Konfiguration](https://github.com/5minds/ProcessCube.AppTemplate/blob/main/docker-compose.yml#L72)
-- **Breakpoint beim Start**: Node-RED pausiert beim Start bis der Debugger verbunden ist ([Konfiguration](https://github.com/5minds/ProcessCube.AppTemplate/blob/main/docker-compose.yml#L75))
+## AppSDK-App (Next.js)
 
-### Debugging-Schritte:
+Moderne Web-App mit ProcessCube AppSDK, External Tasks und UserTasks:
 
-1. Container starten
-2. In VSCode: **Run and Debug** → **Attach to Node-RED**
-3. Breakpoints setzen und debuggen
+- **External Task Handler**: `apps/appsdk_sample/app/appsdk_greeting/external_task.ts`
+- **Server Actions**: `apps/appsdk_sample/app/actions.ts`
+- **UI** (React): `apps/appsdk_sample/app/page.tsx`
+- **Design System**: ProcessCube Studio (Gold-Akzent, System-Fonts)
 
-## Enthaltene Komponenten
+```bash
+# App bauen
+cd apps/appsdk_sample
+npm install && npm run build
 
-- **ProcessCube Engine** mit PostgreSQL-Anbindung
-- **ProcessCube Authority**
-- **PostgreSQL** mit Initialisierungsskript und dynamischem externen Port-Mapping
+# Docker-Image bauen
+docker compose build appsdk_sample
+```
+
+### Beispielprozess
+
+Der BPMN-Prozess `SampleWithAppSDK` demonstriert den vollständigen Ablauf:
+
+```
+Start → UserTask (Eingabe) → External Task (Verarbeitung) → UserTask (Ergebnis) → Ende
+```
+
+## BPMN-Prozesse
+
+Prozessdefinitionen unter `processes/` werden beim Engine-Start automatisch geladen:
+
+| Prozess | Datei | Beschreibung |
+|---------|-------|-------------|
+| Sample_With_Custome_Node | `.bpmn` | LowCode External Task Beispiel |
+| AppSDK_Sample | `.bpmn` | Einfacher External Task |
+| SampleWithAppSDK | `.bpmn` | UserTasks + External Task |
+
+## Dokumentation
+
+Ausführliche Dokumentation mit Architekturdiagrammen: **[docs/apps.md](docs/apps.md)**
+
+## Neue App erstellen
+
+Der Claude Code Skill **processcube-app-creator** (`.claude/skills/`) unterstützt beim Erstellen neuer Apps:
+
+- Fragt nach App-Name und Typ (AppSDK / LowCode)
+- Generiert alle Dateien aus Templates
+- Konfiguriert Docker Compose Service
+- Erstellt Beispiel-BPMN-Prozess
+
+## Image-Versionen
+
+| Image | Version |
+|-------|---------|
+| ProcessCube Engine | `20.1.1` |
+| ProcessCube Authority | `3.5.2` |
+| ProcessCube LowCode | `7.9.0` |
+| ProcessCube Postgres | `0.2.1` |
 
 ## Roadmap
 
-- [x] JavaScript Version
-- [x] npm-Packages im Docker-Image installieren
+- [x] JavaScript LowCode-Version
+- [x] npm-Packages im Docker-Image
 - [x] Plugin für Node-RED
-- [x] Beispiel-Node für Node-RED
+- [x] Beispiel-Node mit External Task
+- [x] Dashboard-2 Widgets (Vue.js)
 - [x] Debugging mit VSCode
-- [x] GitHub Actions Workflow und Docker-Image
-- [ ] TypeScript Version
+- [x] GitHub Actions Workflow
+- [x] AppSDK-Beispielapp (Next.js)
+- [x] UserTask-Integration
+- [x] ProcessCube Studio Design System
+- [x] App-Creator Skill
+- [ ] TypeScript-Version für LowCode

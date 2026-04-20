@@ -4,27 +4,34 @@ Diese Datei bietet Claude Code (claude.ai/code) Orientierung bei der Arbeit mit 
 
 ## Projektübersicht
 
-ProcessCube.AppTemplate ist ein Template zur Entwicklung eigener Node-RED-Nodes, Plugins und Dashboard-2-Widgets, die in die ProcessCube-Plattform integriert werden. Das Projekt ist in JavaScript geschrieben (TypeScript-Version geplant) und verwendet Vue.js für Dashboard-Widgets.
+ProcessCube.AppTemplate ist ein Template zur Entwicklung eigener Apps für die ProcessCube-Plattform. Es unterstützt zwei App-Typen:
+
+- **LowCode** (Node-RED) — Custom-Nodes, Plugins und Dashboard-2-Widgets in JavaScript/Vue.js
+- **AppSDK** (Next.js) — Moderne Web-Apps mit External Tasks und UserTasks in TypeScript/React
 
 ## Architektur
 
-Vier Docker-Services bilden die Plattform:
+Sechs Docker-Services bilden die Plattform:
 
 - **engine** (Port 8000) — ProcessCube BPMN-Workflow-Engine mit PostgreSQL-Backend
 - **authority** (Port 11560) — OAuth2/OIDC-Identity-Provider
-- **postgres** (Port 5432, dynamisches externes Mapping) — PostgreSQL 17, gemeinsam genutzt von Engine und Authority
+- **postgres** (Port 5432, dynamisches externes Mapping) — PostgreSQL 18 (ProcessCube.Postgres), erstellt automatisch `engine`, `authority`, `appdb`
+- **whodb** (Port 8080) — Web-basierte Datenbankverwaltung
 - **lowcode** (Port 1880, Debug-Port 9229) — Node-RED mit Custom-Nodes/-Widgets, gebaut aus `apps/lowcode/Dockerfile`
+- **appsdk_sample** (Port 3000, konfigurierbar via `APPSDK_SAMPLE_PORT`) — Next.js AppSDK-Beispielapp, gebaut aus `apps/appsdk_sample/Dockerfile`
 
-Der Lowcode-Service hängt von Engine ab (Healthcheck), die wiederum von Postgres abhängt (Healthcheck). Authority läuft unabhängig.
+Abhängigkeiten: lowcode und appsdk_sample hängen von engine + authority ab (Healthcheck). Engine und authority hängen von postgres ab (Healthcheck).
 
 ## Wichtige Verzeichnisse
 
-- `apps/lowcode/src/` — Alle Custom-Node-RED-Nodes, Plugins und Vue.js-Widgets
-- `apps/lowcode/src/nodes/` — Node-RED-Node-Implementierungen (JS- + HTML-Paare)
-- `apps/lowcode/src/ui/` — Vue.js-Komponenten und Vite-Export-Einträge für Dashboard-2-Widgets
+- `apps/lowcode/src/` — Custom-Node-RED-Nodes, Plugins und Vue.js-Widgets
+- `apps/appsdk_sample/` — Next.js AppSDK-App mit External Tasks und UserTasks
+- `apps/appsdk_sample/app/` — Next.js App Router (Pages, Actions, External Task Handler)
 - `.processcube/engine/config/` — Engine-Konfiguration (config.json)
 - `.processcube/authority/config/` — Authority-Konfiguration und User-Seeding-Daten
-- `processes/` — BPMN-Prozessdefinitionen (werden beim Start in die Engine geladen)
+- `processes/` — BPMN-Prozessdefinitionen (werden beim Engine-Start geseedet)
+- `docs/` — Ausführliche Dokumentation mit Diagrammen
+- `.claude/skills/` — Claude Code Skills (processcube-app-creator)
 
 ## Befehle
 
@@ -33,12 +40,19 @@ Der Lowcode-Service hängt von Engine ab (Healthcheck), die wiederum von Postgre
 docker compose up
 ```
 
-### Lowcode-Docker-Image bauen
+### Nur Infrastruktur
 ```
-docker compose build
+docker compose up -d postgres engine authority whodb
 ```
 
-### Vue.js Dashboard-2-Widgets bauen (innerhalb von `apps/lowcode/src/`)
+### Docker-Images bauen
+```
+docker compose build                    # alle
+docker compose build lowcode            # nur LowCode
+docker compose build appsdk_sample      # nur AppSDK
+```
+
+### LowCode: Vue.js Dashboard-2-Widgets bauen (innerhalb von `apps/lowcode/src/`)
 ```
 npm install
 npm run build              # baut alle Widgets
@@ -46,20 +60,39 @@ npm run build:hello        # baut nur das ui-hello-Widget
 npm run build:thermo       # baut nur das ui-thermo-Widget
 ```
 
+### AppSDK: Next.js-App bauen (innerhalb von `apps/appsdk_sample/`)
+```
+npm install
+npm run build
+```
+
 ### Debugging (VSCode)
 1. `docker compose up`
 2. VSCode: Ausführen und Debuggen → "Attach to Node-RED" (Port 9229)
 3. Breakpoints in `apps/lowcode/src/` setzen
 
-Für Break-on-Start-Debugging die `--inspect-brk`-Zeile in `docker-compose.yml` (Zeile ~78) einkommentieren.
+Für Break-on-Start-Debugging die `--inspect-brk`-Zeile in `docker-compose.yml` einkommentieren.
 
 ## Konventionen
 
-- **Dashboard-2-Widget-Pakete müssen** `node-red-dashboard-2-*` heißen und im `nodesDir` der Node-RED-Installation liegen, damit sie korrekt geladen werden.
-- **Widget-Architektur**: Backend-Node.js-Modul registriert sich bei der Dashboard-2-Gruppe; Frontend-Vue.js-SFC-Komponente kommuniziert über Socket.io-Events (`widget-action`, `widget-change`).
-- **Jedes Widget benötigt**: einen Vite-Build-Eintrag in `ui/exports/`, eine Vue-Komponente in `ui/components/`, ein Node.js-Backend in `nodes/` und eine Registrierung in `package.json` unter `node-red.nodes` und `node-red-dashboard-2.widgets`.
-- **External-Task-Pattern**: Custom-Nodes integrieren sich über External Tasks mit der ProcessCube Engine (siehe `nodes/sample_node/hello.js` und `processes/Sample_With_Custome_Node.bpmn`).
+### LowCode
+- **Dashboard-2-Widget-Pakete müssen** `node-red-dashboard-2-*` heißen und im `nodesDir` der Node-RED-Installation liegen.
+- **Widget-Architektur**: Backend-Node.js-Modul registriert sich bei der Dashboard-2-Gruppe; Frontend-Vue.js-SFC-Komponente kommuniziert über Socket.io-Events.
+- **External-Task-Pattern**: Custom-Nodes integrieren sich über External Tasks mit der Engine.
 - **Flow-Speicherformat ist YAML** (`NODERED_FLOW_STORAGE_OUTPUT_FORMAT=yaml`).
+
+### AppSDK
+- **External Task Handler** als `app/{topic}/external_task.ts` — Verzeichnisname = BPMN-Topic.
+- **Server Actions** nutzen `getEngineClient()` für Engine-Kommunikation (kein Auth-Session nötig).
+- **next.config.ts** muss `require()`-Syntax verwenden und `serverExternalPackages: ['esbuild']` enthalten.
+- **Dockerfile** benötigt `python3 make g++` im deps-Stage für native Module.
+- **ProcessCube Studio Design System** wird über `globals.css` angewendet.
+- **BPMN-Prozess-IDs** müssen mit `_Process` enden und ein korrektes `endEvent` haben.
+
+### Docker
+- **LowCode Dockerfile**: Symlink-Pattern statt `npm install` (pnpm workspace:* im Base-Image).
+- **Engine Healthcheck**: Dateibasiert (`test -f /tmp/healthy`), kein curl.
+- **Authority** hat bereits `externalTaskWorkers`-Config für AppSDK-Apps.
 
 ## CI/CD
 
@@ -69,7 +102,15 @@ GitHub-Actions-Workflow (`.github/workflows/build.yml`) wird bei Push auf `main`
 
 ## Version
 
-Die Root-`package.json` enthält die Projektversion (aktuell 0.9.4). Auf Root-Ebene sind keine npm-Scripts definiert — Build-Scripts befinden sich in `apps/lowcode/src/package.json`.
+Die Root-`package.json` enthält die Projektversion (aktuell 0.10.0). Auf Root-Ebene sind keine npm-Scripts definiert — Build-Scripts befinden sich in den jeweiligen App-Verzeichnissen.
+
+## Skills
+
+- **processcube-app-creator** (`.claude/skills/`) — Skill zum Erstellen neuer Apps (AppSDK oder LowCode) mit Templates, Design System und Docker-Integration.
+
+## Dokumentation
+
+Ausführliche Dokumentation zu beiden App-Typen mit Architekturdiagrammen unter `docs/apps.md`.
 
 ## Claude Regeln
 
