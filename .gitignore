@@ -7,3 +7,8 @@ apps/lowcode/data/node_modules
 apps/lowcode/data/.*
 apps/lowcode/data/flows.json
 apps/lowcode/data/flows_cred.json
+
+# AppSDK
+apps/appsdk_sample/node_modules
+apps/appsdk_sample/.next
+apps/appsdk_sample/.env.local
