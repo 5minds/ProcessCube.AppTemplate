@@ -4,9 +4,24 @@
 
 ## 🔮 In Entwicklung (Ausblick auf nächstes Release)
 
-*Diese Features sind nach v0.10.0 hinzugekommen und werden im nächsten Release enthalten sein.*
+*Diese Features sind nach v0.11.0 hinzugekommen und werden im nächsten Release enthalten sein.*
 
 *Noch keine neuen Änderungen.*
+
+---
+
+## ✅ v0.11.0 (20.04.2026)
+
+### Neue Features
+- AppSDK-Beispielapp (Next.js 15 + React 19) mit External Tasks und UserTasks
+- Single-Page-UI mit automatischem Task-Polling und ProcessCube Studio Design System
+- BPMN-Prozess `SampleWithAppSDK` mit Greeting-Workflow (UserTask → External Task → UserTask)
+- Claude Code Skill `processcube-app-creator` zum Erstellen neuer Apps (AppSDK oder LowCode)
+
+### Verbesserungen
+- Ausführliche Dokumentation mit Mermaid-Architekturdiagrammen (`docs/apps.md`)
+- CLAUDE.md und README.md vollständig aktualisiert für beide App-Typen
+- .gitignore-Regeln für AppSDK (node_modules, .next, .env.local)
 
 ---
 
