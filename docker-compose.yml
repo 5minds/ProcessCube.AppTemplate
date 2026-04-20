@@ -141,3 +141,19 @@ services:
     volumes:
       - ./apps/lowcode/data:/data
       - ./apps/lowcode:/lowcode
+
+  appsdk_sample:
+    build:
+      context: apps/appsdk_sample
+    depends_on:
+      engine:
+        condition: service_healthy
+      authority:
+        condition: service_healthy
+    ports:
+      - "${APPSDK_SAMPLE_PORT:-3000}:3000"
+    environment:
+      - PROCESSCUBE_ENGINE_URL=http://engine:8000
+      - PROCESSCUBE_AUTHORITY_URL=http://authority:11560
+      - PROCESSCUBE_EXTERNAL_TASK_WORKER_CLIENT_ID=external_task_worker
+      - PROCESSCUBE_EXTERNAL_TASK_WORKER_CLIENT_SECRET=external_task_worker_secret
